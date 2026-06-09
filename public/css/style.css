@@ -211,3 +211,5 @@ body{font-family:Tahoma,Arial,sans-serif;background:#fff;color:#111;line-height:
 @media(max-width:900px){.product-scroll .demos-card{flex-basis:82%}.product-arrow{width:36px;height:36px;font-size:27px}.product-prev{right:4px}.product-next{left:4px}.hero-arrow{width:38px;height:38px;font-size:30px}.hero-prev{right:12px}.hero-next{left:12px}}
 .product-scroll{direction:ltr}.product-scroll .demos-card{direction:rtl}.product-scroll .slider-dots{direction:ltr}
 .thumbs{justify-content:center}.gallery-arrow{z-index:5}
+
+.lang-switcher{display:flex;gap:6px}.lang-switcher button{padding:4px 8px;cursor:pointer}

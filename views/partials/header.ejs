@@ -12,7 +12,7 @@
     <a href="/#new">وصل حديثًا</a>
     <a href="/#contact">تواصل معنا</a>
     <a href="/cart">السلة</a>
-  </nav>
+  </nav><div class="lang-switcher"><button onclick="setLang('ar')">AR</button><button onclick="setLang('en')">EN</button></div>
 
   <a class="brand demos-brand" href="/">
     <img id="secretAdminLogo" src="/public/images/logo.png" alt="Jorero">
@@ -26,3 +26,13 @@
     <button>بحث</button>
   </form>
 </header>
+<script>
+const dict={en:{'الرئيسية':'Home','كل المنتجات':'Products','تواصل معنا':'Contact','السلة':'Cart'}};
+function setLang(l){localStorage.setItem('lang',l);location.reload();}
+document.addEventListener('DOMContentLoaded',()=>{
+const l=localStorage.getItem('lang')||'ar';
+if(l==='en'){document.documentElement.lang='en';document.documentElement.dir='ltr';
+document.querySelectorAll('a').forEach(a=>{if(dict.en[a.textContent.trim()])a.textContent=dict.en[a.textContent.trim()]});
+}
+});
+</script>
