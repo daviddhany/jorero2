@@ -1,0 +1,13 @@
+<div class="card demos-card">
+  <% const autoOffer = p.offerBuyQty && p.offerDiscountPercent ? ('اشتري ' + p.offerBuyQty + ' وخد خصم ' + p.offerDiscountPercent + '%') : ''; %>
+  <% const discount = p.oldPrice && Number(p.oldPrice) > Number(p.price) ? Math.round(((Number(p.oldPrice)-Number(p.price))/Number(p.oldPrice))*100) : 0; %>
+  <% if (discount) { %><div class="discount-badge">-<%= discount %>%</div><% } else if (p.offer) { %><div class="discount-badge"><%= p.offerText || autoOffer || 'عرض' %></div><% } %>
+  <% if (p.newArrival) { %><div class="new-badge">جديد</div><% } %>
+  <div class="quick-actions"><a href="/product/<%= p._id %>">♡</a><a href="/product/<%= p._id %>">🛒</a><a href="/product/<%= p._id %>">⌕</a></div>
+  <a href="/product/<%= p._id %>" class="product-img-link"><img src="<%= (p.images && p.images[0]) || '/public/images/logo.png' %>" alt="<%= p.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'"></a>
+  <div class="card-body">
+    <h3><%= p.name %></h3>
+    <p class="price"><b><%= formatPrice(p.price) %></b> <% if(p.oldPrice){ %><del><%= formatPrice(p.oldPrice) %></del><% } %></p>
+    <div class="delivery-line">🚚 التاريخ المتوقع للاستلام: خلال 2 - 4 أيام</div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<%- include('partials/header') %>
+<% const imgs = (product.images && product.images.length) ? product.images : ['/public/images/logo.png']; %>
+<% const autoOffer = product.offerBuyQty && product.offerDiscountPercent ? ('اشتري ' + product.offerBuyQty + ' وخد خصم ' + product.offerDiscountPercent + '%') : ''; %>
+<%
+  const sizeOptions = [...new Set((product.sizes || []).map(s => String(s || '').trim()).filter(Boolean))];
+  const colorMap = new Map();
+  (product.colors || []).forEach(c => {
+    const color = String(c || '').trim();
+    if (color) colorMap.set(color, { color, image: '' });
+  });
+  (product.colorImages || []).forEach(item => {
+    const color = String(item.color || '').trim();
+    if (color) colorMap.set(color, { color, image: item.image || '' });
+  });
+  const colorOptions = Array.from(colorMap.values());
+%>
+<section class="product-detail showroom-detail">
+  <div class="product-gallery" data-images='<%- JSON.stringify(imgs) %>'>
+    <img id="mainImg" class="main-img" src="<%= imgs[0] %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+    <div class="image-stage">
+      <button type="button" class="gallery-arrow gallery-prev" onclick="moveProductPhoto(-1)">‹</button>
+      <button type="button" class="gallery-arrow gallery-next" onclick="moveProductPhoto(1)">›</button>
+    </div>
+    <div class="thumbs" id="productThumbs">
+      <% imgs.forEach((img, index) => { %>
+        <img class="<%= index === 0 ? 'active' : '' %>" data-img="<%= img %>" onclick="setProductPhoto(<%= index %>)" src="<%= img %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="detail-panel">
+    <span class="tag"><%= product.category %></span>
+    <% if(product.offer){ %><span class="tag offer-tag"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
+    <h1><%= product.name %></h1>
+    <h2><%= formatPrice(product.price) %> <% if(product.oldPrice){ %><del><%= formatPrice(product.oldPrice) %></del><% } %></h2>
+    <% if(product.offerText || autoOffer){ %><p class="offer-detail">🔥 <%= product.offerText || autoOffer %></p><% } %>
+    <p><%= product.description || '' %></p>
+
+    <form class="buy-box" method="post" action="/cart/add/<%= product._id %>">
+      <input type="hidden" id="selectedImage" name="image" value="<%= imgs[0] %>">
+
+      <% if (sizeOptions.length) { %>
+        <div class="option-group">
+          <strong>المقاس</strong>
+          <div class="choice-row size-choice-row">
+            <% sizeOptions.forEach((s, index) => { %>
+              <label class="choice-pill">
+                <input type="radio" name="size" value="<%= s %>" <%= index === 0 ? 'required' : '' %>>
+                <span><%= s %></span>
+              </label>
+            <% }) %>
+          </div>
+        </div>
+      <% } else { %>
+        <input type="hidden" name="size" value="">
+      <% } %>
+
+      <% if (colorOptions.length) { %>
+        <div class="option-group">
+          <strong>اللون</strong>
+          <div class="choice-row color-choice-row">
+            <% colorOptions.forEach((item, index) => { %>
+              <label class="choice-pill color-choice <%= item.image ? 'has-image' : '' %>">
+                <input type="radio" name="color" value="<%= item.color %>" data-image="<%= item.image || '' %>" <%= index === 0 ? 'required' : '' %>>
+                <% if (item.image) { %>
+                  <img src="<%= item.image %>" alt="<%= item.color %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+                <% } %>
+                <span><%= item.color %></span>
+              </label>
+            <% }) %>
+          </div>
+        </div>
+      <% } else { %>
+        <input type="hidden" name="color" value="">
+      <% } %>
+
+      <label>الكمية<input type="number" min="1" name="quantity" value="1" required></label>
+      <button class="btn big">إضافة للسلة</button>
+    </form>
+    <div class="hero-actions"><a class="btn light" href="/products">كمل تسوق</a><a class="btn light" href="/cart">افتح السلة</a></div>
+  </div>
+</section>
+<%- include('partials/footer') %>
