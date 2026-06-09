@@ -1,3 +1,55 @@
+
+// Full AR / EN switcher. It translates static text and any product/category text rendered with data-ar/data-en.
+const JORERO_I18N = {
+  ar: {
+    home:'الرئيسية', products:'كل المنتجات', newArrivals:'وصل حديثًا', contact:'تواصل معنا', cart:'السلة', search:'بحث', shopNow:'تسوق الآن',
+    homeTitle:'أقوى و أجدد تشكيلة ملابس<br>من Jorero', homeText:'Jorero جايبلك أحدث الإطلالات في القمصان، السويت شيرت، الجواكيت والبناطيل في مكان واحد.',
+    categoriesTitle:'اكتشف تشكيلتنا على<br>حسب اللي يناسبك', categoriesText:'سواء بتدور على جاكيت، سويت شيرت، قميص، أو بنطلون عملي... جمعنالك كل الفئات في مكان واحد عشان توصل للي يعجبك بسهولة.', shopMore:'تسوق المزيد', newText:'تشكيلة جديدة وصلت دلوقتي، موديلات عصرية وخامات مريحة تناسب ذوقك.',
+    reviewsTitle:'آراء عملائنا في Jorero', review1:'"الخامة ناعمة والمقاس مضبوط."', reviewName1:'أحمد - المنتج: قميص', review2:'"الطلب وصل بسرعة والتغليف محترم."', reviewName2:'شريف - المنتج: سويت شيرت', review3:'"الشكل أحسن من الصور والمقاس مظبوط."', reviewName3:'كريم - المنتج: جاكيت',
+    allProductsTitle:'كل منتجات Jorero', allProductsText:'اختار المنتج المناسب ليك وضيفه للسلة وكمل الطلب بسهولة.', filterProducts:'فلترة المنتجات', allCategories:'كل الفئات', applyFilter:'تطبيق الفلتر', clearFilter:'إلغاء الفلتر', filtersBtn:'☰ الفلاتر', noProducts:'لا توجد منتجات مطابقة للبحث حاليًا.',
+    deliveryLine:'🚚 التاريخ المتوقع للاستلام: خلال 2 - 4 أيام', new:'جديد', size:'المقاس', color:'اللون', quantity:'الكمية', addToCart:'إضافة للسلة', continueShopping:'كمل تسوق', openCart:'افتح السلة',
+    yourOrders:'طلباتك', reviewBeforeCheckout:'راجع المنتجات قبل إتمام الطلب.', emptyCart:'السلة فاضية', total:'الإجمالي', productsTotal:'المنتجات', delivery:'التوصيل', finalTotal:'الإجمالي النهائي', checkout:'إتمام الطلب', delete:'حذف',
+    checkoutText:'اكتب بياناتك وسيظهر الطلب للأدمن.', fullName:'الاسم بالكامل', phoneNumber:'رقم التليفون', fullAddress:'العنوان بالتفصيل', extraNotes:'ملاحظات إضافية', confirmOrder:'تأكيد الطلب', orderSummary:'ملخص الطلب',
+    orderSent:'تم إرسال طلبك بنجاح ✅', orderNumber:'رقم الطلب', willContact:'هنراجع الطلب ونتواصل معاك على رقم التليفون.', shopOther:'تسوق منتجات أخرى',
+    footerText:'صُمم بواسطة Jorero لتجربة تسوق إلكتروني حديثة ومميزة. للمزيد من المعلومات.', address:'العنوان', whatsapp:'واتساب', phone:'تليفون',
+    adding:'جاري الإضافة...', added:'تمت إضافة المنتج للسلة بنجاح', chooseOptions:'اختار اللون والمقاس الأول', errorTry:'حصلت مشكلة، جرب تاني'
+  },
+  en: {
+    home:'Home', products:'Products', newArrivals:'New Arrivals', contact:'Contact Us', cart:'Cart', search:'Search', shopNow:'Shop Now',
+    homeTitle:'The newest Jorero<br>fashion collection', homeText:'Discover shirts, sweatshirts, jackets and pants with modern fits in one place.',
+    categoriesTitle:'Shop by category<br>and find your style', categoriesText:'Whether you need a jacket, sweatshirt, shirt or practical pants, we collected everything for an easy shopping experience.', shopMore:'Shop More', newText:'Fresh arrivals with modern designs and comfortable fabrics made for your style.',
+    reviewsTitle:'What our customers say', review1:'"Soft fabric and perfect fit."', reviewName1:'Ahmed - Product: Shirt', review2:'"Fast delivery and great packaging."', reviewName2:'Sherif - Product: Sweatshirt', review3:'"Looks better than the photos and the size is accurate."', reviewName3:'Karim - Product: Jacket',
+    allProductsTitle:'All Jorero Products', allProductsText:'Choose your product, add it to cart and complete your order easily.', filterProducts:'Product Filter', allCategories:'All Categories', applyFilter:'Apply Filter', clearFilter:'Clear Filter', filtersBtn:'☰ Filters', noProducts:'No matching products right now.',
+    deliveryLine:'🚚 Expected delivery: within 2 - 4 days', new:'New', size:'Size', color:'Color', quantity:'Quantity', addToCart:'Add to Cart', continueShopping:'Continue Shopping', openCart:'Open Cart',
+    yourOrders:'Your Orders', reviewBeforeCheckout:'Review your products before checkout.', emptyCart:'Your cart is empty', total:'Total', productsTotal:'Products', delivery:'Delivery', finalTotal:'Final Total', checkout:'Checkout', delete:'Delete',
+    checkoutText:'Enter your information and the order will appear for the admin.', fullName:'Full Name', phoneNumber:'Phone Number', fullAddress:'Full Address', extraNotes:'Extra Notes', confirmOrder:'Confirm Order', orderSummary:'Order Summary',
+    orderSent:'Your order was sent successfully ✅', orderNumber:'Order Number', willContact:'We will review your order and contact you by phone.', shopOther:'Shop More Products',
+    footerText:'Built by Jorero for a modern and unique online shopping experience.', address:'Address', whatsapp:'WhatsApp', phone:'Phone',
+    adding:'Adding...', added:'Product added to cart successfully', chooseOptions:'Please choose color and size first', errorTry:'Something went wrong, try again'
+  }
+};
+function currentLang(){ return localStorage.getItem('joreroLang') || 'ar'; }
+function setLang(lang){ localStorage.setItem('joreroLang', lang === 'en' ? 'en' : 'ar'); applyLang(); }
+function applyLang(){
+  const lang = currentLang();
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+  document.body && document.body.classList.toggle('lang-en', lang === 'en');
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    const key = el.dataset.i18n;
+    const value = JORERO_I18N[lang][key];
+    if (typeof value !== 'undefined') el.innerHTML = value;
+  });
+  document.querySelectorAll('[data-ar][data-en]').forEach(function(el){
+    el.innerHTML = lang === 'en' ? (el.dataset.en || el.dataset.ar) : (el.dataset.ar || el.dataset.en);
+  });
+  document.querySelectorAll('[data-placeholder-ar][data-placeholder-en]').forEach(function(el){
+    el.placeholder = lang === 'en' ? el.dataset.placeholderEn : el.dataset.placeholderAr;
+  });
+  document.querySelectorAll('[data-lang-link]').forEach(function(link){ link.classList.toggle('active', link.dataset.langLink === lang); });
+}
+document.addEventListener('DOMContentLoaded', applyLang);
+
 function toggleFilter(){
   document.getElementById('filter')?.classList.toggle('open');
 }
@@ -163,7 +215,7 @@ function showColorPhoto(image){
     e.preventDefault();
     const btn = form.querySelector('button');
     const oldText = btn ? btn.textContent : '';
-    if (btn) { btn.disabled = true; btn.textContent = 'جاري الإضافة...'; }
+    if (btn) { btn.disabled = true; btn.textContent = JORERO_I18N[currentLang()].adding; }
     try {
       const formData = new FormData(form);
       const res = await fetch(form.action, {
@@ -175,13 +227,13 @@ function showColorPhoto(image){
         }
       });
       const data = await res.json();
-      showToast(data.message || (res.ok ? 'تمت إضافة المنتج للسلة بنجاح' : 'اختار اللون والمقاس الأول'));
+      showToast((currentLang()==='en' ? data.messageEn : data.messageAr) || data.message || (res.ok ? JORERO_I18N[currentLang()].added : JORERO_I18N[currentLang()].chooseOptions));
       if (data && typeof data.cartCount !== 'undefined') {
         const cartLink = document.querySelector('.cart-link');
         if (cartLink) cartLink.setAttribute('data-count', data.cartCount);
       }
     } catch (err) {
-      showToast('حصلت مشكلة، جرب تاني');
+      showToast(JORERO_I18N[currentLang()].errorTry);
     } finally {
       if (btn) { btn.disabled = false; btn.textContent = oldText; }
     }

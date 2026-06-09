@@ -16,21 +16,25 @@
     </div>
 
     <form class="product-form category-admin-form" method="post" action="/marly-dashboard/categories">
-      <label class="full">اسم الفئة الجديدة
+      <label>اسم الفئة عربي
         <input name="category" required placeholder="مثال: قمصان، بناطيل، جاكيت">
+      </label>
+      <label>Category English
+        <input name="categoryEn" required placeholder="Example: Shirts, Pants, Jackets">
       </label>
       <button class="btn big">+ إضافة فئة</button>
     </form>
 
     <table>
       <thead>
-        <tr><th>الفئة</th><th>عدد المنتجات</th><th>تحكم</th></tr>
+        <tr><th>الفئة عربي</th><th>Category English</th><th>عدد المنتجات</th><th>تحكم</th></tr>
       </thead>
       <tbody>
-        <% const cats = settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : []; %>
-        <% cats.forEach(c => { %>
+        <% const cats = settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : []; const catsEn = settings.categoryOptionsEn && settings.categoryOptionsEn.length ? settings.categoryOptionsEn : cats; %>
+        <% cats.forEach((c,i) => { %>
           <tr>
             <td><%= c %></td>
+            <td><%= catsEn[i] || c %></td>
             <td><%= counts[c] || 0 %></td>
             <td>
               <form class="inline" method="post" action="/marly-dashboard/categories?_method=DELETE" onsubmit="return confirm('لو مسحت الفئة، أي منتج فيها هيتحول إلى منتجات أخرى. متأكد؟')">

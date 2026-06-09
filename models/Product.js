@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema({
   offerBuyQty: { type: Number, default: 0 },
   offerDiscountPercent: { type: Number, default: 0 },
   description: String,
+  descriptionEn: String,
   images: [String],
   colorImages: [{
     color: String,

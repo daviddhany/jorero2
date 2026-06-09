@@ -14,22 +14,30 @@
     <h1><%= title %></h1>
 
     <form class="product-form" method="post" enctype="multipart/form-data" action="<%= product ? '/marly-dashboard/products/' + product._id + '?_method=PUT' : '/marly-dashboard/products' %>">
-      <label>اسم المنتج
+      <label>اسم المنتج عربي
         <input name="name" required value="<%= product ? product.name : '' %>">
       </label>
 
+      <label>اسم المنتج English
+        <input name="nameEn" value="<%= product && product.nameEn ? product.nameEn : '' %>" placeholder="Example: Classic Shirt">
+      </label>
+
       <label>الفئة
-        <% const categoryOptions = settings && settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت']; %>
-        <select name="category" required>
+        <% const categoryOptions = settings && settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت']; const categoryOptionsEn = settings && settings.categoryOptionsEn && settings.categoryOptionsEn.length ? settings.categoryOptionsEn : categoryOptions; %>
+        <select name="category" required onchange="syncCategoryEn(this)">
           <option value="">اختار الفئة</option>
-          <% categoryOptions.forEach(c => { %>
-            <option value="<%= c %>" <%= product && product.category == c ? 'selected' : '' %>><%= c %></option>
+          <% categoryOptions.forEach((c,i) => { const en = categoryOptionsEn[i] || c; %>
+            <option value="<%= c %>" data-en="<%= en %>" <%= product && product.category == c ? 'selected' : '' %>><%= c %> / <%= en %></option>
           <% }) %>
           <% if (product && product.category && !categoryOptions.includes(product.category)) { %>
             <option value="<%= product.category %>" selected><%= product.category %></option>
           <% } %>
         </select>
         <small><a href="/marly-dashboard/categories">إضافة أو حذف فئة</a></small>
+      </label>
+
+      <label>الفئة English
+        <input id="categoryEnInput" name="categoryEn" value="<%= product && product.categoryEn ? product.categoryEn : '' %>" placeholder="Example: Shirts">
       </label>
 
       <label>السعر
@@ -86,8 +94,12 @@
         </label>
       </div>
 
-      <label class="full">الوصف
+      <label class="full">الوصف عربي
         <textarea name="description"><%= product ? product.description : '' %></textarea>
+      </label>
+
+      <label class="full">Description English
+        <textarea name="descriptionEn" placeholder="English product description"><%= product && product.descriptionEn ? product.descriptionEn : '' %></textarea>
       </label>
 
       <div class="full upload-pro">
@@ -163,6 +175,11 @@
   </main>
 </div>
 <script>
+function syncCategoryEn(select){
+  const input = document.getElementById('categoryEnInput');
+  const opt = select.options[select.selectedIndex];
+  if (input && opt && opt.dataset.en && !input.value) input.value = opt.dataset.en;
+}
 function addColorImageRow(){
   const wrap = document.getElementById('colorImageRows');
   if(!wrap) return;

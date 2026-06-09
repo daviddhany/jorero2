@@ -2,17 +2,18 @@
 <header class="header demos-header">
   <div class="header-icons">
     <a class="cart-link" href="/cart" title="السلة" data-count="<%= typeof cartCount !== 'undefined' ? cartCount : 0 %>">🛒</a>
-    <a href="/products" title="المفضلة">♡</a>
-    <button type="button" class="search-toggle" title="بحث" onclick="document.querySelector('.header-search-pop')?.classList.toggle('open')">⌕</button>
+    <a href="/products" title="Wishlist">♡</a>
+    <button type="button" class="search-toggle" title="Search" onclick="document.querySelector('.header-search-pop')?.classList.toggle('open')">⌕</button>
   </div>
 
   <nav class="main-nav demos-nav">
-    <a href="/">الرئيسية</a>
-    <a href="/products">كل المنتجات</a>
-    <a href="/#new">وصل حديثًا</a>
-    <a href="/#contact">تواصل معنا</a>
-    <a href="/cart">السلة</a>
-  </nav><div class="lang-switcher"><button onclick="setLang('ar')">AR</button><button onclick="setLang('en')">EN</button></div>
+    <a href="/" data-i18n="home">الرئيسية</a>
+    <a href="/products" data-i18n="products">كل المنتجات</a>
+    <a href="/#new" data-i18n="newArrivals">وصل حديثًا</a>
+    <a href="/#contact" data-i18n="contact">تواصل معنا</a>
+    <a href="/cart" data-i18n="cart">السلة</a>
+    <span class="lang-links"><a href="#" data-lang-link="ar" onclick="setLang('ar');return false;">AR</a><span>/</span><a href="#" data-lang-link="en" onclick="setLang('en');return false;">EN</a></span>
+  </nav>
 
   <a class="brand demos-brand" href="/">
     <img id="secretAdminLogo" src="/public/images/logo.png" alt="Jorero">
@@ -22,17 +23,7 @@
   <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
 
   <form class="search header-search-pop" action="/products">
-    <input name="q" placeholder="ابحث عن منتج...">
-    <button>بحث</button>
+    <input name="q" data-placeholder-ar="ابحث عن منتج..." data-placeholder-en="Search for a product..." placeholder="ابحث عن منتج...">
+    <button data-i18n="search">بحث</button>
   </form>
 </header>
-<script>
-const dict={en:{'الرئيسية':'Home','كل المنتجات':'Products','تواصل معنا':'Contact','السلة':'Cart'}};
-function setLang(l){localStorage.setItem('lang',l);location.reload();}
-document.addEventListener('DOMContentLoaded',()=>{
-const l=localStorage.getItem('lang')||'ar';
-if(l==='en'){document.documentElement.lang='en';document.documentElement.dir='ltr';
-document.querySelectorAll('a').forEach(a=>{if(dict.en[a.textContent.trim()])a.textContent=dict.en[a.textContent.trim()]});
-}
-});
-</script>

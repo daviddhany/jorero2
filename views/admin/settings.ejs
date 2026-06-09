@@ -39,9 +39,13 @@
         <textarea name="defaultSizes" placeholder="اكتب كل المقاسات وبينهم فاصلة. مثال: 2, 4, 6, 8, S, M, L"><%= (settings.defaultSizes && settings.defaultSizes.length ? settings.defaultSizes : ['2','4','6','8','S','M','L','XL','XXL','3XL','4XL']).join(', ') %></textarea>
       </label>
 
-      <label class="full">الفئات العامة في صفحة إضافة المنتج والفلتر
+      <label class="full">الفئات العامة عربي
         <textarea name="categoryOptions" placeholder="اكتب كل الفئات وبينهم فاصلة. مثال: قمصان, بناطيل, جاكيت"><%= (settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت']).join(', ') %></textarea>
-        <small>أو استخدم صفحة <a href="/marly-dashboard/categories">إدارة الفئات</a> للإضافة والحذف بسرعة.</small>
+      </label>
+
+      <label class="full">General Categories English
+        <textarea name="categoryOptionsEn" placeholder="Separate categories with comma. Example: Shirts, Pants, Jackets"><%= (settings.categoryOptionsEn && settings.categoryOptionsEn.length ? settings.categoryOptionsEn : ['Men','Women','Kids','T-Shirts','Shirts','Pants','Jeans','Sets','Jackets','Sweatshirts']).join(', ') %></textarea>
+        <small>خلي ترتيب الإنجليزي نفس ترتيب العربي. أو استخدم صفحة <a href="/marly-dashboard/categories">إدارة الفئات</a>.</small>
       </label>
 
       <label class="full">صور الهيرو Carousel - يمكنك رفع أكثر من صورة

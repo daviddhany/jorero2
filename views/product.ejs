@@ -29,19 +29,19 @@
   </div>
 
   <div class="detail-panel">
-    <span class="tag"><%= product.category %></span>
-    <% if(product.offer){ %><span class="tag offer-tag"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
-    <h1><%= product.name %></h1>
+    <span class="tag" data-ar="<%= product.category %>" data-en="<%= product.categoryEn || product.category %>"><%= product.category %></span>
+    <% if(product.offer){ %><span class="tag offer-tag" data-ar="<%= product.offerText || autoOffer || 'عرض خاص' %>" data-en="<%= product.offerText || autoOffer || 'Special offer' %>"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
+    <h1 data-ar="<%= product.name %>" data-en="<%= product.nameEn || product.name %>"><%= product.name %></h1>
     <h2><%= formatPrice(product.price) %> <% if(product.oldPrice){ %><del><%= formatPrice(product.oldPrice) %></del><% } %></h2>
-    <% if(product.offerText || autoOffer){ %><p class="offer-detail">🔥 <%= product.offerText || autoOffer %></p><% } %>
-    <p><%= product.description || '' %></p>
+    <% if(product.offerText || autoOffer){ %><p class="offer-detail">🔥 <span data-ar="<%= product.offerText || autoOffer %>" data-en="<%= product.offerText || autoOffer %>"><%= product.offerText || autoOffer %></span></p><% } %>
+    <p data-ar="<%= product.description || '' %>" data-en="<%= product.descriptionEn || product.description || '' %>"><%= product.description || '' %></p>
 
     <form class="buy-box" method="post" action="/cart/add/<%= product._id %>">
       <input type="hidden" id="selectedImage" name="image" value="<%= imgs[0] %>">
 
       <% if (sizeOptions.length) { %>
         <div class="option-group">
-          <strong>المقاس</strong>
+          <strong data-i18n="size">المقاس</strong>
           <div class="choice-row size-choice-row">
             <% sizeOptions.forEach((s, index) => { %>
               <label class="choice-pill">
@@ -57,7 +57,7 @@
 
       <% if (colorOptions.length) { %>
         <div class="option-group">
-          <strong>اللون</strong>
+          <strong data-i18n="color">اللون</strong>
           <div class="choice-row color-choice-row">
             <% colorOptions.forEach((item, index) => { %>
               <label class="choice-pill color-choice <%= item.image ? 'has-image' : '' %>">
@@ -74,10 +74,10 @@
         <input type="hidden" name="color" value="">
       <% } %>
 
-      <label>الكمية<input type="number" min="1" name="quantity" value="1" required></label>
-      <button class="btn big">إضافة للسلة</button>
+      <label><span data-i18n="quantity">الكمية</span><input type="number" min="1" name="quantity" value="1" required></label>
+      <button class="btn big" data-i18n="addToCart">إضافة للسلة</button>
     </form>
-    <div class="hero-actions"><a class="btn light" href="/products">كمل تسوق</a><a class="btn light" href="/cart">افتح السلة</a></div>
+    <div class="hero-actions"><a class="btn light" href="/products" data-i18n="continueShopping">كمل تسوق</a><a class="btn light" href="/cart" data-i18n="openCart">افتح السلة</a></div>
   </div>
 </section>
 <%- include('partials/footer') %>

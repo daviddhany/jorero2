@@ -13,6 +13,7 @@ const { sendWhatsAppText, statusMessage } = require('../services/whatsapp');
 const uploadDir = path.join(__dirname, '../public/uploads');
 const FALLBACK_SIZES = ['2','4','6','8','S','M','L','XL','XXL','3XL','4XL'];
 const FALLBACK_CATEGORIES = ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت'];
+const FALLBACK_CATEGORIES_EN = ['Men','Women','Kids','T-Shirts','Shirts','Pants','Jeans','Sets','Jackets','Sweatshirts'];
 const ROLES = ['super_admin', 'admin', 'manager', 'employee'];
 const ROLE_LABELS = { super_admin: 'Super Admin', admin: 'Admin', manager: 'Manager', employee: 'Employee' };
 const STATUS_LABELS = { pending: 'لسه موجودة', processing: 'جاري التجهيز', shipped: 'خرج للتوصيل', done: 'خلصت', cancelled: 'ملغي' };
@@ -102,16 +103,20 @@ async function getSiteSettings() {
   ).lean();
   if (!settings.defaultSizes || !settings.defaultSizes.length) settings.defaultSizes = FALLBACK_SIZES;
   if (!settings.categoryOptions || !settings.categoryOptions.length) settings.categoryOptions = FALLBACK_CATEGORIES;
+  if (!settings.categoryOptionsEn || !settings.categoryOptionsEn.length) settings.categoryOptionsEn = FALLBACK_CATEGORIES_EN;
   return settings;
 }
 
 function productPayload(body) {
   return {
     name: body.name,
+    nameEn: body.nameEn || body.name,
     category: body.category,
+    categoryEn: body.categoryEn || body.category,
     price: Number(body.price || 0),
     oldPrice: body.oldPrice ? Number(body.oldPrice) : undefined,
     description: body.description,
+    descriptionEn: body.descriptionEn || body.description,
     offerText: body.offerText || '',
     offerBuyQty: Number(body.offerBuyQty || 0),
     offerDiscountPercent: Number(body.offerDiscountPercent || 0),
@@ -270,18 +275,28 @@ router.get('/categories', auth, requireRole('manager', 'admin'), async (req, res
 
 router.post('/categories', auth, requireRole('manager', 'admin'), async (req, res) => {
   const newCategory = String(req.body.category || '').trim();
+  const newCategoryEn = String(req.body.categoryEn || req.body.category || '').trim();
   const settings = await getSiteSettings();
-  const categories = [...new Set([...(settings.categoryOptions || FALLBACK_CATEGORIES), newCategory].map(c => String(c || '').trim()).filter(Boolean))];
-  await Setting.findOneAndUpdate({ key: 'site' }, { categoryOptions: categories }, { upsert: true, new: true, setDefaultsOnInsert: true });
+  const categories = [...(settings.categoryOptions || FALLBACK_CATEGORIES)];
+  const categoriesEn = [...(settings.categoryOptionsEn || FALLBACK_CATEGORIES_EN)];
+  if (newCategory && !categories.includes(newCategory)) {
+    categories.push(newCategory);
+    categoriesEn.push(newCategoryEn || newCategory);
+  }
+  await Setting.findOneAndUpdate({ key: 'site' }, { categoryOptions: categories, categoryOptionsEn: categoriesEn }, { upsert: true, new: true, setDefaultsOnInsert: true });
   res.redirect('/marly-dashboard/categories');
 });
 
 router.delete('/categories', auth, requireRole('manager', 'admin'), async (req, res) => {
   const category = String(req.body.category || '').trim();
   const settings = await getSiteSettings();
-  const categories = (settings.categoryOptions || FALLBACK_CATEGORIES).filter(c => c !== category);
-  await Setting.findOneAndUpdate({ key: 'site' }, { categoryOptions: categories.length ? categories : FALLBACK_CATEGORIES }, { upsert: true, new: true, setDefaultsOnInsert: true });
-  await Product.updateMany({ category }, { category: 'منتجات أخرى' });
+  const currentCats = settings.categoryOptions || FALLBACK_CATEGORIES;
+  const currentCatsEn = settings.categoryOptionsEn || FALLBACK_CATEGORIES_EN;
+  const removeIndex = currentCats.indexOf(category);
+  const categories = currentCats.filter(c => c !== category);
+  const categoriesEn = currentCatsEn.filter((_, i) => i !== removeIndex);
+  await Setting.findOneAndUpdate({ key: 'site' }, { categoryOptions: categories.length ? categories : FALLBACK_CATEGORIES, categoryOptionsEn: categoriesEn.length ? categoriesEn : FALLBACK_CATEGORIES_EN }, { upsert: true, new: true, setDefaultsOnInsert: true });
+  await Product.updateMany({ category }, { category: 'منتجات أخرى', categoryEn: 'Other Products' });
   res.redirect('/marly-dashboard/categories');
 });
 
@@ -320,6 +335,7 @@ router.post('/settings', auth, requireRole('manager', 'admin'), upload.array('he
     homeNoteText: body.homeNoteText || '',
     defaultSizes: uniqueValues(body.defaultSizes).length ? uniqueValues(body.defaultSizes) : FALLBACK_SIZES,
     categoryOptions: uniqueValues(body.categoryOptions).length ? uniqueValues(body.categoryOptions) : FALLBACK_CATEGORIES,
+    categoryOptionsEn: uniqueValues(body.categoryOptionsEn).length ? uniqueValues(body.categoryOptionsEn) : FALLBACK_CATEGORIES_EN,
     heroImages,
     heroImage: heroImages[0]
   };

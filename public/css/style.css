@@ -213,3 +213,17 @@ body{font-family:Tahoma,Arial,sans-serif;background:#fff;color:#111;line-height:
 .thumbs{justify-content:center}.gallery-arrow{z-index:5}
 
 .lang-switcher{display:flex;gap:6px}.lang-switcher button{padding:4px 8px;cursor:pointer}
+
+/* AR / EN text links in navbar, not button style */
+.lang-links{display:inline-flex;align-items:center;gap:5px;font-weight:900;color:#888;margin-inline-start:10px}
+.lang-links a{padding:0!important;background:transparent!important;border:0!important;color:#777!important;font-size:13px!important;letter-spacing:.7px;text-decoration:none!important}
+.lang-links a.active{color:var(--demo-red)!important;text-decoration:underline!important;text-underline-offset:4px}
+.lang-links span{color:#bbb;font-size:13px}
+.lang-switcher{display:none!important}
+html[dir="ltr"] body{text-align:left}
+html[dir="ltr"] .hero-overlay{right:auto;left:8%;text-align:left}
+html[dir="ltr"] .cat-tile{text-align:left}
+html[dir="ltr"] .cat-tile img{left:auto;right:0}
+html[dir="ltr"] .product-scroll .demos-card{direction:ltr}
+html[dir="ltr"] .whatsapp{right:auto!important;left:22px!important}
+html[dir="ltr"] .whatsapp:before{right:auto;left:70px}
