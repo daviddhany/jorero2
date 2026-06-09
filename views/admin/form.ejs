@@ -19,11 +19,17 @@
       </label>
 
       <label>الفئة
-        <select name="category">
-          <% ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','فساتين','سويت شيرت'].forEach(c => { %>
-            <option <%= product && product.category == c ? 'selected' : '' %>><%= c %></option>
+        <% const categoryOptions = settings && settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت']; %>
+        <select name="category" required>
+          <option value="">اختار الفئة</option>
+          <% categoryOptions.forEach(c => { %>
+            <option value="<%= c %>" <%= product && product.category == c ? 'selected' : '' %>><%= c %></option>
           <% }) %>
+          <% if (product && product.category && !categoryOptions.includes(product.category)) { %>
+            <option value="<%= product.category %>" selected><%= product.category %></option>
+          <% } %>
         </select>
+        <small><a href="/marly-dashboard/categories">إضافة أو حذف فئة</a></small>
       </label>
 
       <label>السعر

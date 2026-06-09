@@ -35,7 +35,8 @@ router.get('/products', async (req, res) => {
   if (q) filter.name = { $regex: q, $options: 'i' };
   if (cat) filter.category = cat;
   const products = await Product.find(filter).sort('-createdAt').lean();
-  res.render('products', { products, info, q, cat, min, max, title: 'منتجات Jorero' });
+  const settings = await getSettings();
+  res.render('products', { products, info, settings, q, cat, min, max, title: 'منتجات Jorero' });
 });
 
 router.get('/product/:id', async (req, res) => {

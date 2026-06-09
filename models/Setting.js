@@ -11,7 +11,8 @@ const SettingSchema = new mongoose.Schema({
   homeNoteTitle: { type: String, default: 'رجالي وحريمي وأطفالي في مكان واحد' },
   homeNoteText: { type: String, default: 'نوفر عليكم لف 3 محلات في محل واحد. تصنيع وتوريد جملة وقطاعي.' },
   deliveryPrice: { type: Number, default: 50 },
-  defaultSizes: { type: [String], default: ['2','4','6','8','S','M','L','XL','XXL','3XL','4XL'] }
+  defaultSizes: { type: [String], default: ['2','4','6','8','S','M','L','XL','XXL','3XL','4XL'] },
+  categoryOptions: { type: [String], default: ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت'] }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Setting', SettingSchema);

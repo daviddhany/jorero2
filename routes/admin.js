@@ -12,6 +12,7 @@ const { sendWhatsAppText, statusMessage } = require('../services/whatsapp');
 
 const uploadDir = path.join(__dirname, '../public/uploads');
 const FALLBACK_SIZES = ['2','4','6','8','S','M','L','XL','XXL','3XL','4XL'];
+const FALLBACK_CATEGORIES = ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت'];
 const ROLES = ['super_admin', 'admin', 'manager', 'employee'];
 const ROLE_LABELS = { super_admin: 'Super Admin', admin: 'Admin', manager: 'Manager', employee: 'Employee' };
 const STATUS_LABELS = { pending: 'لسه موجودة', processing: 'جاري التجهيز', shipped: 'خرج للتوصيل', done: 'خلصت', cancelled: 'ملغي' };
@@ -100,6 +101,7 @@ async function getSiteSettings() {
     { new: true, upsert: true, setDefaultsOnInsert: true }
   ).lean();
   if (!settings.defaultSizes || !settings.defaultSizes.length) settings.defaultSizes = FALLBACK_SIZES;
+  if (!settings.categoryOptions || !settings.categoryOptions.length) settings.categoryOptions = FALLBACK_CATEGORIES;
   return settings;
 }
 
@@ -257,6 +259,32 @@ router.post('/orders/:id/status', auth, async (req, res) => {
   res.redirect('/marly-dashboard/orders' + (req.body.backStatus ? `?status=${encodeURIComponent(req.body.backStatus)}` : ''));
 });
 
+
+router.get('/categories', auth, requireRole('manager', 'admin'), async (req, res) => {
+  const settings = await getSiteSettings();
+  const productsByCategory = await Product.aggregate([{ $group: { _id: '$category', count: { $sum: 1 } } }]);
+  const counts = {};
+  productsByCategory.forEach(item => { counts[item._id || ''] = item.count; });
+  res.render('admin/categories', { title: 'إدارة الفئات', settings, counts, error: null });
+});
+
+router.post('/categories', auth, requireRole('manager', 'admin'), async (req, res) => {
+  const newCategory = String(req.body.category || '').trim();
+  const settings = await getSiteSettings();
+  const categories = [...new Set([...(settings.categoryOptions || FALLBACK_CATEGORIES), newCategory].map(c => String(c || '').trim()).filter(Boolean))];
+  await Setting.findOneAndUpdate({ key: 'site' }, { categoryOptions: categories }, { upsert: true, new: true, setDefaultsOnInsert: true });
+  res.redirect('/marly-dashboard/categories');
+});
+
+router.delete('/categories', auth, requireRole('manager', 'admin'), async (req, res) => {
+  const category = String(req.body.category || '').trim();
+  const settings = await getSiteSettings();
+  const categories = (settings.categoryOptions || FALLBACK_CATEGORIES).filter(c => c !== category);
+  await Setting.findOneAndUpdate({ key: 'site' }, { categoryOptions: categories.length ? categories : FALLBACK_CATEGORIES }, { upsert: true, new: true, setDefaultsOnInsert: true });
+  await Product.updateMany({ category }, { category: 'منتجات أخرى' });
+  res.redirect('/marly-dashboard/categories');
+});
+
 router.get('/settings', auth, requireRole('manager', 'admin'), async (req, res) => {
   const settings = await getSiteSettings();
   res.render('admin/settings', { settings, title: 'تخصيص الواجهة' });
@@ -291,6 +319,7 @@ router.post('/settings', auth, requireRole('manager', 'admin'), upload.array('he
     homeNoteTitle: body.homeNoteTitle || '',
     homeNoteText: body.homeNoteText || '',
     defaultSizes: uniqueValues(body.defaultSizes).length ? uniqueValues(body.defaultSizes) : FALLBACK_SIZES,
+    categoryOptions: uniqueValues(body.categoryOptions).length ? uniqueValues(body.categoryOptions) : FALLBACK_CATEGORIES,
     heroImages,
     heroImage: heroImages[0]
   };
