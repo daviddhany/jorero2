@@ -261,3 +261,14 @@ html[dir="rtl"] .cat-tile{padding-left:44%;padding-right:28px}
   html[dir="ltr"] .cat-tile,html[dir="rtl"] .cat-tile{padding:24px 24px 170px!important;text-align:center!important}
   .cat-tile img{max-width:82%;max-height:50%;left:50%!important;right:auto!important;transform:translateX(-50%)}
 }
+
+
+/* Language/WhatsApp fixes */
+html[lang="en"] .whatsapp:before{content:'Need help? Our team is ready to assist'!important;}
+html[lang="en"] .demos-section-title h2,
+html[lang="en"] .demos-intro h1,
+html[lang="en"] .demos-categories h2{text-align:center;direction:ltr;}
+@media(max-width:900px){
+  .header-lang{display:inline-flex!important;grid-column:auto!important;justify-self:center!important;align-self:center!important;background:#fff!important;border:1px solid #eee!important;border-radius:999px!important;padding:6px 10px!important;box-shadow:0 8px 22px rgba(0,0,0,.08)!important;z-index:90!important;}
+  .header-lang a{font-size:14px!important;font-weight:900!important;}
+}

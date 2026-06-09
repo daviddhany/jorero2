@@ -48,8 +48,12 @@
         <input type="number" name="oldPrice" value="<%= product && product.oldPrice ? product.oldPrice : '' %>">
       </label>
 
-      <label>نص العرض
+      <label>نص العرض عربي
         <input name="offerText" value="<%= product && product.offerText ? product.offerText : '' %>" placeholder="مثال: اشتري 2 وخد خصم 50%">
+      </label>
+
+      <label>Offer text English
+        <input name="offerTextEn" value="<%= product && product.offerTextEn ? product.offerTextEn : '' %>" placeholder="Example: Buy 2 and get 50% off">
       </label>
 
       <label>عدد القطع في العرض
@@ -175,7 +179,7 @@
 function syncCategoryEn(select){
   const input = document.getElementById('categoryEnInput');
   const opt = select.options[select.selectedIndex];
-  if (input && opt && opt.dataset.en && !input.value) input.value = opt.dataset.en;
+  if (input && opt && opt.dataset.en) input.value = opt.dataset.en;
 }
 function addColorImageRow(){
   const wrap = document.getElementById('colorImageRows');
@@ -185,6 +189,7 @@ function addColorImageRow(){
   row.innerHTML = '<input name="colorImageNames" placeholder="اللون عربي"><input name="colorImageNamesEn" placeholder="Color English"><input type="file" name="colorImages" accept="image/*"><button type="button" class="danger" onclick="this.parentElement.remove()">حذف</button>';
   wrap.appendChild(row);
 }
+document.addEventListener('DOMContentLoaded', function(){ const select = document.querySelector('select[name=\"category\"]'); if(select) syncCategoryEn(select); });
 </script>
 <script>
 (function(){

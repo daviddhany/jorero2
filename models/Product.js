@@ -8,6 +8,7 @@ const ProductSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   oldPrice: Number,
   offerText: String,
+  offerTextEn: String,
   offerBuyQty: { type: Number, default: 0 },
   offerDiscountPercent: { type: Number, default: 0 },
   description: String,

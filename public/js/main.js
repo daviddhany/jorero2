@@ -29,6 +29,31 @@ const JORERO_I18N = {
   }
 };
 
+
+// Automatic fallback translator for old data that was saved Arabic-only.
+// Admin can still add the correct English text, but this prevents Arabic category/color labels
+// from staying Arabic when the visitor switches to EN.
+const JORERO_AUTO_EN = {
+  'رجالي':'Men','حريمي':'Women','نسائي':'Women','أطفالي':'Kids','اطفالي':'Kids','تيشيرتات':'T-Shirts','تي شيرت':'T-Shirt','قمصان':'Shirts','قميص':'Shirt','بناطيل':'Pants','بنطلون':'Pants','جينز':'Jeans','أطقم':'Sets','اطقم':'Sets','جاكيت':'Jackets','جواكيت':'Jackets','سويت شيرت':'Sweatshirts','هودي':'Hoodies','منتجات أخرى':'Other Products',
+  'أسود':'Black','اسود':'Black','أبيض':'White','ابيض':'White','أحمر':'Red','احمر':'Red','أزرق':'Blue','ازرق':'Blue','سماوي':'Sky Blue','كحلي':'Navy','أخضر':'Green','اخضر':'Green','زيتي':'Olive','رمادي':'Grey','رصاصي':'Grey','بيج':'Beige','بني':'Brown','نبيتي':'Burgundy','موف':'Mauve','بنفسجي':'Purple','وردي':'Pink','روز':'Pink','أصفر':'Yellow','اصفر':'Yellow','برتقالي':'Orange','لبني':'Light Blue','جملي':'Camel','كشمير':'Cashmere','سكري':'Off White','أوف وايت':'Off White'
+};
+function hasArabicText(value){ return /[\u0600-\u06FF]/.test(String(value || '')); }
+function autoEn(value){
+  const raw = String(value || '').trim();
+  if (!raw) return raw;
+  if (JORERO_AUTO_EN[raw]) return JORERO_AUTO_EN[raw];
+  let out = raw;
+  Object.keys(JORERO_AUTO_EN).sort((a,b)=>b.length-a.length).forEach(function(ar){
+    out = out.replace(new RegExp(ar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), JORERO_AUTO_EN[ar]);
+  });
+  return out;
+}
+function pickLangValue(ar, en, lang){
+  if (lang !== 'en') return ar || en || '';
+  const chosen = en || ar || '';
+  return hasArabicText(chosen) ? autoEn(chosen) : chosen;
+}
+
 function formatMoneyValue(value, lang){
   const number = Number(value || 0);
   if (lang === 'en') return number.toLocaleString('en-US') + ' EGP';
@@ -52,7 +77,7 @@ function applyLang(){
     if (typeof value !== 'undefined') el.innerHTML = value;
   });
   document.querySelectorAll('[data-ar][data-en]').forEach(function(el){
-    el.innerHTML = lang === 'en' ? (el.dataset.en || el.dataset.ar) : (el.dataset.ar || el.dataset.en);
+    el.innerHTML = pickLangValue(el.dataset.ar, el.dataset.en, lang);
   });
   document.querySelectorAll('[data-placeholder-ar][data-placeholder-en]').forEach(function(el){
     el.placeholder = lang === 'en' ? el.dataset.placeholderEn : el.dataset.placeholderAr;

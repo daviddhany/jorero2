@@ -13,26 +13,44 @@
   <main class="admin-main">
     <h1>إعدادات Jorero</h1>
     <form class="product-form" method="post" enctype="multipart/form-data" action="/marly-dashboard/settings">
-      <label>النص الصغير أعلى الهيرو
+      <label>النص الصغير أعلى الهيرو عربي
         <input name="heroEyebrow" value="<%= settings.heroEyebrow || '' %>">
       </label>
-      <label>عنوان الهيرو الرئيسي
+      <label>Hero eyebrow English
+        <input name="heroEyebrowEn" value="<%= settings.heroEyebrowEn || settings.heroEyebrow || '' %>">
+      </label>
+      <label>عنوان الهيرو الرئيسي عربي
         <input name="heroTitle" value="<%= settings.heroTitle || '' %>">
       </label>
-      <label class="full">وصف الهيرو
+      <label>Hero title English
+        <input name="heroTitleEn" value="<%= settings.heroTitleEn || settings.heroTitle || '' %>">
+      </label>
+      <label class="full">وصف الهيرو عربي
         <textarea name="heroSubtitle"><%= settings.heroSubtitle || '' %></textarea>
       </label>
-      <label>نص زر التسوق
+      <label class="full">Hero description English
+        <textarea name="heroSubtitleEn"><%= settings.heroSubtitleEn || settings.heroSubtitle || '' %></textarea>
+      </label>
+      <label>نص زر التسوق عربي
         <input name="heroPrimaryText" value="<%= settings.heroPrimaryText || 'تسوق الآن' %>">
+      </label>
+      <label>Shop button English
+        <input name="heroPrimaryTextEn" value="<%= settings.heroPrimaryTextEn || 'Shop Now' %>">
       </label>
       <label>سعر التوصيل
         <input type="number" name="deliveryPrice" value="<%= settings.deliveryPrice || 0 %>">
       </label>
-      <label>عنوان ملاحظة المعرض
+      <label>عنوان ملاحظة المعرض عربي
         <input name="homeNoteTitle" value="<%= settings.homeNoteTitle || '' %>">
       </label>
-      <label class="full">نص ملاحظة المعرض
+      <label>Home note title English
+        <input name="homeNoteTitleEn" value="<%= settings.homeNoteTitleEn || settings.homeNoteTitle || '' %>">
+      </label>
+      <label class="full">نص ملاحظة المعرض عربي
         <input name="homeNoteText" value="<%= settings.homeNoteText || '' %>">
+      </label>
+      <label class="full">Home note text English
+        <input name="homeNoteTextEn" value="<%= settings.homeNoteTextEn || settings.homeNoteText || '' %>">
       </label>
 
       <label class="full">المقاسات العامة في صفحة إضافة المنتج

@@ -1,6 +1,6 @@
 <%- include('partials/header') %>
 <% const imgs = (product.images && product.images.length) ? product.images : ['/public/images/logo.png']; %>
-<% const autoOffer = product.offerBuyQty && product.offerDiscountPercent ? ('اشتري ' + product.offerBuyQty + ' وخد خصم ' + product.offerDiscountPercent + '%') : ''; %>
+<% const autoOffer = product.offerBuyQty && product.offerDiscountPercent ? ('اشتري ' + product.offerBuyQty + ' وخد خصم ' + product.offerDiscountPercent + '%') : ''; const autoOfferEn = product.offerBuyQty && product.offerDiscountPercent ? ('Buy ' + product.offerBuyQty + ' and get ' + product.offerDiscountPercent + '% off') : ''; %>
 <%
   const sizeOptions = [...new Set((product.sizes || []).map(s => String(s || '').trim()).filter(Boolean))];
   const colorMap = new Map();
@@ -32,10 +32,10 @@
 
   <div class="detail-panel">
     <span class="tag" data-ar="<%= product.category %>" data-en="<%= product.categoryEn || product.category %>"><%= product.category %></span>
-    <% if(product.offer){ %><span class="tag offer-tag" data-ar="<%= product.offerText || autoOffer || 'عرض خاص' %>" data-en="<%= product.offerText || autoOffer || 'Special offer' %>"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
+    <% if(product.offer){ %><span class="tag offer-tag" data-ar="<%= product.offerText || autoOffer || 'عرض خاص' %>" data-en="<%= product.offerTextEn || autoOfferEn || 'Special offer' %>"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
     <h1 data-ar="<%= product.name %>" data-en="<%= product.nameEn || product.name %>"><%= product.name %></h1>
     <h2><span class="money" data-price="<%= product.price %>"><%= formatPrice(product.price) %></span> <% if(product.oldPrice){ %><del><span class="money" data-price="<%= product.oldPrice %>"><%= formatPrice(product.oldPrice) %></span></del><% } %></h2>
-    <% if(product.offerText || autoOffer){ %><p class="offer-detail">🔥 <span data-ar="<%= product.offerText || autoOffer %>" data-en="<%= product.offerText || autoOffer %>"><%= product.offerText || autoOffer %></span></p><% } %>
+    <% if(product.offerText || autoOffer){ %><p class="offer-detail">🔥 <span data-ar="<%= product.offerText || autoOffer %>" data-en="<%= product.offerTextEn || autoOfferEn || product.offerText || autoOffer %>"><%= product.offerText || autoOffer %></span></p><% } %>
     <p data-ar="<%= product.description || '' %>" data-en="<%= product.descriptionEn || product.description || '' %>"><%= product.description || '' %></p>
 
     <form class="buy-box" method="post" action="/cart/add/<%= product._id %>">
