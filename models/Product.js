@@ -15,10 +15,12 @@ const ProductSchema = new mongoose.Schema({
   images: [String],
   colorImages: [{
     color: String,
+    colorEn: String,
     image: String
   }],
   sizes: [String],
   colors: [String],
+  colorsEn: [String],
   stock: { type: Number, default: 1 },
   featured: { type: Boolean, default: false },
   bestSeller: { type: Boolean, default: false },

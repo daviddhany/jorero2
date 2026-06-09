@@ -4,13 +4,15 @@
 <%
   const sizeOptions = [...new Set((product.sizes || []).map(s => String(s || '').trim()).filter(Boolean))];
   const colorMap = new Map();
-  (product.colors || []).forEach(c => {
+  (product.colors || []).forEach((c, i) => {
     const color = String(c || '').trim();
-    if (color) colorMap.set(color, { color, image: '' });
+    const colorEn = String((product.colorsEn || [])[i] || color).trim();
+    if (color) colorMap.set(color, { color, colorEn, image: '' });
   });
   (product.colorImages || []).forEach(item => {
     const color = String(item.color || '').trim();
-    if (color) colorMap.set(color, { color, image: item.image || '' });
+    const colorEn = String(item.colorEn || color).trim();
+    if (color) colorMap.set(color, { color, colorEn, image: item.image || '' });
   });
   const colorOptions = Array.from(colorMap.values());
 %>
@@ -32,7 +34,7 @@
     <span class="tag" data-ar="<%= product.category %>" data-en="<%= product.categoryEn || product.category %>"><%= product.category %></span>
     <% if(product.offer){ %><span class="tag offer-tag" data-ar="<%= product.offerText || autoOffer || 'عرض خاص' %>" data-en="<%= product.offerText || autoOffer || 'Special offer' %>"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
     <h1 data-ar="<%= product.name %>" data-en="<%= product.nameEn || product.name %>"><%= product.name %></h1>
-    <h2><%= formatPrice(product.price) %> <% if(product.oldPrice){ %><del><%= formatPrice(product.oldPrice) %></del><% } %></h2>
+    <h2><span class="money" data-price="<%= product.price %>"><%= formatPrice(product.price) %></span> <% if(product.oldPrice){ %><del><span class="money" data-price="<%= product.oldPrice %>"><%= formatPrice(product.oldPrice) %></span></del><% } %></h2>
     <% if(product.offerText || autoOffer){ %><p class="offer-detail">🔥 <span data-ar="<%= product.offerText || autoOffer %>" data-en="<%= product.offerText || autoOffer %>"><%= product.offerText || autoOffer %></span></p><% } %>
     <p data-ar="<%= product.description || '' %>" data-en="<%= product.descriptionEn || product.description || '' %>"><%= product.description || '' %></p>
 
@@ -61,11 +63,11 @@
           <div class="choice-row color-choice-row">
             <% colorOptions.forEach((item, index) => { %>
               <label class="choice-pill color-choice <%= item.image ? 'has-image' : '' %>">
-                <input type="radio" name="color" value="<%= item.color %>" data-image="<%= item.image || '' %>" <%= index === 0 ? 'required' : '' %>>
+                <input type="radio" name="color" value="<%= item.color %>" data-color-en="<%= item.colorEn || item.color %>" data-image="<%= item.image || '' %>" <%= index === 0 ? 'required' : '' %>>
                 <% if (item.image) { %>
                   <img src="<%= item.image %>" alt="<%= item.color %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
                 <% } %>
-                <span><%= item.color %></span>
+                <span data-ar="<%= item.color %>" data-en="<%= item.colorEn || item.color %>"><%= item.color %></span>
               </label>
             <% }) %>
           </div>

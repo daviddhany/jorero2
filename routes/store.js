@@ -57,6 +57,9 @@ router.post('/cart/add/:id', async (req, res) => {
   const selectedColorImage = (product.colorImages || []).find(item => item.image === selectedImage);
   const selectedSize = String(req.body.size || '').trim();
   const selectedColor = String(req.body.color || selectedColorImage?.color || '').trim();
+  const selectedColorByName = (product.colorImages || []).find(item => String(item.color || '').trim() === selectedColor);
+  const selectedColorFromListIndex = (product.colors || []).findIndex(c => String(c || '').trim() === selectedColor);
+  const selectedColorEn = String(req.body.colorEn || selectedColorImage?.colorEn || selectedColorByName?.colorEn || (product.colorsEn || [])[selectedColorFromListIndex] || selectedColor).trim();
 
   const hasSizes = (product.sizes || []).map(s => String(s || '').trim()).filter(Boolean).length > 0;
   const hasColors = [
@@ -80,6 +83,7 @@ router.post('/cart/add/:id', async (req, res) => {
     image: selectedImage,
     size: selectedSize,
     color: selectedColor,
+    colorEn: selectedColorEn,
     quantity,
     subtotal: Number(product.price || 0) * quantity
   };

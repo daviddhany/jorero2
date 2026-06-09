@@ -13,6 +13,7 @@ const OrderSchema = new mongoose.Schema({
     image: String,
     size: String,
     color: String,
+    colorEn: String,
     quantity: { type: Number, default: 1 },
     subtotal: Number
   }],

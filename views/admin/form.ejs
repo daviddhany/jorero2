@@ -83,14 +83,13 @@
       </div>
 
       <div class="full option-block">
-        <h3>الألوان المتاحة</h3>
-        <div class="checkbox-grid colors-checks">
-          <% ['أبيض','أسود','أخضر','كحلي','بيج','رمادي','وردي','أحمر','زيتوني','أزرق','بني'].forEach(color => { %>
-            <label><input type="checkbox" name="colors" value="<%= color %>" <%= product && (product.colors || []).includes(color) ? 'checked' : '' %>> <%= color %></label>
-          <% }) %>
-        </div>
-        <label class="manual-option">ألوان إضافية يدويًا
-          <input name="customColors" placeholder="مثال: سماوي, نبيتي, موف">
+        <h3>الألوان المتاحة بدون صور</h3>
+        <p>اكتب الألوان يدويًا عربي وإنجليزي. شلنا مربعات الاختيار الجاهزة لأنها كانت بتكرر الألوان مع صور الألوان.</p>
+        <label class="manual-option">الألوان عربي
+          <input name="customColors" value="<%= product && product.colors ? product.colors.join(', ') : '' %>" placeholder="مثال: سماوي, نبيتي, موف">
+        </label>
+        <label class="manual-option">Colors English بنفس الترتيب
+          <input name="customColorsEn" value="<%= product && product.colorsEn ? product.colorsEn.join(', ') : '' %>" placeholder="Example: Sky Blue, Burgundy, Mauve">
         </label>
       </div>
 
@@ -113,18 +112,16 @@
 
       <div class="full color-image-upload option-block">
         <h3>صور الألوان</h3>
-        <p>اكتب اسم اللون وارفع صورته. العميل هيضغط على اللون في صفحة المنتج فتتغير الصورة.</p>
+        <p>اكتب اسم اللون عربي وإنجليزي وارفع صورته. العميل هيضغط على اللون في صفحة المنتج فتتغير الصورة، والاسم يتترجم حسب اللغة.</p>
         <div id="colorImageRows">
           <div class="color-image-row">
-            <input name="colorImageNames" placeholder="مثال: أخضر">
+            <input name="colorImageNames" placeholder="اللون عربي: أخضر">
+            <input name="colorImageNamesEn" placeholder="Color English: Green">
             <input type="file" name="colorImages" accept="image/*">
           </div>
           <div class="color-image-row">
-            <input name="colorImageNames" placeholder="مثال: أبيض">
-            <input type="file" name="colorImages" accept="image/*">
-          </div>
-          <div class="color-image-row">
-            <input name="colorImageNames" placeholder="مثال: كحلي">
+            <input name="colorImageNames" placeholder="اللون عربي: أبيض">
+            <input name="colorImageNamesEn" placeholder="Color English: White">
             <input type="file" name="colorImages" accept="image/*">
           </div>
         </div>
@@ -139,7 +136,7 @@
             <% product.colorImages.forEach(item => { %>
               <label class="admin-photo-item">
                 <img src="<%= item.image %>" alt="<%= item.color %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
-                <b><%= item.color %></b>
+                <b><%= item.color %> / <%= item.colorEn || item.color %></b>
                 <span><input type="checkbox" name="removeColorImages" value='<%- JSON.stringify({ color: item.color, image: item.image }) %>'> حذف اللون والصورة</span>
               </label>
             <% }) %>
@@ -185,7 +182,7 @@ function addColorImageRow(){
   if(!wrap) return;
   const row = document.createElement('div');
   row.className = 'color-image-row';
-  row.innerHTML = '<input name="colorImageNames" placeholder="اسم اللون"><input type="file" name="colorImages" accept="image/*"><button type="button" class="danger" onclick="this.parentElement.remove()">حذف</button>';
+  row.innerHTML = '<input name="colorImageNames" placeholder="اللون عربي"><input name="colorImageNamesEn" placeholder="Color English"><input type="file" name="colorImages" accept="image/*"><button type="button" class="danger" onclick="this.parentElement.remove()">حذف</button>';
   wrap.appendChild(row);
 }
 </script>

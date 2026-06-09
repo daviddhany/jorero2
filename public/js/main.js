@@ -28,6 +28,17 @@ const JORERO_I18N = {
     adding:'Adding...', added:'Product added to cart successfully', chooseOptions:'Please choose color and size first', errorTry:'Something went wrong, try again'
   }
 };
+
+function formatMoneyValue(value, lang){
+  const number = Number(value || 0);
+  if (lang === 'en') return number.toLocaleString('en-US') + ' EGP';
+  return number.toLocaleString('ar-EG') + ' ج';
+}
+function translatePrices(lang){
+  document.querySelectorAll('[data-price]').forEach(function(el){
+    el.textContent = formatMoneyValue(el.dataset.price, lang);
+  });
+}
 function currentLang(){ return localStorage.getItem('joreroLang') || 'ar'; }
 function setLang(lang){ localStorage.setItem('joreroLang', lang === 'en' ? 'en' : 'ar'); applyLang(); }
 function applyLang(){
@@ -47,7 +58,9 @@ function applyLang(){
     el.placeholder = lang === 'en' ? el.dataset.placeholderEn : el.dataset.placeholderAr;
   });
   document.querySelectorAll('[data-lang-link]').forEach(function(link){ link.classList.toggle('active', link.dataset.langLink === lang); });
+  translatePrices(lang);
 }
+
 document.addEventListener('DOMContentLoaded', applyLang);
 
 function toggleFilter(){
@@ -218,6 +231,8 @@ function showColorPhoto(image){
     if (btn) { btn.disabled = true; btn.textContent = JORERO_I18N[currentLang()].adding; }
     try {
       const formData = new FormData(form);
+      const checkedColor = form.querySelector('input[name="color"]:checked');
+      if (checkedColor && checkedColor.dataset.colorEn) formData.set('colorEn', checkedColor.dataset.colorEn);
       const res = await fetch(form.action, {
         method: 'POST',
         body: new URLSearchParams(formData),

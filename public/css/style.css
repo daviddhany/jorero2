@@ -227,3 +227,37 @@ html[dir="ltr"] .cat-tile img{left:auto;right:0}
 html[dir="ltr"] .product-scroll .demos-card{direction:ltr}
 html[dir="ltr"] .whatsapp{right:auto!important;left:22px!important}
 html[dir="ltr"] .whatsapp:before{right:auto;left:70px}
+
+/* Clear AR / EN switcher outside hamburger on mobile */
+.header-lang{justify-self:end;background:#fff;border:1px solid #eee;border-radius:999px;padding:7px 10px;box-shadow:0 6px 18px rgba(0,0,0,.07);white-space:nowrap}
+.header-lang a{font-size:14px!important;font-weight:900!important}
+@media(max-width:900px){
+  .header.demos-header{grid-template-columns:auto 1fr auto auto!important;gap:8px!important}
+  .header-lang{display:inline-flex!important;grid-column:auto!important;margin:0!important;order:3;padding:8px 11px;background:#111;color:#fff;border-color:#111}
+  .header-lang a{color:#fff!important;font-size:13px!important;text-decoration:none!important}
+  .header-lang a.active{color:#ff5252!important;text-decoration:underline!important;text-underline-offset:3px}
+  .header-lang span{color:#777!important}
+  .mobile-menu-btn{order:4}
+  .demos-nav .lang-links{display:none!important}
+}
+
+
+/* Home English fixes */
+.demos-hero .hero-slide{z-index:1}
+.demos-hero:after{z-index:2;pointer-events:none}
+.hero-overlay{z-index:6!important;max-width:min(620px,86vw)}
+.cat-tile h3,.cat-tile span,.cat-tile b{position:relative;z-index:3}
+.cat-tile img{z-index:1;pointer-events:none}
+html[dir="ltr"] .cat-tile{padding-right:44%;padding-left:28px}
+html[dir="ltr"] .cat-tile span{max-width:320px}
+html[dir="rtl"] .cat-tile{padding-left:44%;padding-right:28px}
+@media(max-width:900px){
+  .header-lang{display:flex!important;grid-column:2;grid-row:1;justify-self:center;background:#fff;border:1px solid #eee;border-radius:999px;padding:7px 10px;box-shadow:0 5px 14px rgba(0,0,0,.08)}
+  .header-lang a{font-size:15px!important}
+  .demos-hero{display:flex;align-items:flex-end;min-height:420px}
+  .hero-overlay{left:18px!important;right:18px!important;bottom:48px!important;text-align:center!important;background:rgba(0,0,0,.28);border-radius:18px;padding:18px 14px;backdrop-filter:blur(2px)}
+  .hero-overlay h1{font-size:34px!important}
+  .hero-overlay p{font-size:15px!important;margin:0 auto 12px}
+  html[dir="ltr"] .cat-tile,html[dir="rtl"] .cat-tile{padding:24px 24px 170px!important;text-align:center!important}
+  .cat-tile img{max-width:82%;max-height:50%;left:50%!important;right:auto!important;transform:translateX(-50%)}
+}

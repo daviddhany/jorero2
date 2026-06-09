@@ -1,14 +1,14 @@
 <div class="card demos-card">
   <% const pNameAr = p.name || ''; const pNameEn = p.nameEn || p.name || ''; %>
-  <% const autoOffer = p.offerBuyQty && p.offerDiscountPercent ? ('اشتري ' + p.offerBuyQty + ' وخد خصم ' + p.offerDiscountPercent + '%') : ''; %>
+  <% const autoOffer = p.offerBuyQty && p.offerDiscountPercent ? ('اشتري ' + p.offerBuyQty + ' وخد خصم ' + p.offerDiscountPercent + '%') : ''; const autoOfferEn = p.offerBuyQty && p.offerDiscountPercent ? ('Buy ' + p.offerBuyQty + ' and get ' + p.offerDiscountPercent + '% off') : ''; %>
   <% const discount = p.oldPrice && Number(p.oldPrice) > Number(p.price) ? Math.round(((Number(p.oldPrice)-Number(p.price))/Number(p.oldPrice))*100) : 0; %>
-  <% if (discount) { %><div class="discount-badge">-<%= discount %>%</div><% } else if (p.offer) { %><div class="discount-badge"><span data-ar="<%= p.offerText || autoOffer || 'عرض' %>" data-en="<%= p.offerText || autoOffer || 'Offer' %>"><%= p.offerText || autoOffer || 'عرض' %></span></div><% } %>
+  <% if (discount) { %><div class="discount-badge">-<%= discount %>%</div><% } else if (p.offer) { %><div class="discount-badge"><span data-ar="<%= p.offerText || autoOffer || 'عرض' %>" data-en="<%= p.offerTextEn || autoOfferEn || 'Offer' %>"><%= p.offerText || autoOffer || 'عرض' %></span></div><% } %>
   <% if (p.newArrival) { %><div class="new-badge" data-i18n="new">جديد</div><% } %>
   <div class="quick-actions"><a href="/product/<%= p._id %>">♡</a><a href="/product/<%= p._id %>">🛒</a><a href="/product/<%= p._id %>">⌕</a></div>
   <a href="/product/<%= p._id %>" class="product-img-link"><img src="<%= (p.images && p.images[0]) || '/public/images/logo.png' %>" alt="<%= pNameAr %>" onerror="this.onerror=null;this.src='/public/images/logo.png'"></a>
   <div class="card-body">
     <h3 data-ar="<%= pNameAr %>" data-en="<%= pNameEn %>"><%= pNameAr %></h3>
-    <p class="price"><b><%= formatPrice(p.price) %></b> <% if(p.oldPrice){ %><del><%= formatPrice(p.oldPrice) %></del><% } %></p>
+    <p class="price"><b><span class="money" data-price="<%= p.price %>"><%= formatPrice(p.price) %></span></b> <% if(p.oldPrice){ %><del><span class="money" data-price="<%= p.oldPrice %>"><%= formatPrice(p.oldPrice) %></span></del><% } %></p>
     <div class="delivery-line" data-i18n="deliveryLine">🚚 التاريخ المتوقع للاستلام: خلال 2 - 4 أيام</div>
   </div>
 </div>

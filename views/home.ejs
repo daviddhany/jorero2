@@ -1,13 +1,14 @@
 <%- include('partials/header') %>
 <% const heroImages = (settings.heroImages && settings.heroImages.length ? settings.heroImages : [settings.heroImage || (products[0] && products[0].images && products[0].images[0]) || '/public/images/logo.png']).filter(Boolean); %>
+<% const catTr = {'رجالي':'Men','حريمي':'Women','نسائي':'Women','أطفالي':'Kids','اطفالي':'Kids','تيشيرتات':'T-shirts','قمصان':'Shirts','بناطيل':'Pants','جينز':'Jeans','أطقم':'Sets','اطقم':'Sets','جاكيت':'Jackets','سويت شيرت':'Sweatshirts','منتجات أخرى':'Other Products'}; const toCatEn = (v) => catTr[v] || v || 'Category'; %>
 
 <section class="demos-hero" data-carousel>
   <% heroImages.forEach((img, index) => { %>
     <img class="hero-slide <%= index === 0 ? 'active' : '' %>" src="<%= img %>" alt="Jorero hero" onerror="this.onerror=null;this.src='/public/images/logo.png'">
   <% }) %>
   <div class="hero-overlay">
-    <h1><%= settings.heroTitle || 'JORERO SUMMER' %></h1>
-    <p data-ar="<%= settings.heroSubtitle || 'أقوى تشكيلة ملابس عصرية في مكان واحد' %>" data-en="Discover trendy fashion for men, women and kids in one place."><%= settings.heroSubtitle || 'أقوى تشكيلة ملابس عصرية في مكان واحد' %></p>
+    <h1 data-ar="<%= settings.heroTitle || 'JORERO SUMMER' %>" data-en="<%= settings.heroTitleEn || 'JORERO SUMMER' %>"><%= settings.heroTitle || 'JORERO SUMMER' %></h1>
+    <p data-ar="<%= settings.heroSubtitle || 'أقوى تشكيلة ملابس عصرية في مكان واحد' %>" data-en="<%= settings.heroSubtitleEn || 'Discover trendy fashion for men, women and kids in one place.' %>"><%= settings.heroSubtitle || 'أقوى تشكيلة ملابس عصرية في مكان واحد' %></p>
     <a class="btn big" href="/products" data-i18n="shopNow">تسوق الآن</a>
   </div>
   <% if (heroImages.length > 1) { %>
@@ -32,9 +33,9 @@
 <section class="demos-categories">
   <h2 data-i18n="categoriesTitle">اكتشف تشكيلتنا على<br>حسب اللي يناسبك</h2>
   <p data-i18n="categoriesText">سواء بتدور على جاكيت، سويت شيرت، قميص، أو بنطلون عملي... جمعنالك كل الفئات في مكان واحد عشان توصل للي يعجبك بسهولة.</p>
-  <% const productCategoriesForTiles = [...new Set(products.map(p => p.category).filter(Boolean))]; const visibleCategories = (settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : productCategoriesForTiles).slice(0,4); const visibleCategoriesEn = (settings.categoryOptionsEn && settings.categoryOptionsEn.length ? settings.categoryOptionsEn : visibleCategories).slice(0,4); %>
+  <% const productCategoriesForTiles = [...new Set(products.map(p => p.category).filter(Boolean))]; const visibleCategories = (settings.categoryOptions && settings.categoryOptions.length ? settings.categoryOptions : productCategoriesForTiles).slice(0,4); const visibleCategoriesEn = (settings.categoryOptionsEn && settings.categoryOptionsEn.length ? settings.categoryOptionsEn : visibleCategories.map(toCatEn)).slice(0,4); %>
   <div class="category-mosaic">
-    <% visibleCategories.forEach((catName, index) => { const catEn = visibleCategoriesEn[index] || catName; const catProduct = products.find(p => p.category === catName) || products[index] || products[0]; const catImg = (catProduct && catProduct.images && catProduct.images[0]) || '/public/images/logo.png'; %>
+    <% visibleCategories.forEach((catName, index) => { const catEn = visibleCategoriesEn[index] || toCatEn(catName); const catProduct = products.find(p => p.category === catName) || products[index] || products[0]; const catImg = (catProduct && catProduct.images && catProduct.images[0]) || '/public/images/logo.png'; %>
       <% if (index === 1) { %><div class="cat-stack"><% } %>
       <a class="cat-tile <%= (index === 0 || index === 3) ? 'tall' : '' %>" href="/products?category=<%= encodeURIComponent(catName) %>">
         <h3 data-ar="<%= catName %>" data-en="<%= catEn %>"><%= catName %></h3><span data-ar="تشكيلة مختارة من <%= catName %>" data-en="Selected collection from <%= catEn %>">تشكيلة مختارة من <%= catName %></span><b data-i18n="shopMore">تسوق المزيد</b><img src="<%= catImg %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
@@ -56,7 +57,7 @@
 <% } %>
 
 <% const groupedProducts = {}; products.forEach(p => { const c = p.category || 'منتجات أخرى'; if (!groupedProducts[c]) groupedProducts[c] = []; groupedProducts[c].push(p); }); %>
-<% Object.keys(groupedProducts).forEach(categoryName => { const list = groupedProducts[categoryName]; const first = list[0] || {}; const categoryEn = first.categoryEn || categoryName; %>
+<% Object.keys(groupedProducts).forEach(categoryName => { const list = groupedProducts[categoryName]; const first = list[0] || {}; const categoryEn = first.categoryEn || toCatEn(categoryName); %>
   <section class="demos-section-title"><h2 data-ar="<%= categoryName %>" data-en="<%= categoryEn %>"><%= categoryName %></h2></section>
   <section class="demos-product-shell" data-product-slider>
     <button class="product-arrow product-prev" type="button" data-product-prev>‹</button>

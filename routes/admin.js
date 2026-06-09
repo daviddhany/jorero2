@@ -70,6 +70,12 @@ function mergeManual(selected, manual) {
   return [...new Set(values.map(v => String(v).trim()).filter(Boolean))];
 }
 
+function alignTranslatedList(arValue, enValue) {
+  const ar = normalizeArray(arValue);
+  const en = normalizeArray(enValue);
+  return ar.map((value, index) => String(en[index] || value).trim()).filter(Boolean);
+}
+
 function uniqueValues(values) {
   return [...new Set(normalizeArray(values).map(v => String(v).trim()).filter(Boolean))];
 }
@@ -121,7 +127,8 @@ function productPayload(body) {
     offerBuyQty: Number(body.offerBuyQty || 0),
     offerDiscountPercent: Number(body.offerDiscountPercent || 0),
     sizes: mergeManual(body.sizes, body.customSizes),
-    colors: mergeManual(body.colors, body.customColors),
+    colors: uniqueValues(body.customColors),
+    colorsEn: alignTranslatedList(body.customColors, body.customColorsEn),
     stock: Number(body.stock || 1),
     featured: !!body.featured,
     bestSeller: !!body.bestSeller,
@@ -133,11 +140,13 @@ function productPayload(body) {
 
 async function buildColorImages(body, files) {
   const colorNames = toArray(body.colorImageNames);
+  const colorNamesEn = toArray(body.colorImageNamesEn);
   const uploaded = await saveFiles(((files && files.colorImages) || []), 'color');
   const result = [];
   uploaded.forEach((image, index) => {
     const color = String(colorNames[index] || '').trim();
-    if (color && image) result.push({ color, image });
+    const colorEn = String(colorNamesEn[index] || color).trim();
+    if (color && image) result.push({ color, colorEn, image });
   });
   return result;
 }
