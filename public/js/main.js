@@ -31,7 +31,7 @@ function toggleFilter(){
 })();
 
 
-// Auto moving hero carousel
+// Hero carousel: arrows + dots + auto move
 (function(){
   const carousel = document.querySelector('[data-carousel]');
   if (!carousel) return;
@@ -39,14 +39,62 @@ function toggleFilter(){
   const dots = Array.from(carousel.querySelectorAll('.hero-dots span'));
   if (slides.length <= 1) return;
   let current = 0;
+  let timer;
   function showSlide(index){
-    slides[current].classList.remove('active');
-    if (dots[current]) dots[current].classList.remove('active');
-    current = index % slides.length;
-    slides[current].classList.add('active');
-    if (dots[current]) dots[current].classList.add('active');
+    slides[current]?.classList.remove('active');
+    dots[current]?.classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    slides[current]?.classList.add('active');
+    dots[current]?.classList.add('active');
   }
-  setInterval(() => showSlide(current + 1), 3500);
+  function restart(){
+    clearInterval(timer);
+    timer = setInterval(() => showSlide(current + 1), 4500);
+  }
+  carousel.querySelector('[data-carousel-prev]')?.addEventListener('click', function(){ showSlide(current - 1); restart(); });
+  carousel.querySelector('[data-carousel-next]')?.addEventListener('click', function(){ showSlide(current + 1); restart(); });
+  dots.forEach((dot, index) => dot.addEventListener('click', function(){ showSlide(index); restart(); }));
+  restart();
+})();
+
+// Product category sliders: same-category products stay beside each other and swipe with arrows/dots
+(function(){
+  document.querySelectorAll('[data-product-slider]').forEach(function(slider){
+    const scroller = slider.querySelector('.product-scroll');
+    if (!scroller) return;
+    const cards = Array.from(scroller.querySelectorAll('.demos-card'));
+    const dots = Array.from(slider.querySelectorAll('.slider-dots span'));
+    const prev = slider.querySelector('[data-product-prev]');
+    const next = slider.querySelector('[data-product-next]');
+
+    function cardStep(){
+      const first = cards[0];
+      if (!first) return scroller.clientWidth;
+      const gap = parseFloat(getComputedStyle(scroller).gap || '24') || 24;
+      return first.getBoundingClientRect().width + gap;
+    }
+    function currentIndex(){
+      return Math.round(scroller.scrollLeft / cardStep());
+    }
+    function updateDots(){
+      const index = Math.max(0, Math.min(dots.length - 1, currentIndex()));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    }
+    function go(direction){
+      scroller.scrollBy({ left: direction * cardStep(), behavior: 'smooth' });
+      setTimeout(updateDots, 350);
+    }
+
+    prev?.addEventListener('click', function(){ go(-1); });
+    next?.addEventListener('click', function(){ go(1); });
+    dots.forEach((dot, index) => dot.addEventListener('click', function(){ scroller.scrollTo({ left: index * cardStep(), behavior: 'smooth' }); setTimeout(updateDots, 350); }));
+    scroller.addEventListener('scroll', function(){ window.requestAnimationFrame(updateDots); });
+    if (cards.length <= 3 && window.innerWidth > 900) {
+      prev && (prev.style.display = 'none');
+      next && (next.style.display = 'none');
+    }
+    updateDots();
+  });
 })();
 
 // Product gallery arrows + color photos
@@ -128,6 +176,10 @@ function showColorPhoto(image){
       });
       const data = await res.json();
       showToast(data.message || (res.ok ? 'تمت إضافة المنتج للسلة بنجاح' : 'اختار اللون والمقاس الأول'));
+      if (data && typeof data.cartCount !== 'undefined') {
+        const cartLink = document.querySelector('.cart-link');
+        if (cartLink) cartLink.setAttribute('data-count', data.cartCount);
+      }
     } catch (err) {
       showToast('حصلت مشكلة، جرب تاني');
     } finally {

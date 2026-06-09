@@ -10,7 +10,11 @@
     <p><%= settings.heroSubtitle || 'أقوى تشكيلة ملابس عصرية في مكان واحد' %></p>
     <a class="btn big" href="/products">تسوق الآن</a>
   </div>
-  <% if (heroImages.length > 1) { %><div class="hero-dots"><% heroImages.forEach((img, index) => { %><span class="<%= index === 0 ? 'active' : '' %>"></span><% }) %></div><% } %>
+  <% if (heroImages.length > 1) { %>
+    <button class="hero-arrow hero-prev" type="button" data-carousel-prev>‹</button>
+    <button class="hero-arrow hero-next" type="button" data-carousel-next>›</button>
+    <div class="hero-dots"><% heroImages.forEach((img, index) => { %><span class="<%= index === 0 ? 'active' : '' %>" data-carousel-dot="<%= index %>"></span><% }) %></div>
+  <% } %>
 </section>
 
 <section class="demos-intro">
@@ -18,9 +22,11 @@
   <p>Jorero جايبلك أحدث الإطلالات في القمصان، السويت شيرت، الجواكيت والبناطيل في مكان واحد.</p>
 </section>
 
-<section class="demos-product-shell">
-  <div class="grid demos-grid"><% products.slice(0,3).forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div>
-  <div class="slider-dots"><span></span><span class="active"></span><span></span></div>
+<section class="demos-product-shell" data-product-slider>
+  <button class="product-arrow product-prev" type="button" data-product-prev>‹</button>
+  <div class="product-scroll demos-grid"><% products.slice(0,6).forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div>
+  <button class="product-arrow product-next" type="button" data-product-next>›</button>
+  <div class="slider-dots"><% products.slice(0,6).forEach((p,i)=>{ %><span class="<%= i===0?'active':'' %>"></span><% }) %></div>
 </section>
 
 <section class="demos-categories">
@@ -37,10 +43,26 @@
 </section>
 
 <section id="new" class="demos-section-title"><h2>وصل حديثًا</h2><p>تشكيلة جديدة وصلت دلوقتي، موديلات عصرية وخامات مريحة تناسب ذوقك.</p></section>
-<section class="demos-product-shell"><div class="grid demos-grid"><% products.filter(p=>p.newArrival).slice(0,3).forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div><div class="slider-dots"><span></span><span class="active"></span><span></span></div></section>
+<% const newProducts = products.filter(p=>p.newArrival); %>
+<% if (newProducts.length) { %>
+<section class="demos-product-shell" data-product-slider>
+  <button class="product-arrow product-prev" type="button" data-product-prev>‹</button>
+  <div class="product-scroll demos-grid"><% newProducts.forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div>
+  <button class="product-arrow product-next" type="button" data-product-next>›</button>
+  <div class="slider-dots"><% newProducts.forEach((p,i)=>{ %><span class="<%= i===0?'active':'' %>"></span><% }) %></div>
+</section>
+<% } %>
 
-<section class="demos-section-title"><h2>الحاجات من Jorero</h2></section>
-<section class="demos-product-shell"><div class="grid demos-grid"><% products.slice(3,6).forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div><div class="slider-dots"><span></span><span class="active"></span><span></span></div></section>
+<% const groupedProducts = {}; products.forEach(p => { const c = p.category || 'منتجات أخرى'; if (!groupedProducts[c]) groupedProducts[c] = []; groupedProducts[c].push(p); }); %>
+<% Object.keys(groupedProducts).forEach(categoryName => { const list = groupedProducts[categoryName]; %>
+  <section class="demos-section-title"><h2><%= categoryName %></h2></section>
+  <section class="demos-product-shell" data-product-slider>
+    <button class="product-arrow product-prev" type="button" data-product-prev>‹</button>
+    <div class="product-scroll demos-grid"><% list.forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div>
+    <button class="product-arrow product-next" type="button" data-product-next>›</button>
+    <div class="slider-dots"><% list.forEach((p,i)=>{ %><span class="<%= i===0?'active':'' %>"></span><% }) %></div>
+  </section>
+<% }) %>
 
 <section class="testimonials">
   <h2>آراء عملائنا في Jorero</h2>

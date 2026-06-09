@@ -42,7 +42,11 @@ app.use(session({
   cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }
 }));
 app.locals.formatPrice = n => Number(n || 0).toLocaleString('ar-EG') + ' ج';
-app.use((req, res, next) => { res.locals.admin = req.session.admin; next(); });
+app.use((req, res, next) => {
+  res.locals.admin = req.session.admin;
+  res.locals.cartCount = Array.isArray(req.session.cart) ? req.session.cart.length : 0;
+  next();
+});
 app.use('/', require('./routes/store'));
 app.use('/marly-dashboard', require('./routes/admin'));
 app.use((req, res) => res.status(404).render('404', { title: 'الصفحة غير موجودة' }));

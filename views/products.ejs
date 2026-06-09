@@ -2,6 +2,15 @@
 <div class="demos-intro page-intro"><h1>كل منتجات Jorero</h1><p>اختار المنتج المناسب ليك وضيفه للسلة وكمل الطلب بسهولة.</p></div>
 <aside class="filter" id="filter"><button onclick="toggleFilter()">×</button><h3>فلترة المنتجات</h3><form><input name="q" value="<%= q %>" placeholder="بحث باسم المنتج"><select name="category"><option value="">كل الفئات</option><% ['رجالي','حريمي','أطفالي','تيشيرتات','قمصان','بناطيل','جينز','أطقم','جاكيت','سويت شيرت'].forEach(c=>{ %><option <%= cat==c?'selected':'' %>><%= c %></option><% }) %></select><input name="min" value="<%= min||'' %>" placeholder="أقل سعر"><input name="max" value="<%= max==999999?'':max %>" placeholder="أعلى سعر"><button class="btn">تطبيق الفلتر</button><a class="btn light" href="/products">إلغاء الفلتر</a></form></aside>
 <div class="products-toolbar"><button class="filterBtn" onclick="toggleFilter()">☰ الفلاتر</button></div>
-<section class="demos-product-shell products-page-shell"><div class="grid demos-grid"><% products.forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div></section>
+<% const groupedProducts = {}; products.forEach(p => { const c = p.category || 'منتجات أخرى'; if (!groupedProducts[c]) groupedProducts[c] = []; groupedProducts[c].push(p); }); %>
+<% Object.keys(groupedProducts).forEach(categoryName => { const list = groupedProducts[categoryName]; %>
+  <section class="demos-section-title category-page-title"><h2><%= categoryName %></h2></section>
+  <section class="demos-product-shell products-page-shell" data-product-slider>
+    <button class="product-arrow product-prev" type="button" data-product-prev>‹</button>
+    <div class="product-scroll demos-grid"><% list.forEach(p=>{ %><%- include('partials/card',{p}) %><% }) %></div>
+    <button class="product-arrow product-next" type="button" data-product-next>›</button>
+    <div class="slider-dots"><% list.forEach((p,i)=>{ %><span class="<%= i===0?'active':'' %>"></span><% }) %></div>
+  </section>
+<% }) %>
 <% if(!products.length){ %><div class="empty">لا توجد منتجات مطابقة للبحث حاليًا.</div><% } %>
 <%- include('partials/footer') %>
