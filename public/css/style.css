@@ -272,3 +272,74 @@ html[lang="en"] .demos-categories h2{text-align:center;direction:ltr;}
   .header-lang{display:inline-flex!important;grid-column:auto!important;justify-self:center!important;align-self:center!important;background:#fff!important;border:1px solid #eee!important;border-radius:999px!important;padding:6px 10px!important;box-shadow:0 8px 22px rgba(0,0,0,.08)!important;z-index:90!important;}
   .header-lang a{font-size:14px!important;font-weight:900!important;}
 }
+
+
+/* UI/UX Pro Max inspired design upgrade */
+:root{
+  --primary:#0f5132;
+  --accent:#d6ad42;
+  --surface:#ffffff;
+  --radius-xl:24px;
+  --shadow-soft:0 18px 45px rgba(0,0,0,.08);
+}
+
+body{
+  font-family:"Cairo","Tajawal",Tahoma,Arial,sans-serif;
+  background:#fafaf9;
+}
+
+.header{
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.demos-hero{
+  border-radius:var(--radius-xl);
+  margin:24px 5%;
+  overflow:hidden;
+  box-shadow:var(--shadow-soft);
+  min-height:520px;
+}
+
+.hero-overlay{
+  background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.15));
+  padding:60px;
+}
+
+.hero-overlay h1{
+  font-size:clamp(38px,6vw,72px);
+  letter-spacing:-1px;
+}
+
+.btn{
+  transition:.25s ease;
+  box-shadow:0 10px 25px rgba(15,81,50,.18);
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+.card,.product-card{
+  border-radius:20px!important;
+  overflow:hidden;
+  background:var(--surface);
+  box-shadow:var(--shadow-soft);
+  transition:.25s ease;
+}
+
+.card:hover,.product-card:hover{
+  transform:translateY(-6px);
+}
+
+input,select,textarea{
+  background:#fff;
+}
+
+@media(max-width:768px){
+  .hero-overlay{
+    padding:30px 20px;
+  }
+  .brand b{
+    font-size:26px;
+  }
+}
