@@ -12,7 +12,8 @@ const JORERO_I18N = {
     checkoutText:'اكتب بياناتك وسيظهر الطلب للأدمن.', fullName:'الاسم بالكامل', phoneNumber:'رقم التليفون', fullAddress:'العنوان بالتفصيل', extraNotes:'ملاحظات إضافية', confirmOrder:'تأكيد الطلب', orderSummary:'ملخص الطلب',
     orderSent:'تم إرسال طلبك بنجاح ✅', orderNumber:'رقم الطلب', willContact:'هنراجع الطلب ونتواصل معاك على رقم التليفون.', shopOther:'تسوق منتجات أخرى',
     footerText:'صُمم بواسطة Jorero لتجربة تسوق إلكتروني حديثة ومميزة. للمزيد من المعلومات.', address:'العنوان', whatsapp:'واتساب', phone:'تليفون',
-    adding:'جاري الإضافة...', added:'تمت إضافة المنتج للسلة بنجاح', chooseOptions:'اختار اللون والمقاس الأول', errorTry:'حصلت مشكلة، جرب تاني'
+    adding:'جاري الإضافة...',
+    favsTitle:'❤️ المفضلة', favsSubtitle:'المنتجات اللي حفظتها هنا', favsEmpty:'مفيش منتجات في المفضلة لسه', favsEmptySub:'ادوس على القلب على أي منتج عشان تحفظه هنا', favsBrowse:'تصفح المنتجات', favsBuy:'اشتري دلوقتي ←', favsRemove:'إزالة', added:'تمت إضافة المنتج للسلة بنجاح', chooseOptions:'اختار اللون والمقاس الأول', errorTry:'حصلت مشكلة، جرب تاني'
   },
   en: {
     home:'Home', products:'Products', newArrivals:'New Arrivals', contact:'Contact Us', cart:'Cart', search:'Search', shopNow:'Shop Now',
@@ -25,7 +26,8 @@ const JORERO_I18N = {
     checkoutText:'Enter your information and the order will appear for the admin.', fullName:'Full Name', phoneNumber:'Phone Number', fullAddress:'Full Address', extraNotes:'Extra Notes', confirmOrder:'Confirm Order', orderSummary:'Order Summary',
     orderSent:'Your order was sent successfully ✅', orderNumber:'Order Number', willContact:'We will review your order and contact you by phone.', shopOther:'Shop More Products',
     footerText:'Built by Jorero for a modern and unique online shopping experience.', address:'Address', whatsapp:'WhatsApp', phone:'Phone',
-    adding:'Adding...', added:'Product added to cart successfully', chooseOptions:'Please choose color and size first', errorTry:'Something went wrong, try again'
+    adding:'Adding...',
+    favsTitle:'❤️ Favorites', favsSubtitle:'Products you saved', favsEmpty:'No favorites yet', favsEmptySub:'Tap the heart on any product to save it here', favsBrowse:'Browse Products', favsBuy:'Buy Now →', favsRemove:'Remove', added:'Product added to cart successfully', chooseOptions:'Please choose color and size first', errorTry:'Something went wrong, try again'
   }
 };
 
@@ -65,7 +67,7 @@ function translatePrices(lang){
   });
 }
 function currentLang(){ return localStorage.getItem('joreroLang') || 'ar'; }
-function setLang(lang){ localStorage.setItem('joreroLang', lang === 'en' ? 'en' : 'ar'); applyLang(); }
+function setLang(lang){ localStorage.setItem('joreroLang', lang === 'en' ? 'en' : 'ar'); applyLang(); window.dispatchEvent(new Event('jorero-lang-change')); }
 function applyLang(){
   const lang = currentLang();
   document.documentElement.lang = lang;

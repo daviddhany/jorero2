@@ -1247,3 +1247,49 @@ body { overflow-x: hidden; }
   color: #e53935;
   background: #fff0f0;
 }
+
+
+/* ── LANG SWITCHER — now lives inside header-icons ── */
+.header-lang-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 900;
+  color: #888;
+  border: 1px solid #e8e8e8;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: #fafafa;
+  white-space: nowrap;
+}
+.header-lang-inline a {
+  color: #aaa !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  text-decoration: none !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+}
+.header-lang-inline a.active {
+  color: #e53935 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+.header-lang-inline span { color: #ccc; font-size: 12px; }
+
+/* Hide old floating lang pill */
+.header-lang:not(.header-lang-inline) { display: none !important; }
+
+/* header-icons gap with lang pill inside */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media(max-width:900px){
+  .header-lang-inline { padding: 3px 8px; font-size: 12px; }
+  .header-icons { gap: 8px; }
+}
