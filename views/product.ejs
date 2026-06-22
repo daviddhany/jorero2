@@ -15,14 +15,37 @@
     if (color) colorMap.set(color, { color, colorEn, image: item.image || '' });
   });
   const colorOptions = Array.from(colorMap.values());
+
+  // Calculate discount percentage
+  const discountPct = (product.oldPrice && product.price && product.oldPrice > product.price)
+    ? Math.round((1 - product.price / product.oldPrice) * 100)
+    : 0;
 %>
+
+<!-- Breadcrumb -->
+<nav class="product-breadcrumb">
+  <a href="/" data-i18n="home">الرئيسية</a>
+  <span>›</span>
+  <a href="/products" data-i18n="products">كل المنتجات</a>
+  <% if (product.category) { %>
+    <span>›</span>
+    <a href="/products?category=<%= encodeURIComponent(product.category) %>" data-ar="<%= product.category %>" data-en="<%= product.categoryEn || product.category %>"><%= product.category %></a>
+  <% } %>
+  <span>›</span>
+  <span data-ar="<%= product.name %>" data-en="<%= product.nameEn || product.name %>"><%= product.name %></span>
+</nav>
+
 <section class="product-detail showroom-detail">
+  <!-- Gallery -->
   <div class="product-gallery" data-images='<%- JSON.stringify(imgs) %>'>
-    <img id="mainImg" class="main-img" src="<%= imgs[0] %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
-    <div class="image-stage">
-      <button type="button" class="gallery-arrow gallery-prev" onclick="moveProductPhoto(-1)">‹</button>
-      <button type="button" class="gallery-arrow gallery-next" onclick="moveProductPhoto(1)">›</button>
+    <div class="main-img-wrap">
+      <img id="mainImg" class="main-img" src="<%= imgs[0] %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+      <div class="image-stage">
+        <button type="button" class="gallery-arrow gallery-prev" onclick="moveProductPhoto(-1)">‹</button>
+        <button type="button" class="gallery-arrow gallery-next" onclick="moveProductPhoto(1)">›</button>
+      </div>
     </div>
+
     <div class="thumbs" id="productThumbs">
       <% imgs.forEach((img, index) => { %>
         <img class="<%= index === 0 ? 'active' : '' %>" data-img="<%= img %>" onclick="setProductPhoto(<%= index %>)" src="<%= img %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
@@ -30,14 +53,38 @@
     </div>
   </div>
 
+  <!-- Detail panel -->
   <div class="detail-panel">
-    <span class="tag" data-ar="<%= product.category %>" data-en="<%= product.categoryEn || product.category %>"><%= product.category %></span>
-    <% if(product.offer){ %><span class="tag offer-tag" data-ar="<%= product.offerText || autoOffer || 'عرض خاص' %>" data-en="<%= product.offerTextEn || autoOfferEn || 'Special offer' %>"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
-    <h1 data-ar="<%= product.name %>" data-en="<%= product.nameEn || product.name %>"><%= product.name %></h1>
-    <h2><span class="money" data-price="<%= product.price %>"><%= formatPrice(product.price) %></span> <% if(product.oldPrice){ %><del><span class="money" data-price="<%= product.oldPrice %>"><%= formatPrice(product.oldPrice) %></span></del><% } %></h2>
-    <% if(product.offerText || autoOffer){ %><p class="offer-detail">🔥 <span data-ar="<%= product.offerText || autoOffer %>" data-en="<%= product.offerTextEn || autoOfferEn || product.offerText || autoOffer %>"><%= product.offerText || autoOffer %></span></p><% } %>
-    <p data-ar="<%= product.description || '' %>" data-en="<%= product.descriptionEn || product.description || '' %>"><%= product.description || '' %></p>
+    <!-- Tags -->
+    <div class="detail-tags">
+      <span class="tag" data-ar="<%= product.category %>" data-en="<%= product.categoryEn || product.category %>"><%= product.category %></span>
+      <% if(product.offer){ %><span class="tag offer-tag" data-ar="<%= product.offerText || autoOffer || 'عرض خاص' %>" data-en="<%= product.offerTextEn || autoOfferEn || 'Special offer' %>"><%= product.offerText || autoOffer || 'عرض خاص' %></span><% } %>
+      <% if(product.newArrival){ %><span class="tag" style="background:#e8f8ee;color:#1a6b35;" data-i18n="new">جديد</span><% } %>
+    </div>
 
+    <!-- Name -->
+    <h1 data-ar="<%= product.name %>" data-en="<%= product.nameEn || product.name %>"><%= product.name %></h1>
+
+    <!-- Price -->
+    <div class="product-price-row">
+      <span class="current-price"><span class="money" data-price="<%= product.price %>"><%= formatPrice(product.price) %></span></span>
+      <% if(product.oldPrice){ %>
+        <del><span class="money" data-price="<%= product.oldPrice %>"><%= formatPrice(product.oldPrice) %></span></del>
+        <% if(discountPct > 0){ %><span class="save-badge">وفّر <%= discountPct %>%</span><% } %>
+      <% } %>
+    </div>
+
+    <!-- Offer detail -->
+    <% if(product.offerText || autoOffer){ %>
+      <p class="offer-detail">🔥 <span data-ar="<%= product.offerText || autoOffer %>" data-en="<%= product.offerTextEn || autoOfferEn || product.offerText || autoOffer %>"><%= product.offerText || autoOffer %></span></p>
+    <% } %>
+
+    <!-- Description -->
+    <% if(product.description){ %>
+      <p class="product-desc" data-ar="<%= product.description %>" data-en="<%= product.descriptionEn || product.description %>"><%= product.description %></p>
+    <% } %>
+
+    <!-- Buy box -->
     <form class="buy-box" method="post" action="/cart/add/<%= product._id %>">
       <input type="hidden" id="selectedImage" name="image" value="<%= imgs[0] %>">
 
@@ -77,9 +124,28 @@
       <% } %>
 
       <label><span data-i18n="quantity">الكمية</span><input type="number" min="1" name="quantity" value="1" required></label>
-      <button class="btn big" data-i18n="addToCart">إضافة للسلة</button>
+
+      <button class="btn big" data-i18n="addToCart">إضافة للسلة 🛒</button>
     </form>
-    <div class="hero-actions"><a class="btn light" href="/products" data-i18n="continueShopping">كمل تسوق</a><a class="btn light" href="/cart" data-i18n="openCart">افتح السلة</a></div>
+
+    <!-- Secondary actions -->
+    <div class="hero-actions" style="margin-top:12px;">
+      <a class="btn light" href="/products" data-i18n="continueShopping">كمل تسوق</a>
+      <a class="btn light" href="/cart" data-i18n="openCart">افتح السلة</a>
+    </div>
+
+    <!-- Delivery banner -->
+    <div class="delivery-banner">
+      <span>🚚</span>
+      <span data-i18n="deliveryLine">التوصيل خلال 2 - 4 أيام</span>
+    </div>
+
+    <!-- Trust row -->
+    <div class="trust-row">
+      <div class="trust-item"><span class="icon">🔒</span><span>دفع آمن</span></div>
+      <div class="trust-item"><span class="icon">↩️</span><span>استبدال سهل</span></div>
+      <div class="trust-item"><span class="icon">✅</span><span>جودة مضمونة</span></div>
+    </div>
   </div>
 </section>
 <%- include('partials/footer') %>
