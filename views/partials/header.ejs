@@ -2,7 +2,7 @@
 <header class="header demos-header">
   <div class="header-icons">
     <a class="cart-link" href="/cart" title="السلة" data-count="<%= typeof cartCount !== 'undefined' ? cartCount : 0 %>">🛒</a>
-    <a href="/products" title="Wishlist">♡</a>
+    <a class="fav-link" href="/favorites" title="المفضلة" id="headerFavLink">♡<span class="fav-badge" id="headerFavBadge"></span></a>
     <button type="button" class="search-toggle" title="Search" onclick="document.querySelector('.header-search-pop')?.classList.toggle('open')">⌕</button>
   </div>
 

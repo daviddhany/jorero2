@@ -39,6 +39,10 @@ router.get('/products', async (req, res) => {
   res.render('products', { products, info, settings, q, cat, min, max, title: 'منتجات Jorero' });
 });
 
+router.get('/favorites', async (req, res) => {
+  res.render('favorites', { title: 'المفضلة' });
+});
+
 router.get('/product/:id', async (req, res) => {
   const product = await Product.findById(req.params.id).lean();
   if (!product) return res.redirect('/products');

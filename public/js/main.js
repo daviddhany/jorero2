@@ -301,3 +301,89 @@ function showColorPhoto(image){
     });
   });
 })();
+
+
+/* ============================================================
+   FAVORITES SYSTEM — localStorage based
+   ============================================================ */
+function getFavs(){
+  try{ return JSON.parse(localStorage.getItem('jorero_favs')||'[]'); }
+  catch(e){ return []; }
+}
+function saveFavs(favs){ localStorage.setItem('jorero_favs', JSON.stringify(favs)); }
+function isFaved(id){ return getFavs().some(function(f){ return f.id===id; }); }
+
+function updateFavBadge(){
+  var count = getFavs().length;
+  var link = document.getElementById('headerFavLink');
+  var badge = document.getElementById('headerFavBadge');
+  if(link){
+    link.dataset.count = count;
+    link.setAttribute('data-count', count);
+  }
+  if(badge){
+    badge.textContent = count > 0 ? count : '';
+    badge.style.display = count > 0 ? 'block' : 'none';
+  }
+}
+
+function applyFavState(){
+  // Apply saved state to all fav buttons on the page
+  document.querySelectorAll('[data-fav-id]').forEach(function(btn){
+    var id = btn.dataset.favId;
+    if(!id) return;
+    var faved = isFaved(id);
+    btn.classList.toggle('saved', faved);
+    btn.innerHTML = faved ? '♥' : '♡';
+    if(btn.id === 'detailFavBtn'){
+      var heart = btn.querySelector('.fav-heart');
+      var label = btn.querySelector('.fav-label');
+      if(heart) heart.textContent = faved ? '♥' : '♡';
+      if(label) label.textContent = faved ? 'في المفضلة ✓' : 'أضف للمفضلة';
+      btn.classList.toggle('saved', faved);
+    }
+  });
+}
+
+function toggleFav(btn){
+  var id = btn.dataset.favId;
+  if(!id) return;
+  var favs = getFavs();
+  var idx = favs.findIndex(function(f){ return f.id===id; });
+  if(idx > -1){
+    // remove
+    favs.splice(idx,1);
+  } else {
+    // add
+    favs.push({
+      id: id,
+      name: btn.dataset.favName || '',
+      nameEn: btn.dataset.favNameEn || btn.dataset.favName || '',
+      price: btn.dataset.favPrice || 0,
+      oldPrice: btn.dataset.favOldPrice || '',
+      image: btn.dataset.favImage || '/public/images/logo.png',
+      url: btn.dataset.favUrl || '#'
+    });
+  }
+  saveFavs(favs);
+  applyFavState();
+  updateFavBadge();
+
+  // Toast feedback
+  var msg = idx > -1 ? 'تم الإزالة من المفضلة' : 'تم الحفظ في المفضلة ❤️';
+  var toast = document.querySelector('.cart-toast');
+  if(!toast){
+    toast = document.createElement('div');
+    toast.className='cart-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', function(){
+  applyFavState();
+  updateFavBadge();
+});

@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+
+<div class="favs-page">
+  <div class="favs-header">
+    <h1>❤️ المفضلة</h1>
+    <p>المنتجات اللي حفظتها هنا</p>
+  </div>
+
+  <!-- Grid populated by JS -->
+  <div class="favs-grid" id="favsGrid"></div>
+
+  <!-- Empty state (shown by JS when no favs) -->
+  <div class="favs-empty" id="favsEmpty" style="display:none">
+    <div class="empty-icon">🤍</div>
+    <h2>مفيش منتجات في المفضلة لسه</h2>
+    <p>ادوس على القلب على أي منتج عشان تحفظه هنا</p>
+    <a href="/products">تصفح المنتجات</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  function getFavs(){ try{ return JSON.parse(localStorage.getItem('jorero_favs')||'[]'); }catch(e){ return []; } }
+  function saveFavs(f){ localStorage.setItem('jorero_favs', JSON.stringify(f)); }
+  function removeFav(id){
+    saveFavs(getFavs().filter(f=>f.id!==id));
+    renderFavs();
+    updateFavBadge();
+  }
+
+  function renderFavs(){
+    const favs = getFavs();
+    const grid = document.getElementById('favsGrid');
+    const empty = document.getElementById('favsEmpty');
+    if(!grid) return;
+    if(!favs.length){
+      grid.innerHTML='';
+      if(empty) empty.style.display='block';
+      return;
+    }
+    if(empty) empty.style.display='none';
+    const lang = localStorage.getItem('joreroLang')||'ar';
+    grid.innerHTML = favs.map(f=>{
+      const name = (lang==='en' && f.nameEn) ? f.nameEn : f.name;
+      const price = Number(f.price||0);
+      const oldPrice = Number(f.oldPrice||0);
+      return \`<div class="fav-card">
+        <a href="\${f.url}"><img src="\${f.image}" alt="\${name}" onerror="this.src='/public/images/logo.png'"></a>
+        <div class="fav-card-body">
+          <h3>\${name}</h3>
+          <div>
+            <span class="fav-price">\${price.toLocaleString('ar-EG')} ج</span>
+            \${oldPrice ? \`<span class="fav-old">\${oldPrice.toLocaleString('ar-EG')} ج</span>\` : ''}
+          </div>
+          <div class="fav-card-actions">
+            <a href="\${f.url}">اشتري دلوقتي →</a>
+            <button class="fav-remove-btn" onclick="removeFav('\${f.id}')" title="إزالة">✕</button>
+          </div>
+        </div>
+      </div>\`;
+    }).join('');
+  }
+
+  // expose removeFav globally
+  window.removeFav = removeFav;
+  renderFavs();
+})();
+</script>
+
+<%- include('partials/footer') %>
