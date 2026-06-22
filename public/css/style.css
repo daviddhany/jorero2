@@ -1149,3 +1149,101 @@ body { overflow-x: hidden; }
   text-decoration:none; transition:.2s;
 }
 .favs-empty a:hover { background:#e53935; }
+
+
+/* ── FAV BUTTON FIX ── */
+/* The card needs position:relative for the absolute fav button */
+.demos-card.card {
+  position: relative !important;
+}
+
+/* fav-btn is positioned relative to .product-img-link (which already has position:relative) */
+.fav-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 7;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+  transition: transform .2s, color .2s, background .2s;
+  color: #ccc;
+  backdrop-filter: blur(4px);
+  line-height: 1;
+  padding: 0;
+}
+.fav-btn:hover {
+  transform: scale(1.18);
+  background: #fff;
+  color: #e53935;
+}
+.fav-btn.saved {
+  color: #e53935;
+  background: #fff;
+}
+
+/* The fav-btn is inside .card but outside .product-img-link
+   We need it positioned relative to the card, not the img-link.
+   Move the btn inside product-img-link via CSS override */
+.demos-card .product-img-link {
+  position: relative;
+}
+
+/* fav-link badge fix */
+.fav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.fav-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 999px;
+  min-width: 17px;
+  height: 17px;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 17px;
+  text-align: center;
+  display: none;
+}
+
+/* detail page fav btn */
+.fav-detail-btn {
+  width: 100%;
+  padding: 13px;
+  background: #fff;
+  color: #555;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: .2s;
+  font-family: inherit;
+}
+.fav-detail-btn:hover {
+  border-color: #e53935;
+  color: #e53935;
+  background: #fff0f0;
+}
+.fav-detail-btn.saved {
+  border-color: #e53935;
+  color: #e53935;
+  background: #fff0f0;
+}
