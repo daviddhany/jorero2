@@ -2469,3 +2469,66 @@ section.demos-hero .hero-slide.active,
 .demos-hero .hero-slide.active {
   opacity: 1 !important;
 }
+
+
+/* ============================================================
+   HERO SAFARI / iPHONE FIX
+   Safari ignores position:absolute children inside min-height-only parents
+   Solution: use padding-bottom trick instead of position:absolute for slides
+   ============================================================ */
+
+section.demos-hero,
+.demos-hero {
+  position: relative !important;
+  width: 100% !important;
+  height: 480px !important;        /* explicit height — Safari needs this */
+  min-height: unset !important;    /* remove min-height so height works */
+  overflow: hidden !important;
+  display: block !important;
+  background: #111 !important;
+}
+
+@media (max-width: 768px) {
+  section.demos-hero,
+  .demos-hero {
+    height: 360px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  section.demos-hero,
+  .demos-hero {
+    height: 300px !important;
+  }
+}
+
+/* Slides fill the explicit height container */
+section.demos-hero .hero-slide,
+.demos-hero .hero-slide {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  opacity: 0 !important;
+  transition: opacity .6s ease !important;
+  display: block !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+section.demos-hero .hero-slide.active,
+.demos-hero .hero-slide.active {
+  opacity: 1 !important;
+  z-index: 2 !important;
+}
+
+/* Overlay and arrows stay above slides */
+.hero-overlay {
+  z-index: 5 !important;
+  position: absolute !important;
+}
+.hero-arrow, .hero-dots {
+  z-index: 5 !important;
+}
