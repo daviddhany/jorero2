@@ -1965,10 +1965,6 @@ html, body,
 }
 
 
-/* ============================================================
-   HERO OVERFLOW FIX — remove side margins causing bleed
-   ============================================================ */
-
 /* The 6px side margin on .demos-hero was causing the hero images
    to overflow outside the screen bounds on mobile */
 .demos-hero {
@@ -1993,10 +1989,6 @@ html, body,
   width: 100% !important;
 }
 
-
-/* ============================================================
-   HERO OVERFLOW — DEFINITIVE FIX
-   ============================================================ */
 
 /* Isolate hero completely from page flow */
 .demos-hero {
@@ -2059,54 +2051,6 @@ html, body,
 }
 
 
-/* ============================================================
-   HERO CENTERING FIX
-   ============================================================ */
-.hero-overlay {
-  right: 50% !important;
-  left: 50% !important;
-  transform: translateX(50%) !important;
-  width: 90% !important;
-  max-width: 600px !important;
-  text-align: center !important;
-  bottom: 28px !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-}
-
-html[dir="rtl"] .hero-overlay {
-  transform: translateX(50%) !important;
-}
-html[dir="ltr"] .hero-overlay {
-  transform: translateX(-50%) !important;
-  right: auto !important;
-  left: 50% !important;
-}
-
-.hero-overlay h1 {
-  text-align: center !important;
-  width: 100% !important;
-}
-.hero-overlay p {
-  text-align: center !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-.hero-overlay .btn {
-  display: inline-block !important;
-  margin: 0 auto !important;
-}
-
-@media (max-width: 768px) {
-  .hero-overlay {
-    width: 92% !important;
-    bottom: 20px !important;
-  }
-  .hero-overlay h1 { font-size: 24px !important; margin-bottom: 8px !important; }
-  .hero-overlay p  { font-size: 13px !important; margin-bottom: 12px !important; }
-  .hero-overlay .btn { padding: 10px 28px !important; font-size: 14px !important; }
-}
-
 /* ── COMPATIBILITY FIXES ── */
 /* Safari: backdrop-filter */
 .header, .header.demos-header { -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
@@ -2127,10 +2071,6 @@ html[dir="ltr"] .hero-overlay {
 /* Firefox: min-height: auto fix */
 @supports not (min-height: auto) { .hero, [class*="hero"] { min-height: 0; } }
 
-
-/* ============================================================
-   FINAL FIXES — based on live screenshots
-   ============================================================ */
 
 /* 1. Hero banner overflow fix — clip everything */
 body {
@@ -2376,10 +2316,6 @@ section,
 }
 
 
-/* ============================================================
-   EMERGENCY FIXES — hero disappeared + header direction wrong
-   ============================================================ */
-
 /* 1. Undo the div { max-width: 100vw } that killed the hero */
 @media (max-width: 768px) {
   div, section, article, nav, aside, header, footer, form {
@@ -2430,10 +2366,6 @@ html, body {
 }
 
 
-/* ============================================================
-   HERO DEFINITIVE FIX
-   ============================================================ */
-
 /* Force hero container to have real height */
 section.demos-hero,
 .demos-hero {
@@ -2471,17 +2403,7 @@ section.demos-hero .hero-slide.active,
 }
 
 
-/* ============================================================
-   HERO SAFARI / iPHONE FIX
-   Safari ignores position:absolute children inside min-height-only parents
-   Solution: use padding-bottom trick instead of position:absolute for slides
-   ============================================================ */
-
-section.demos-hero,
-.demos-hero {
-  position: relative !important;
-  width: 100% !important;
-  height: 480px !important;        /* explicit height — Safari needs this */
+/* explicit height — Safari needs this */
   min-height: unset !important;    /* remove min-height so height works */
   overflow: hidden !important;
   display: block !important;
@@ -2532,3 +2454,76 @@ section.demos-hero .hero-slide.active,
 .hero-arrow, .hero-dots {
   z-index: 5 !important;
 }
+
+
+/* top:0 right:0 bottom:0 left:0 — works in both LTR and RTL */
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  object-fit: cover !important;
+}
+
+html[dir="rtl"] section.demos-hero,
+html[dir="rtl"] .demos-hero {
+  direction: ltr !important;  /* hero images are not text — direction shouldn't affect them */
+}
+
+/* Keep overlay text in RTL */
+html[dir="rtl"] .hero-overlay {
+  direction: rtl !important;
+}
+
+
+/* ============================================================
+   HERO — SINGLE CLEAN RULE (replaces all previous hero fixes)
+   ============================================================ */
+
+/* Container */
+section.demos-hero, .demos-hero {
+  position: relative !important;
+  width: 100% !important;
+  height: 480px !important;
+  min-height: unset !important;
+  overflow: hidden !important;
+  display: block !important;
+  background: #111 !important;
+  direction: ltr !important; /* prevent RTL from breaking absolute positioning */
+}
+@media (max-width: 768px) {
+  section.demos-hero, .demos-hero { height: 360px !important; }
+}
+@media (max-width: 480px) {
+  section.demos-hero, .demos-hero { height: 300px !important; }
+}
+
+/* All slides hidden */
+section.demos-hero img.hero-slide,
+.demos-hero img.hero-slide {
+  position: absolute !important;
+  top: 0 !important; left: 0 !important;
+  width: 100% !important; height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  opacity: 0 !important;
+  display: block !important;
+  transition: opacity .6s !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  margin: 0 !important; padding: 0 !important;
+}
+
+/* Active slide visible */
+section.demos-hero img.hero-slide.active,
+.demos-hero img.hero-slide.active {
+  opacity: 1 !important;
+  z-index: 2 !important;
+}
+
+/* Overlay & controls above slides */
+.hero-overlay  { position: absolute !important; z-index: 5 !important; direction: rtl !important; }
+.hero-arrow    { position: absolute !important; z-index: 5 !important; }
+.hero-dots     { position: absolute !important; z-index: 5 !important; }
