@@ -743,3 +743,61 @@ section.product-detail {
 section.product-detail.showroom-detail {
   margin-top: 8px !important;
 }
+
+/* ============================================================
+   FIX: Products page — always centered, no RTL/LTR shift
+   ============================================================ */
+
+/* Title and intro always centered regardless of language */
+.demos-intro,
+.demos-section-title,
+.category-page-title {
+  text-align: center !important;
+  direction: unset !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.demos-intro h1,
+.demos-section-title h2 {
+  text-align: center !important;
+  direction: unset !important;
+}
+
+/* Toolbar (filter button) — centered */
+.products-toolbar {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Shell always centered */
+.demos-product-shell {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Slider dots centered */
+.slider-dots {
+  justify-content: center !important;
+  direction: ltr !important;
+}
+
+/* Cards inside scroll — always center-anchored, no LTR/RTL push */
+.product-scroll.demos-grid {
+  direction: ltr !important;
+}
+.product-scroll .demos-card {
+  direction: rtl !important;
+}
+html[dir="ltr"] .product-scroll .demos-card {
+  direction: ltr !important;
+}
+
+/* Override the global ltr body text-align that was shifting content */
+html[dir="ltr"] .products-toolbar,
+html[dir="ltr"] .demos-intro,
+html[dir="ltr"] .demos-section-title,
+html[dir="ltr"] .category-page-title {
+  text-align: center !important;
+}
