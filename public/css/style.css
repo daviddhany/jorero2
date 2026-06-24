@@ -712,3 +712,34 @@ html[dir="ltr"] .hero-overlay { right: 16px !important; left: 16px !important; }
     margin-right: auto !important;
   }
 }
+
+/* Remove white space above product page content */
+.page-center-wrap {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.product-breadcrumb {
+  margin-top: 8px !important;
+}
+
+.product-detail.showroom-detail {
+  margin-top: 10px !important;
+}
+
+/* section base margin override for product page */
+section.product-detail {
+  margin-top: 0 !important;
+}
+
+/* Kill top white space on product page */
+.page-center-wrap {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+.product-breadcrumb {
+  margin-top: 8px !important;
+}
+section.product-detail.showroom-detail {
+  margin-top: 8px !important;
+}
