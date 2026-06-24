@@ -384,3 +384,53 @@ document.addEventListener('DOMContentLoaded', function(){
   applyFavState();
   updateFavBadge();
 });
+
+
+/* ============================================================
+   SEARCH POPUP — proper open/close logic
+   ============================================================ */
+(function(){
+  function initSearch(){
+    var btn = document.getElementById('searchToggleBtn');
+    var pop = document.querySelector('.header-search-pop');
+    if(!pop) return;
+
+    // Force hide via inline style — overrides ALL CSS including .search{display:flex}
+    pop.style.setProperty('display', 'none', 'important');
+    pop.classList.remove('open');
+    var isOpen = false;
+
+    function openSearch(){
+      isOpen = true;
+      pop.style.setProperty('display', 'flex', 'important');
+      pop.classList.add('open');
+      var inp = pop.querySelector('input');
+      if(inp) setTimeout(function(){ inp.focus(); }, 50);
+    }
+    function closeSearch(){
+      isOpen = false;
+      pop.style.setProperty('display', 'none', 'important');
+      pop.classList.remove('open');
+    }
+
+    if(btn){
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        if(isOpen){ closeSearch(); } else { openSearch(); }
+      });
+    }
+
+    document.addEventListener('click', function(e){
+      if(isOpen && !pop.contains(e.target) && e.target !== btn){ closeSearch(); }
+    });
+
+    window.addEventListener('scroll', function(){ if(isOpen) closeSearch(); }, { passive: true });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeSearch(); });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initSearch);
+  } else {
+    initSearch();
+  }
+})();

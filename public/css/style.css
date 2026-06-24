@@ -1766,3 +1766,144 @@ body { overflow-x: hidden; }
     right: -4px !important;
   }
 }
+
+
+/* ============================================================
+   SEARCH POPUP — zoom-proof positioning
+   ============================================================ */
+
+/* Remove old fixed positioning, make it absolute to header */
+.header.demos-header {
+  position: sticky !important;
+  top: 0 !important;
+}
+
+.header-search-pop {
+  display: none !important;
+  position: absolute !important;   /* relative to header, not viewport */
+  top: 100% !important;            /* always right below header */
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 500 !important;
+  background: #fff !important;
+  padding: 12px 16px !important;
+  border-top: 1px solid #eee !important;
+  border-bottom: 1px solid #eee !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.12) !important;
+  border-radius: 0 !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.header-search-pop.open {
+  display: flex !important;
+}
+
+.header-search-pop input {
+  flex: 1 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 12px !important;
+  padding: 11px 14px !important;
+  font-size: 15px !important;
+  font-family: inherit !important;
+  outline: none !important;
+}
+.header-search-pop input:focus {
+  border-color: #e53935 !important;
+}
+.header-search-pop button {
+  border-radius: 12px !important;
+  padding: 11px 18px !important;
+  white-space: nowrap !important;
+  font-size: 14px !important;
+}
+
+
+/* ============================================================
+   FIX: Zoom-out / horizontal overflow on mobile
+   ============================================================ */
+
+/* Nuclear option: nothing can overflow the screen width */
+html, body {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
+/* Fix: search bar — hide via class, inline style handles open/close via JS */
+.header-search-pop {
+  display: none !important;
+}
+/* When JS adds .open it sets inline style=flex which overrides this */
+
+/* Fix: product detail page overflow — choice-row pills can overflow on small screens */
+@media (max-width: 768px) {
+  .choice-row {
+    flex-wrap: wrap !important;
+  }
+  .color-choice-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+  .color-choice.has-image {
+    padding: 6px !important;
+  }
+  .color-choice img {
+    width: 100% !important;
+    height: 50px !important;
+    object-fit: cover !important;
+    border-radius: 6px !important;
+  }
+
+  /* Fix: buy-box and detail panel must not overflow */
+  .buy-box,
+  .detail-panel {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Fix: product page section padding */
+  .product-detail.showroom-detail {
+    padding: 0 10px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Fix: thumbnails row overflow */
+  .thumbs {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 4px !important;
+  }
+  .thumbs::-webkit-scrollbar { display: none !important; }
+  .thumbs img {
+    flex-shrink: 0 !important;
+  }
+
+  /* Fix: main image wrapper full width */
+  .main-img-wrap {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Fix: card in product scroll too wide */
+  .product-scroll.demos-grid {
+    box-sizing: border-box !important;
+    width: 100% !important;
+  }
+
+  /* Fix: any table/wide element */
+  table {
+    display: block !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
+  }
+
+  /* Fix: images never overflow */
+  img {
+    max-width: 100% !important;
+  }
+}
