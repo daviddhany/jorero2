@@ -139,7 +139,7 @@
           <div class="admin-photo-grid">
             <% product.colorImages.forEach(item => { %>
               <label class="admin-photo-item">
-                <img src="<%= item.image %>" alt="<%= item.color %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+                <img src="<%= item.image % alt="">" alt="<%= item.color %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
                 <b><%= item.color %> / <%= item.colorEn || item.color %></b>
                 <span><input type="checkbox" name="removeColorImages" value='<%- JSON.stringify({ color: item.color, image: item.image }) %>'> حذف اللون والصورة</span>
               </label>
@@ -155,7 +155,7 @@
           <div class="admin-photo-grid">
             <% product.images.forEach(img => { %>
               <label class="admin-photo-item">
-                <img src="<%= img %>" alt="صورة المنتج" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+                <img src="<%= img % alt="">" alt="صورة المنتج" onerror="this.onerror=null;this.src='/public/images/logo.png'">
                 <span><input type="checkbox" name="removeImages" value="<%= img %>"> حذف الصورة</span>
               </label>
             <% }) %>
@@ -171,7 +171,7 @@
         <label><input type="checkbox" name="active" <%= !product || product.active ? 'checked' : '' %>> ظاهر</label>
       </div>
 
-      <button class="btn big">حفظ المنتج</button>
+      <button type="submit" class="btn big">حفظ المنتج</button>
     </form>
   </main>
 </div>

@@ -29,11 +29,19 @@ async function dropOldSlugIndex() {
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: false,
+  xXssProtection: false,        // removes x-xss-protection (deprecated)
+  xFrameOptions: false,         // removes X-Frame-Options (use CSP instead)
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/public', (req, res, next) => {
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  next();
+}, express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev_secret',
   resave: false,
@@ -41,6 +49,13 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: uri }),
   cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }
 }));
+// Security headers on all responses
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  next();
+});
+
 app.locals.formatPrice = n => Number(n || 0).toLocaleString('ar-EG') + ' ج';
 app.use((req, res, next) => {
   res.locals.admin = req.session.admin;
