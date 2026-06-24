@@ -2,7 +2,7 @@
 <% const heroImages = (settings.heroImages && settings.heroImages.length ? settings.heroImages : [settings.heroImage || (products[0] && products[0].images && products[0].images[0]) || '/public/images/logo.png']).filter(Boolean); %>
 <% const catTr = {'رجالي':'Men','حريمي':'Women','نسائي':'Women','أطفالي':'Kids','اطفالي':'Kids','تيشيرتات':'T-shirts','قمصان':'Shirts','بناطيل':'Pants','جينز':'Jeans','أطقم':'Sets','اطقم':'Sets','جاكيت':'Jackets','سويت شيرت':'Sweatshirts','منتجات أخرى':'Other Products'}; const toCatEn = (v) => catTr[v] || v || 'Category'; %>
 
-<section class="demos-hero" data-carousel>
+<section class="demos-hero" data-carousel dir="ltr">
   <% heroImages.forEach((img, index) => { %>
     <img class="hero-slide <%= index === 0 ? 'active' : '' %>" alt="" src="<%= img %>" alt="Jorero hero" onerror="this.onerror=null;this.src='/public/images/logo.png'">
   <% }) %>

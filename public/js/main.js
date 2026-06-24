@@ -96,6 +96,9 @@ function applyLang(){
   const lang = currentLang();
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+  // Keep hero always LTR so absolute positioning works in Safari RTL
+  var hero = document.querySelector('.demos-hero');
+  if(hero){ hero.setAttribute('dir','ltr'); }
   document.body && document.body.classList.toggle('lang-en', lang === 'en');
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     const key = el.dataset.i18n;
