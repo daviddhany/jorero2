@@ -22,7 +22,7 @@
       <label>Category English
         <input name="categoryEn" required placeholder="Example: Shirts, Pants, Jackets">
       </label>
-      <button type="submit" class="btn big">+ إضافة فئة</button>
+      <button class="btn big">+ إضافة فئة</button>
     </form>
 
     <table>
@@ -39,7 +39,7 @@
             <td>
               <form class="inline" method="post" action="/marly-dashboard/categories?_method=DELETE" onsubmit="return confirm('لو مسحت الفئة، أي منتج فيها هيتحول إلى منتجات أخرى. متأكد؟')">
                 <input type="hidden" name="category" value="<%= c %>">
-                <button type="submit" class="danger">حذف</button>
+                <button class="danger">حذف</button>
               </form>
             </td>
           </tr>

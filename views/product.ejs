@@ -37,7 +37,7 @@
   <!-- ── GALLERY ── -->
   <div class="product-gallery" data-images='<%- JSON.stringify(imgs) %>'>
     <div class="main-img-wrap">
-      <img id="mainImg" class="main-img" src="<%= imgs[0] % alt="">" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+      <img id="mainImg" class="main-img" src="<%= imgs[0] %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
       <% if (discountPct > 0) { %><div class="ribbon">-<%= discountPct %>%</div><% } %>
       <% if (product.newArrival) { %><div style="position:absolute;top:<%= discountPct>0?'54px':'14px' %>;right:14px;z-index:3;background:#1a6b35;color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:900;" data-i18n="new">جديد</div><% } %>
       <div class="image-stage">
@@ -47,7 +47,7 @@
     </div>
     <div class="thumbs" id="productThumbs">
       <% imgs.forEach((img, index) => { %>
-        <img class="<%= index === 0 ? 'active' : '' % alt="">" data-img="<%= img %>" onclick="setProductPhoto(<%= index %>)" src="<%= img %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+        <img class="<%= index === 0 ? 'active' : '' %>" data-img="<%= img %>" onclick="setProductPhoto(<%= index %>)" src="<%= img %>" alt="<%= product.name %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
       <% }) %>
     </div>
   </div>
@@ -111,7 +111,7 @@
             <% colorOptions.forEach((item, index) => { %>
               <label class="choice-pill color-choice <%= item.image ? 'has-image' : '' %>">
                 <input type="radio" name="color" value="<%= item.color %>" data-color-en="<%= item.colorEn || item.color %>" data-image="<%= item.image || '' %>" <%= index === 0 ? 'required' : '' %>>
-                <% if (item.image) { %><img src="<%= item.image % alt="">" alt="<%= item.color %>" onerror="this.onerror=null;this.src='/public/images/logo.png'"><% } %>
+                <% if (item.image) { %><img src="<%= item.image %>" alt="<%= item.color %>" onerror="this.onerror=null;this.src='/public/images/logo.png'"><% } %>
                 <span data-ar="<%= item.color %>" data-en="<%= item.colorEn || item.color %>"><%= item.color %></span>
               </label>
             <% }) %>
@@ -130,11 +130,11 @@
         </div>
       </div>
 
-      <button type="submit" class="btn big" data-i18n="addToCart">🛒 إضافة للسلة</button>
+      <button class="btn big" data-i18n="addToCart">🛒 إضافة للسلة</button>
     </form>
 
     <!-- Favorite button -->
-    <button type="submit" class="fav-detail-btn" id="detailFavBtn"
+    <button class="fav-detail-btn" id="detailFavBtn"
       data-fav-id="<%= product._id %>"
       data-fav-name="<%= (product.name || '').replace(/"/g, '&quot;') %>"
       data-fav-name-en="<%= (product.nameEn || product.name || '').replace(/"/g, '&quot;') %>"

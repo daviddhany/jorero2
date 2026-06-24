@@ -43,11 +43,6 @@ app.use(session({
 }));
 app.locals.formatPrice = n => Number(n || 0).toLocaleString('ar-EG') + ' ج';
 app.use((req, res, next) => {
-  // Security headers
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Content-Type', res.getHeader('Content-Type') || 'text/html; charset=utf-8');
-  // Remove X-Frame-Options (replaced by CSP frame-ancestors)
-  res.removeHeader('X-Frame-Options');
   res.locals.admin = req.session.admin;
   res.locals.cartCount = Array.isArray(req.session.cart) ? req.session.cart.length : 0;
   next();

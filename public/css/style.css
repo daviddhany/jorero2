@@ -2106,37 +2106,3 @@ html[dir="ltr"] .hero-overlay {
   .hero-overlay p  { font-size: 13px !important; margin-bottom: 12px !important; }
   .hero-overlay .btn { padding: 10px 28px !important; font-size: 14px !important; }
 }
-
-
-/* ============================================================
-   COMPATIBILITY FIXES
-   ============================================================ */
-
-/* backdrop-filter: add -webkit- prefix for Safari */
-.header { -webkit-backdrop-filter: blur(14px); }
-.fav-btn { -webkit-backdrop-filter: blur(4px); }
-.hero-overlay { -webkit-backdrop-filter: blur(2px); }
-
-/* user-select: add -webkit- prefix for Safari 3+ */
-.choice-pill,
-[class*="pill"] {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* scrollbar-gutter: not supported in Safari — safe to leave, just suppress warning
-   Add a fallback using padding to compensate on Safari */
-@supports not (scrollbar-gutter: stable) {
-  html { padding-right: 0; }
-  body { overflow-y: scroll; } /* forces scrollbar always visible on Safari */
-}
-
-/* scrollbar-width: Safari fallback — hide with ::-webkit-scrollbar */
-.product-scroll.demos-grid::-webkit-scrollbar,
-.thumbs::-webkit-scrollbar { display: none; }
-
-/* min-height: auto fix for Firefox 22+ — use min-height: 0 instead */
-.hero { min-height: 0; }
-@supports (min-height: auto) {
-  .hero { min-height: auto; }
-}
