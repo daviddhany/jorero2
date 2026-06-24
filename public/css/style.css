@@ -1458,3 +1458,162 @@ body { overflow-x: hidden; }
   }
   .fav-link, .cart-link, .search-toggle { display: flex !important; align-items: center !important; justify-content: center !important; }
 }
+
+
+/* ============================================================
+   MOBILE VISUAL FIXES — based on screenshot review
+   ============================================================ */
+
+/* 1. Search bar: hidden by default, only shown when toggled */
+.header-search-pop {
+  display: none !important;
+}
+.header-search-pop.open {
+  display: flex !important;
+  position: fixed !important;
+  top: 58px !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 200 !important;
+  background: #fff !important;
+  padding: 14px !important;
+  border-radius: 0 0 18px 18px !important;
+  border: none !important;
+  border-bottom: 1px solid #eee !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.12) !important;
+  gap: 8px !important;
+}
+.header-search-pop input {
+  flex: 1;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 12px !important;
+  padding: 11px 14px !important;
+  font-size: 15px !important;
+  font-family: inherit !important;
+}
+.header-search-pop button {
+  border-radius: 12px !important;
+  padding: 11px 18px !important;
+  white-space: nowrap;
+}
+
+/* 2. AR/EN pill — smaller and proper */
+@media (max-width: 768px) {
+  .header-lang-inline {
+    font-size: 12px !important;
+    padding: 4px 9px !important;
+    border-radius: 20px !important;
+    gap: 3px !important;
+  }
+  .header-lang-inline a { font-size: 12px !important; }
+
+  /* 3. Header — tighter, cleaner */
+  .header.demos-header {
+    grid-template-columns: auto 1fr auto !important;
+    padding: 0 12px !important;
+    min-height: 52px !important;
+    gap: 6px !important;
+  }
+  .demos-brand {
+    justify-self: center !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  .demos-brand img { width: 34px !important; height: 34px !important; border-radius: 6px !important; }
+  .demos-brand b { font-size: 17px !important; letter-spacing: 0 !important; }
+
+  /* header-icons: keep icons visible and tight */
+  .header-icons {
+    gap: 8px !important;
+    font-size: 18px !important;
+  }
+  .header-icons > * { font-size: 18px !important; }
+
+  /* mobile menu btn */
+  .mobile-menu-btn {
+    width: 36px !important; height: 36px !important;
+    border-radius: 8px !important;
+    font-size: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* 4. Hero banner — remove left/right margins, taller */
+  .demos-hero {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    min-height: 320px !important;
+  }
+
+  /* 5. Hero overlay — keep text away from edges */
+  .hero-overlay {
+    right: 18px !important;
+    left: 18px !important;
+    bottom: 28px !important;
+    text-align: center !important;
+  }
+  .hero-overlay h1 {
+    font-size: 26px !important;
+    margin-bottom: 8px !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,.4) !important;
+  }
+  .hero-overlay p {
+    font-size: 13px !important;
+    margin-bottom: 12px !important;
+    text-shadow: 0 1px 6px rgba(0,0,0,.35) !important;
+  }
+  .hero-overlay .btn {
+    padding: 10px 28px !important;
+    font-size: 14px !important;
+    border-radius: 10px !important;
+  }
+
+  /* hero arrows */
+  .hero-arrow {
+    width: 36px !important; height: 36px !important;
+    font-size: 22px !important;
+  }
+
+  /* 6. Product slider on home — 1.5 cards visible */
+  .demos-product-shell {
+    margin: 8px 0 28px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .product-scroll.demos-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    padding: 0 14px 8px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .product-scroll.demos-grid::-webkit-scrollbar { display: none !important; }
+  .product-scroll.demos-grid .card {
+    flex: 0 0 46% !important;
+    scroll-snap-align: start !important;
+    min-width: 0 !important;
+  }
+  .product-scroll.demos-grid .card img { height: 200px !important; }
+
+  /* product arrows */
+  .product-arrow {
+    width: 32px !important; height: 32px !important;
+    font-size: 22px !important;
+  }
+
+  /* 7. Section intro text */
+  .demos-intro { padding: 0 16px !important; margin: 22px auto 10px !important; }
+  .demos-intro h1 { font-size: 22px !important; line-height: 1.35 !important; }
+  .demos-intro p { font-size: 13px !important; }
+
+  /* 8. whatsapp tooltip hidden on mobile */
+  .whatsapp::before { display: none !important; }
+}
