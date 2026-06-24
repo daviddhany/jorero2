@@ -33,7 +33,37 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-app.use('/public', express.static(path.join(__dirname, 'public')));
+
+// Security + compatibility headers on ALL responses
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.removeHeader('X-Frame-Options');
+  next();
+});
+
+// Static files with cache-control + correct content-type charset
+app.use('/public', (req, res, next) => {
+  res.setHeader('Cache-Control', 'public, max-age=31536000');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  next();
+}, express.static(path.join(__dirname, 'public')));
+
+// Force charset=utf-8 on all HTML/JSON responses
+app.use((req, res, next) => {
+  const send = res.send.bind(res);
+  res.send = function(body) {
+    const ct = res.getHeader('Content-Type') || '';
+    if (!ct) {
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    } else if (ct.includes('text/html') && !ct.includes('charset')) {
+      res.setHeader('Content-Type', ct + '; charset=utf-8');
+    } else if (ct.includes('application/json') && !ct.includes('charset')) {
+      res.setHeader('Content-Type', ct + '; charset=utf-8');
+    }
+    return send(body);
+  };
+  next();
+});
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dev_secret',
   resave: false,
@@ -43,11 +73,6 @@ app.use(session({
 }));
 app.locals.formatPrice = n => Number(n || 0).toLocaleString('ar-EG') + ' ج';
 app.use((req, res, next) => {
-  // Security headers
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Content-Type', res.getHeader('Content-Type') || 'text/html; charset=utf-8');
-  // Remove X-Frame-Options (replaced by CSP frame-ancestors)
-  res.removeHeader('X-Frame-Options');
   res.locals.admin = req.session.admin;
   res.locals.cartCount = Array.isArray(req.session.cart) ? req.session.cart.length : 0;
   next();
