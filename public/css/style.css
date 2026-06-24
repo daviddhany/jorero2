@@ -524,90 +524,256 @@ html[dir="ltr"] .hero-overlay {
 .hero-dots  { position: absolute !important; z-index: 5 !important; }
 
 
+
 /* ============================================================
-   FIXES — arrows, product page, category tiles
+   ALL FIXES — single source of truth, no duplicates
    ============================================================ */
 
-/* Fix 1: Hero arrows position */
+/* 1. Hero arrows */
 .hero-prev { right: 14px !important; left: auto !important; }
 .hero-next { left: 14px !important; right: auto !important; }
+.hero-arrow { position: absolute !important; z-index: 5 !important; }
+.hero-dots  { position: absolute !important; z-index: 5 !important; }
 
-/* Fix 2: Product page — image not overflowing right */
-.product-detail.showroom-detail {
-  overflow: hidden !important;
+/* 2. Category tiles */
+.cat-tile { overflow: hidden !important; position: relative !important; }
+.cat-tile img { position: absolute !important; bottom: 0 !important; max-height: 60% !important; max-width: 55% !important; object-fit: contain !important; z-index: 1 !important; pointer-events: none !important; }
+html[dir="rtl"] .cat-tile img { left: 0 !important; right: auto !important; }
+html[dir="ltr"] .cat-tile img { right: 0 !important; left: auto !important; }
+.cat-tile h3, .cat-tile span, .cat-tile b { position: relative !important; z-index: 2 !important; }
+html[dir="rtl"] .cat-tile { padding-left: 45% !important; padding-right: 20px !important; text-align: right !important; }
+html[dir="ltr"] .cat-tile { padding-right: 45% !important; padding-left: 20px !important; text-align: left !important; }
+@media (max-width: 768px) {
+  .cat-tile { min-height: 200px !important; max-height: 200px !important; padding: 18px 18px 90px !important; text-align: center !important; }
+  html[dir="rtl"] .cat-tile, html[dir="ltr"] .cat-tile { padding: 18px 18px 90px !important; text-align: center !important; }
+  .cat-tile img { left: 50% !important; right: auto !important; transform: translateX(-50%) !important; max-height: 50% !important; max-width: 70% !important; }
 }
+
+/* 3. Seal horizontal overflow at root */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* 4. Red focus ring on cards — iOS Safari snap highlight */
+* { -webkit-tap-highlight-color: transparent; }
+.demos-card, .demos-card *, .card, .card a, .product-img-link {
+  outline: none !important;
+}
+.demos-card:focus-within, .product-img-link:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 5. Product page — page-center-wrap is neutral, no visual effect */
+.page-center-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* 6. Product layout — centered, full width, no overflow clip */
+.product-breadcrumb {
+  max-width: 1120px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+}
+
+.product-detail.showroom-detail {
+  max-width: 1120px !important;
+  width: 100% !important;
+  margin: 20px auto 60px !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: 1.1fr 0.9fr !important;
+  gap: 40px !important;
+  align-items: start !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
 .product-gallery {
   width: 100% !important;
   min-width: 0 !important;
-  overflow: hidden !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
 }
+
 .main-img-wrap {
   width: 100% !important;
   max-width: 100% !important;
+  box-sizing: border-box !important;
   overflow: hidden !important;
+  border-radius: 18px !important;
+  aspect-ratio: 1/1.05;
 }
+
 #mainImg.main-img {
   width: 100% !important;
   max-width: 100% !important;
+  display: block !important;
 }
 
-/* Fix 3: Category tiles — prevent image overflow, keep text readable */
-.cat-tile {
+.detail-panel { min-width: 0 !important; box-sizing: border-box !important; }
+
+/* 7. Mobile product page */
+@media (max-width: 900px) {
+  .product-detail.showroom-detail {
+    grid-template-columns: 1fr !important;
+    margin: 12px auto 50px !important;
+    padding: 0 12px !important;
+    gap: 16px !important;
+  }
+  .product-breadcrumb { padding: 0 12px !important; margin-top: 10px !important; }
+  .main-img-wrap { aspect-ratio: 1/1 !important; }
+}
+
+/* ============================================================
+   FIX: demos-card width overflow (663px bug)
+   Root cause: flex-basis calculated from shell width, not viewport
+   Solution: cap max-width + fix per breakpoint
+   ============================================================ */
+
+/* Desktop slider: each card = 1/3 of container, never wider than viewport */
+.product-scroll .demos-card {
+  flex: 0 0 calc((100% - 48px) / 3) !important;
+  max-width: calc((100% - 48px) / 3) !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Tablet / large mobile */
+@media (max-width: 900px) {
+  .product-scroll .demos-card {
+    flex: 0 0 72% !important;
+    max-width: 72% !important;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 520px) {
+  .product-scroll .demos-card {
+    flex: 0 0 80% !important;
+    max-width: 80% !important;
+  }
+}
+
+/* Extra small */
+@media (max-width: 390px) {
+  .product-scroll .demos-card {
+    flex: 0 0 88% !important;
+    max-width: 88% !important;
+  }
+}
+
+/* Ensure the shell itself never bleeds */
+.demos-product-shell {
+  max-width: 100% !important;
   overflow: hidden !important;
-  position: relative !important;
-}
-.cat-tile img {
-  position: absolute !important;
-  bottom: 0 !important;
-  max-height: 60% !important;
-  max-width: 55% !important;
-  object-fit: contain !important;
-  z-index: 1 !important;
-  pointer-events: none !important;
-}
-html[dir="rtl"] .cat-tile img {
-  left: 0 !important;
-  right: auto !important;
-}
-html[dir="ltr"] .cat-tile img {
-  right: 0 !important;
-  left: auto !important;
-}
-.cat-tile h3,
-.cat-tile span,
-.cat-tile b {
-  position: relative !important;
-  z-index: 2 !important;
-}
-html[dir="rtl"] .cat-tile {
-  padding-left: 45% !important;
-  padding-right: 20px !important;
-  text-align: right !important;
-}
-html[dir="ltr"] .cat-tile {
-  padding-right: 45% !important;
-  padding-left: 20px !important;
-  text-align: left !important;
+  box-sizing: border-box !important;
 }
 
-/* Mobile: tiles stack vertically with image at bottom */
-@media (max-width: 768px) {
-  .cat-tile {
-    min-height: 200px !important;
-    max-height: 200px !important;
-    padding: 18px 18px 90px !important;
-    text-align: center !important;
+/* product-scroll must not exceed viewport */
+.product-scroll.demos-grid {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ============================================================
+   FIX: Bare <div> overflow (brand div, test-grid div, etc.)
+   ============================================================ */
+
+/* Header: replace fixed 220px columns with flexible sizing */
+.header.demos-header {
+  grid-template-columns: auto 1fr auto !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Brand div: constrain, never overflow its column */
+.demos-brand,
+.brand {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.demos-brand b,
+.brand b {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}
+
+/* Testimonials: add mobile padding so grid cells don't overflow */
+.testimonials {
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+}
+
+.test-grid {
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.test-grid div {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  word-break: break-word !important;
+}
+
+/* Any bare <div> inside a grid/flex should never overflow */
+* {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   FIX: hero-overlay overflow on mobile
+   ============================================================ */
+.hero-overlay {
+  max-width: min(600px, calc(100vw - 32px)) !important;
+  box-sizing: border-box !important;
+  right: 16px !important;
+  left: 16px !important;
+  width: auto !important;
+}
+
+html[dir="ltr"] .hero-overlay {
+  right: 16px !important;
+  left: 16px !important;
+}
+
+.hero-overlay h1 {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+.hero-overlay p {
+  max-width: 100% !important;
+  word-break: break-word !important;
+}
+
+@media (max-width: 520px) {
+  .hero-overlay {
+    right: 12px !important;
+    left: 12px !important;
+    bottom: 40px !important;
+    max-width: calc(100vw - 24px) !important;
   }
-  html[dir="rtl"] .cat-tile,
-  html[dir="ltr"] .cat-tile {
-    padding: 18px 18px 90px !important;
-    text-align: center !important;
-  }
-  .cat-tile img {
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    max-height: 50% !important;
-    max-width: 70% !important;
+  .hero-overlay h1 {
+    font-size: 26px !important;
   }
 }
