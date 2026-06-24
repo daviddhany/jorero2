@@ -333,7 +333,7 @@ router.post('/settings', auth, requireRole('manager', 'admin'), upload.array('he
 
   const newHeroImages = await saveFiles(req.files || [], 'hero');
   heroImages = [...heroImages, ...newHeroImages];
-  if (!heroImages.length) heroImages = ['/public/uploads/polo-set-900.jpg'];
+  if (!heroImages.length) heroImages = ['/public/images/logo.png'];
 
   const payload = {
     heroEyebrow: body.heroEyebrow || '',
