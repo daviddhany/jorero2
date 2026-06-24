@@ -1963,3 +1963,32 @@ html, body,
     text-overflow: ellipsis !important;
   }
 }
+
+
+/* ============================================================
+   HERO OVERFLOW FIX — remove side margins causing bleed
+   ============================================================ */
+
+/* The 6px side margin on .demos-hero was causing the hero images
+   to overflow outside the screen bounds on mobile */
+.demos-hero {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Make sure hero slides fill exactly the hero container */
+.demos-hero .hero-slide {
+  width: 100% !important;
+  max-width: 100% !important;
+  object-fit: cover !important;
+}
+
+/* The gradient overlay must also stay inside */
+.demos-hero::after {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+}
