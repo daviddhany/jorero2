@@ -638,3 +638,114 @@ html, body {
     aspect-ratio: 1/1 !important;
   }
 }
+
+/* ============================================================
+   FIX 1: Remove red focus ring on cards (iOS Safari snap ring)
+   ============================================================ */
+.demos-card,
+.demos-card *,
+.product-img-link,
+.card,
+.card * {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+.demos-card:focus,
+.demos-card a:focus,
+.product-img-link:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ============================================================
+   FIX 2: Product page — full width, no left gap, centered
+   ============================================================ */
+
+/* Root seal */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Neutral wrapper — no overflow clip, no visual effect */
+.page-center-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Breadcrumb */
+.product-breadcrumb {
+  max-width: 1120px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+}
+
+/* Product layout — centered, no overflow clip */
+.product-detail.showroom-detail {
+  max-width: 1120px !important;
+  width: 100% !important;
+  margin: 20px auto 60px !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: 1.1fr 0.9fr !important;
+  gap: 40px !important;
+  align-items: start !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+/* Gallery column */
+.product-gallery {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+/* Image wrapper — only clip the image zoom effect */
+.main-img-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border-radius: 18px !important;
+}
+
+#mainImg.main-img {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+}
+
+/* Detail panel */
+.detail-panel {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .product-detail.showroom-detail {
+    grid-template-columns: 1fr !important;
+    margin: 12px auto 50px !important;
+    padding: 0 12px !important;
+    gap: 16px !important;
+  }
+  .product-breadcrumb {
+    padding: 0 12px !important;
+    margin-top: 10px !important;
+  }
+  .main-img-wrap {
+    aspect-ratio: 1/1 !important;
+  }
+}
