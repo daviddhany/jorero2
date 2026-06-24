@@ -29,6 +29,16 @@ async function dropOldSlugIndex() {
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.engine('ejs', require('ejs').renderFile);
+// Ensure HTML responses include charset
+app.use((req, res, next) => {
+  const origRender = res.render.bind(res);
+  res.render = function(view, options, callback) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return origRender(view, options, callback);
+  };
+  next();
+});
 app.use(helmet({
   contentSecurityPolicy: false,
   xXssProtection: false,        // removes x-xss-protection (deprecated)
@@ -52,7 +62,6 @@ app.use(session({
 // Security headers on all responses
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
   next();
 });
 

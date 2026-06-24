@@ -6,7 +6,7 @@
   <% if (p.newArrival) { %><div class="new-badge" data-i18n="new">جديد</div><% } %>
 
   <a href="/product/<%= p._id %>" class="product-img-link">
-    <img src="<%= (p.images && p.images[0]) || '/public/images/logo.png' % alt="">" alt="<%= pNameAr %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+    <img src="<%= (p.images && p.images[0]) || '/public/images/logo.png' %>" alt="" alt="<%= pNameAr %>" onerror="this.onerror=null;this.src='/public/images/logo.png'">
     <!-- Favorite button INSIDE img-link for correct positioning -->
     <button type="submit"
       class="fav-btn"

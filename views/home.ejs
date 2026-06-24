@@ -4,7 +4,7 @@
 
 <section class="demos-hero" data-carousel>
   <% heroImages.forEach((img, index) => { %>
-    <img class="hero-slide <%= index === 0 ? 'active' : '' % alt="">" src="<%= img %>" alt="Jorero hero" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+    <img class="hero-slide <%= index === 0 ? 'active' : '' %>" alt="" src="<%= img %>" alt="Jorero hero" onerror="this.onerror=null;this.src='/public/images/logo.png'">
   <% }) %>
   <div class="hero-overlay">
     <h1 data-ar="<%= settings.heroTitle || 'JORERO SUMMER' %>" data-en="<%= settings.heroTitleEn || 'JORERO SUMMER' %>"><%= settings.heroTitle || 'JORERO SUMMER' %></h1>
@@ -38,7 +38,7 @@
     <% visibleCategories.forEach((catName, index) => { const catEn = visibleCategoriesEn[index] || toCatEn(catName); const catProduct = products.find(p => p.category === catName) || products[index] || products[0]; const catImg = (catProduct && catProduct.images && catProduct.images[0]) || '/public/images/logo.png'; %>
       <% if (index === 1) { %><div class="cat-stack"><% } %>
       <a class="cat-tile <%= (index === 0 || index === 3) ? 'tall' : '' %>" href="/products?category=<%= encodeURIComponent(catName) %>">
-        <h3 data-ar="<%= catName %>" data-en="<%= catEn %>"><%= catName %></h3><span data-ar="تشكيلة مختارة من <%= catName %>" data-en="Selected collection from <%= catEn %>">تشكيلة مختارة من <%= catName %></span><b data-i18n="shopMore">تسوق المزيد</b><img src="<%= catImg % alt="">" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+        <h3 data-ar="<%= catName %>" data-en="<%= catEn %>"><%= catName %></h3><span data-ar="تشكيلة مختارة من <%= catName %>" data-en="Selected collection from <%= catEn %>">تشكيلة مختارة من <%= catName %></span><b data-i18n="shopMore">تسوق المزيد</b><img src="<%= catImg %>" alt="" onerror="this.onerror=null;this.src='/public/images/logo.png'">
       </a>
       <% if (index === 2) { %></div><% } %>
     <% }) %>

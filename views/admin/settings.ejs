@@ -78,7 +78,7 @@
           <div class="admin-photo-grid">
             <% heroImages.forEach(img => { %>
               <label class="admin-photo-item">
-                <img src="<%= img % alt="">" alt="صورة الهيرو" onerror="this.onerror=null;this.src='/public/images/logo.png'">
+                <img src="<%= img %>" alt="" alt="صورة الهيرو" onerror="this.onerror=null;this.src='/public/images/logo.png'">
                 <span><input type="checkbox" name="removeHeroImages" value="<%= img %>"> حذف الصورة</span>
               </label>
             <% }) %>
