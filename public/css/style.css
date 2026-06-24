@@ -1617,3 +1617,152 @@ body { overflow-x: hidden; }
   /* 8. whatsapp tooltip hidden on mobile */
   .whatsapp::before { display: none !important; }
 }
+
+
+/* ============================================================
+   FIXES FROM SCREENSHOT #2
+   ============================================================ */
+
+/* ── FIX 1: Search bar closed by default, already handled — reinforce ── */
+.header-search-pop { display: none !important; }
+.header-search-pop.open { display: flex !important; }
+
+/* ── FIX 2: Category mosaic on mobile — full width, proper grid ── */
+@media (max-width: 768px) {
+
+  .demos-categories {
+    margin: 30px auto !important;
+    padding: 0 12px !important;
+  }
+  .demos-categories h2 {
+    font-size: 22px !important;
+    margin-bottom: 6px !important;
+  }
+  .demos-categories p {
+    font-size: 13px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* The mosaic: 2 columns, equal, no tall tiles */
+  .category-mosaic {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+    margin-top: 16px !important;
+  }
+
+  /* cat-stack becomes transparent — items just flow in the grid */
+  .cat-stack {
+    display: contents !important;
+  }
+
+  /* All tiles same height, image fills bottom half */
+  .cat-tile,
+  .cat-tile.tall {
+    min-height: 220px !important;
+    max-height: 220px !important;
+    border-radius: 16px !important;
+    padding: 16px 14px 110px !important;
+    text-align: right !important;
+    overflow: hidden !important;
+  }
+
+  html[dir="ltr"] .cat-tile,
+  html[dir="ltr"] .cat-tile.tall {
+    padding: 16px 14px 110px !important;
+    text-align: left !important;
+  }
+
+  .cat-tile h3 {
+    font-size: 18px !important;
+    margin-bottom: 4px !important;
+  }
+  .cat-tile span {
+    font-size: 12px !important;
+    max-width: 100% !important;
+    color: #666 !important;
+  }
+  .cat-tile b {
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+    margin-top: 8px !important;
+  }
+  .cat-tile img {
+    max-width: 90% !important;
+    max-height: 55% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: 0 !important;
+    transform: translateX(-50%) !important;
+    object-fit: contain !important;
+  }
+
+  /* Product section rows on home */
+  .demos-product-shell {
+    margin: 6px 0 22px !important;
+    padding: 0 !important;
+  }
+  .product-scroll.demos-grid {
+    gap: 10px !important;
+    padding: 0 12px 6px !important;
+  }
+  .product-scroll.demos-grid .card {
+    flex: 0 0 44% !important;
+  }
+  .product-scroll.demos-grid .card img {
+    height: 190px !important;
+  }
+  .demos-section-title {
+    padding: 0 14px !important;
+    margin: 20px auto 6px !important;
+  }
+  .demos-section-title h2 {
+    font-size: 20px !important;
+    margin-bottom: 4px !important;
+  }
+  .demos-section-title p {
+    font-size: 13px !important;
+  }
+}
+
+/* ── FIX 3: Fav badge — force it to show correctly ── */
+.fav-link {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#headerFavBadge {
+  position: absolute !important;
+  top: -8px !important;
+  right: -8px !important;
+  background: #e53935 !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  line-height: 18px !important;
+  text-align: center !important;
+  padding: 0 4px !important;
+  display: none !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+}
+#headerFavBadge.visible {
+  display: block !important;
+}
+
+/* Stop the fav-link flex from clipping the badge */
+@media (max-width: 768px) {
+  .fav-link {
+    overflow: visible !important;
+    padding: 6px !important;
+  }
+  #headerFavBadge {
+    top: -4px !important;
+    right: -4px !important;
+  }
+}

@@ -319,8 +319,12 @@ function updateFavBadge(){
   var count = getFavs().length;
   var badge = document.getElementById('headerFavBadge');
   if(badge){
-    badge.textContent = count > 0 ? count : '';
-    badge.style.display = count > 0 ? 'block' : 'none';
+    badge.textContent = count > 0 ? String(count) : '';
+    if(count > 0){
+      badge.classList.add('visible');
+    } else {
+      badge.classList.remove('visible');
+    }
   }
 }
 
