@@ -1907,3 +1907,59 @@ html, body {
     max-width: 100% !important;
   }
 }
+
+
+/* ============================================================
+   OVERFLOW NUCLEAR FIX - prevent zoom-out from any wide element
+   ============================================================ */
+
+/* Force everything inside body to stay within bounds */
+* {
+  max-width: 100%;
+}
+
+/* Exceptions for things that need to break out */
+html, body,
+.header.demos-header,
+.demos-hero,
+.footer.demos-footer,
+.header-search-pop,
+.filter,
+.whatsapp {
+  max-width: none;
+}
+
+/* The old .header had padding:13% 5% which on desktop is fine but... */
+/* Ensure hero never overflows */
+.demos-hero {
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow: hidden !important;
+}
+
+/* Ensure all sections inside body are constrained */
+@media (max-width: 768px) {
+  section {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Product scroll container */
+  .demos-product-shell {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* The scroll track itself can scroll, but not overflow the shell */
+  .product-scroll.demos-grid {
+    max-width: 100% !important;
+  }
+
+  /* Redbar (top announcement bar) */
+  .demos-redbar {
+    max-width: 100vw !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+}

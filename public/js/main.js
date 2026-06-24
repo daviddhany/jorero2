@@ -434,3 +434,46 @@ document.addEventListener('DOMContentLoaded', function(){
     initSearch();
   }
 })();
+
+/* ============================================================
+   ZOOM SNAP-BACK — resets to scale=1 after user zooms in then out
+   ============================================================ */
+(function(){
+  if(!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) return;
+
+  var lastScale = 1;
+  var resetTimer = null;
+
+  function resetZoom(){
+    // Change viewport meta temporarily to force reset
+    var meta = document.querySelector('meta[name="viewport"]');
+    if(!meta) return;
+    var orig = meta.content;
+    // If page is zoomed out (scale < 1), snap back
+    if(window.visualViewport && window.visualViewport.scale < 0.99){
+      meta.content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1';
+      setTimeout(function(){
+        meta.content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5,viewport-fit=cover';
+      }, 300);
+    }
+  }
+
+  // Listen to visualViewport scale changes
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', function(){
+      clearTimeout(resetTimer);
+      var scale = window.visualViewport.scale;
+      // If user zoomed out below 1, snap back after 400ms idle
+      if(scale < 0.99){
+        resetTimer = setTimeout(resetZoom, 400);
+      }
+      lastScale = scale;
+    });
+  }
+
+  // Also reset on orientation change
+  window.addEventListener('orientationchange', function(){
+    setTimeout(resetZoom, 300);
+  });
+})();
+
