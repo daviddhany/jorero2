@@ -12,8 +12,8 @@
     <a class="btn big" href="/products" data-i18n="shopNow">تسوق الآن</a>
   </div>
   <% if (heroImages.length > 1) { %>
-    <button class="hero-arrow hero-prev" type="button" data-carousel-prev>‹</button>
-    <button class="hero-arrow hero-next" type="button" data-carousel-next>›</button>
+    <button class="hero-arrow hero-next" type="button" data-carousel-next>‹</button>
+    <button class="hero-arrow hero-prev" type="button" data-carousel-prev>›</button>
     <div class="hero-dots"><% heroImages.forEach((img, index) => { %><span class="<%= index === 0 ? 'active' : '' %>" data-carousel-dot="<%= index %>"></span><% }) %></div>
   <% } %>
 </section>

@@ -150,30 +150,54 @@ function toggleFilter(){
 })();
 
 
-// Hero carousel: arrows + dots + auto move
+// Hero carousel — inline style override to beat any CSS opacity:0
 (function(){
-  const carousel = document.querySelector('[data-carousel]');
-  if (!carousel) return;
-  const slides = Array.from(carousel.querySelectorAll('.hero-slide'));
-  const dots = Array.from(carousel.querySelectorAll('.hero-dots span'));
-  if (slides.length <= 1) return;
-  let current = 0;
-  let timer;
+  var carousel = document.querySelector('[data-carousel]');
+  if(!carousel) return;
+  var slides = Array.from(carousel.querySelectorAll('.hero-slide'));
+  var dots   = Array.from(carousel.querySelectorAll('.hero-dots span'));
+  if(!slides.length) return;
+
+  var current = 0, timer;
+
   function showSlide(index){
-    slides[current]?.classList.remove('active');
-    dots[current]?.classList.remove('active');
-    current = (index + slides.length) % slides.length;
-    slides[current]?.classList.add('active');
-    dots[current]?.classList.add('active');
+    // hide current
+    slides[current].style.setProperty('opacity','0','important');
+    slides[current].style.setProperty('z-index','1','important');
+    if(dots[current]) dots[current].classList.remove('active');
+
+    current = ((index % slides.length) + slides.length) % slides.length;
+
+    // show next — inline style beats any CSS rule including !important from stylesheet
+    slides[current].style.setProperty('opacity','1','important');
+    slides[current].style.setProperty('z-index','3','important');
+    slides[current].style.setProperty('display','block','important');
+    if(dots[current]) dots[current].classList.add('active');
   }
-  function restart(){
-    clearInterval(timer);
-    timer = setInterval(() => showSlide(current + 1), 4500);
-  }
-  carousel.querySelector('[data-carousel-prev]')?.addEventListener('click', function(){ showSlide(current - 1); restart(); });
-  carousel.querySelector('[data-carousel-next]')?.addEventListener('click', function(){ showSlide(current + 1); restart(); });
-  dots.forEach((dot, index) => dot.addEventListener('click', function(){ showSlide(index); restart(); }));
-  restart();
+
+  // Init all slides: hidden with inline style
+  slides.forEach(function(s){
+    s.style.setProperty('opacity','0','important');
+    s.style.setProperty('display','block','important');
+    s.style.setProperty('position','absolute','important');
+    s.style.setProperty('inset','0','important');
+    s.style.setProperty('width','100%','important');
+    s.style.setProperty('height','100%','important');
+    s.style.setProperty('object-fit','cover','important');
+    s.style.setProperty('object-position','center','important');
+    s.style.setProperty('transition','opacity .6s','important');
+  });
+
+  function restart(){ clearInterval(timer); timer = setInterval(function(){ showSlide(current+1); }, 4500); }
+
+  var prev = carousel.querySelector('[data-carousel-prev]');
+  var next = carousel.querySelector('[data-carousel-next]');
+  if(prev) prev.addEventListener('click', function(){ showSlide(current-1); restart(); });
+  if(next) next.addEventListener('click', function(){ showSlide(current+1); restart(); });
+  dots.forEach(function(dot,i){ dot.addEventListener('click', function(){ showSlide(i); restart(); }); });
+
+  showSlide(0);
+  if(slides.length > 1) restart();
 })();
 
 // Product category sliders: same-category products stay beside each other and swipe with arrows/dots

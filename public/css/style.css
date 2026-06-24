@@ -522,3 +522,92 @@ html[dir="ltr"] .hero-overlay {
 /* Arrows and dots above slides */
 .hero-arrow { position: absolute !important; z-index: 5 !important; }
 .hero-dots  { position: absolute !important; z-index: 5 !important; }
+
+
+/* ============================================================
+   FIXES — arrows, product page, category tiles
+   ============================================================ */
+
+/* Fix 1: Hero arrows position */
+.hero-prev { right: 14px !important; left: auto !important; }
+.hero-next { left: 14px !important; right: auto !important; }
+
+/* Fix 2: Product page — image not overflowing right */
+.product-detail.showroom-detail {
+  overflow: hidden !important;
+}
+.product-gallery {
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+.main-img-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+#mainImg.main-img {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Fix 3: Category tiles — prevent image overflow, keep text readable */
+.cat-tile {
+  overflow: hidden !important;
+  position: relative !important;
+}
+.cat-tile img {
+  position: absolute !important;
+  bottom: 0 !important;
+  max-height: 60% !important;
+  max-width: 55% !important;
+  object-fit: contain !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+html[dir="rtl"] .cat-tile img {
+  left: 0 !important;
+  right: auto !important;
+}
+html[dir="ltr"] .cat-tile img {
+  right: 0 !important;
+  left: auto !important;
+}
+.cat-tile h3,
+.cat-tile span,
+.cat-tile b {
+  position: relative !important;
+  z-index: 2 !important;
+}
+html[dir="rtl"] .cat-tile {
+  padding-left: 45% !important;
+  padding-right: 20px !important;
+  text-align: right !important;
+}
+html[dir="ltr"] .cat-tile {
+  padding-right: 45% !important;
+  padding-left: 20px !important;
+  text-align: left !important;
+}
+
+/* Mobile: tiles stack vertically with image at bottom */
+@media (max-width: 768px) {
+  .cat-tile {
+    min-height: 200px !important;
+    max-height: 200px !important;
+    padding: 18px 18px 90px !important;
+    text-align: center !important;
+  }
+  html[dir="rtl"] .cat-tile,
+  html[dir="ltr"] .cat-tile {
+    padding: 18px 18px 90px !important;
+    text-align: center !important;
+  }
+  .cat-tile img {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    max-height: 50% !important;
+    max-width: 70% !important;
+  }
+}
