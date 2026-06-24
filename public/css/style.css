@@ -2428,3 +2428,44 @@ section,
 html, body {
   overflow-x: hidden !important;
 }
+
+
+/* ============================================================
+   HERO DEFINITIVE FIX
+   ============================================================ */
+
+/* Force hero container to have real height */
+section.demos-hero,
+.demos-hero {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: 420px !important;
+  overflow: hidden !important;
+  background: #111 !important; /* fallback while image loads */
+}
+
+@media (max-width: 768px) {
+  section.demos-hero, .demos-hero {
+    min-height: 320px !important;
+  }
+}
+
+/* Slides: all hidden except active */
+section.demos-hero .hero-slide,
+.demos-hero .hero-slide {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  opacity: 0 !important;
+  transition: opacity .6s ease !important;
+  display: block !important;
+}
+
+section.demos-hero .hero-slide.active,
+.demos-hero .hero-slide.active {
+  opacity: 1 !important;
+}
