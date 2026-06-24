@@ -523,156 +523,85 @@ html[dir="ltr"] .hero-overlay {
 .hero-arrow { position: absolute !important; z-index: 5 !important; }
 .hero-dots  { position: absolute !important; z-index: 5 !important; }
 
-
-/* ============================================================
-   FIXES — arrows, product page, category tiles
-   ============================================================ */
-
-/* Fix 1: Hero arrows position */
+/* Hero arrows position */
 .hero-prev { right: 14px !important; left: auto !important; }
 .hero-next { left: 14px !important; right: auto !important; }
 
-/* Fix 2: Product page — image not overflowing right */
-.product-detail.showroom-detail {
-  overflow: hidden !important;
-}
-.product-gallery {
-  width: 100% !important;
-  min-width: 0 !important;
-  overflow: hidden !important;
-}
-.main-img-wrap {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-}
-#mainImg.main-img {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* Fix 3: Category tiles — prevent image overflow, keep text readable */
-.cat-tile {
-  overflow: hidden !important;
-  position: relative !important;
-}
-.cat-tile img {
-  position: absolute !important;
-  bottom: 0 !important;
-  max-height: 60% !important;
-  max-width: 55% !important;
-  object-fit: contain !important;
-  z-index: 1 !important;
-  pointer-events: none !important;
-}
-html[dir="rtl"] .cat-tile img {
-  left: 0 !important;
-  right: auto !important;
-}
-html[dir="ltr"] .cat-tile img {
-  right: 0 !important;
-  left: auto !important;
-}
-.cat-tile h3,
-.cat-tile span,
-.cat-tile b {
-  position: relative !important;
-  z-index: 2 !important;
-}
-html[dir="rtl"] .cat-tile {
-  padding-left: 45% !important;
-  padding-right: 20px !important;
-  text-align: right !important;
-}
-html[dir="ltr"] .cat-tile {
-  padding-right: 45% !important;
-  padding-left: 20px !important;
-  text-align: left !important;
-}
-
-/* Mobile: tiles stack vertically with image at bottom */
+/* Category tiles */
+.cat-tile { overflow: hidden !important; position: relative !important; }
+.cat-tile img { position: absolute !important; bottom: 0 !important; max-height: 60% !important; max-width: 55% !important; object-fit: contain !important; z-index: 1 !important; pointer-events: none !important; }
+html[dir="rtl"] .cat-tile img { left: 0 !important; right: auto !important; }
+html[dir="ltr"] .cat-tile img { right: 0 !important; left: auto !important; }
+.cat-tile h3, .cat-tile span, .cat-tile b { position: relative !important; z-index: 2 !important; }
+html[dir="rtl"] .cat-tile { padding-left: 45% !important; padding-right: 20px !important; text-align: right !important; }
+html[dir="ltr"] .cat-tile { padding-right: 45% !important; padding-left: 20px !important; text-align: left !important; }
 @media (max-width: 768px) {
-  .cat-tile {
-    min-height: 200px !important;
-    max-height: 200px !important;
-    padding: 18px 18px 90px !important;
-    text-align: center !important;
-  }
-  html[dir="rtl"] .cat-tile,
-  html[dir="ltr"] .cat-tile {
-    padding: 18px 18px 90px !important;
-    text-align: center !important;
-  }
-  .cat-tile img {
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    max-height: 50% !important;
-    max-width: 70% !important;
-  }
+  .cat-tile { min-height: 200px !important; max-height: 200px !important; padding: 18px 18px 90px !important; text-align: center !important; }
+  html[dir="rtl"] .cat-tile, html[dir="ltr"] .cat-tile { padding: 18px 18px 90px !important; text-align: center !important; }
+  .cat-tile img { left: 50% !important; right: auto !important; transform: translateX(-50%) !important; max-height: 50% !important; max-width: 70% !important; }
 }
 
 /* ============================================================
-   FIX: Blank left gap on pinch-zoom-out (RTL layout)
-   Always keep content centered on screen at any zoom level.
+   PRODUCT PAGE — centered layout, no zoom bleed, no red edge
    ============================================================ */
 
-/* 1. Lock root elements — no horizontal bleed in either direction */
-html {
+/* Root: seal any horizontal overflow */
+html, body {
   overflow-x: hidden !important;
-  width: 100% !important;
+  max-width: 100% !important;
 }
 
-body {
-  overflow-x: hidden !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-/* 2. Page centering wrapper — applied in product.ejs and can be
-      reused on any page that needs it */
+/* Remove the wrapper div visual side effects — it's just a neutral container */
 .page-center-wrap {
+  display: block;
   width: 100%;
-  max-width: 100vw;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 100%;
   box-sizing: border-box;
-  overflow-x: hidden;
+  /* NO overflow:hidden here — that was causing the red clipping edge */
 }
 
-/* 3. Ensure the product section itself is always centered */
+/* Breadcrumb: centered with padding so it never touches screen edge */
 .product-breadcrumb {
-  width: 100% !important;
   max-width: 1120px !important;
+  width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  padding: 0 16px !important;
   box-sizing: border-box !important;
 }
 
+/* Product section: centered, padded, NO overflow:hidden */
 .product-detail.showroom-detail {
-  width: 100% !important;
   max-width: 1120px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  width: 100% !important;
+  margin: 20px auto 60px !important;
+  padding: 0 16px !important;
   box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: 1.1fr 0.9fr !important;
+  gap: 40px !important;
+  align-items: start !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  /* NO overflow:hidden — causes the red visual clip */
 }
 
-/* 4. Gallery and panel must never exceed their container */
-.product-gallery,
-.detail-panel {
+/* Gallery column: constrained but not clipped */
+.product-gallery {
+  width: 100% !important;
   min-width: 0 !important;
   box-sizing: border-box !important;
 }
 
-.product-gallery {
-  overflow: hidden !important;
-}
-
+/* Main image wrapper */
 .main-img-wrap {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
-  overflow: hidden !important;
+  overflow: hidden !important; /* OK here — clips image zoom effect only */
+  border-radius: 18px !important;
 }
 
 #mainImg.main-img {
@@ -681,29 +610,31 @@ body {
   display: block !important;
 }
 
-/* 5. Header and footer full-width but content stays centered */
+/* Detail panel */
+.detail-panel {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Header: always full width, never bleeds */
 .header.demos-header {
   width: 100% !important;
   box-sizing: border-box !important;
-  left: 0 !important;
-  right: 0 !important;
 }
 
-/* 6. Mobile: tight centering on small screens */
+/* Mobile */
 @media (max-width: 900px) {
   .product-detail.showroom-detail {
-    margin: 14px auto 50px !important;
+    grid-template-columns: 1fr !important;
+    margin: 12px auto 50px !important;
     padding: 0 12px !important;
+    gap: 16px !important;
   }
-
   .product-breadcrumb {
     padding: 0 12px !important;
     margin-top: 10px !important;
   }
-
-  .product-gallery,
-  .detail-panel {
-    width: 100% !important;
-    max-width: 100% !important;
+  .main-img-wrap {
+    aspect-ratio: 1/1 !important;
   }
 }
