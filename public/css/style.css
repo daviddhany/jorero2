@@ -696,3 +696,19 @@ html[dir="ltr"] .hero-overlay { right: 16px !important; left: 16px !important; }
 
 /* 12. Global safety */
 * { box-sizing: border-box; }
+
+/* Mobile max-width cap */
+@media (max-width: 600px) {
+  .product-detail.showroom-detail {
+    max-width: 600px !important;
+    width: calc(100% - 24px) !important;
+  }
+  .product-breadcrumb {
+    max-width: 600px !important;
+  }
+  .page-center-wrap {
+    max-width: 600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
