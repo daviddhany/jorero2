@@ -2126,3 +2126,251 @@ html[dir="ltr"] .hero-overlay {
 
 /* Firefox: min-height: auto fix */
 @supports not (min-height: auto) { .hero, [class*="hero"] { min-height: 0; } }
+
+
+/* ============================================================
+   FINAL FIXES — based on live screenshots
+   ============================================================ */
+
+/* 1. Hero banner overflow fix — clip everything */
+body {
+  overflow-x: hidden !important;
+}
+
+.demos-hero {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(-1 * (100vw - 100%) / 2) !important;
+  margin-right: calc(-1 * (100vw - 100%) / 2) !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+@media (max-width: 768px) {
+  .demos-hero {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  /* 2. WhatsApp button — move up so it doesn't cover content on product page */
+  .whatsapp {
+    bottom: 80px !important;
+    right: 14px !important;
+    left: auto !important;
+    width: 46px !important;
+    height: 46px !important;
+    font-size: 20px !important;
+  }
+
+  /* Hide WhatsApp tooltip always on mobile */
+  .whatsapp::before { display: none !important; }
+}
+
+
+/* ============================================================
+   FINAL MOBILE FIXES
+   ============================================================ */
+
+/* 1. WhatsApp button - move higher so it doesn't cover content */
+@media (max-width: 768px) {
+  .whatsapp {
+    bottom: 70px !important;
+    right: 14px !important;
+    left: auto !important;
+    width: 46px !important;
+    height: 46px !important;
+    font-size: 20px !important;
+    z-index: 130 !important;
+  }
+  .whatsapp::before { display: none !important; }
+}
+
+/* 2. Hero banner - hard clip to viewport, no bleed */
+.demos-hero,
+section.demos-hero {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  box-sizing: border-box !important;
+}
+
+html[dir="rtl"] .demos-hero {
+  left: 50% !important;
+  transform: translateX(50%) !important;
+}
+
+.demos-hero .hero-slide {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  max-width: none !important;
+}
+
+
+/* ============================================================
+   HEADER MOBILE — COMPLETE REWRITE (overrides all conflicts)
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* Single row, never wraps */
+  .header.demos-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 12px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    gap: 0 !important;
+    overflow: visible !important;
+    flex-wrap: nowrap !important;
+  }
+
+  /* Left side: hamburger only */
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    background: #111 !important;
+    color: #fff !important;
+    border: none !important;
+    font-size: 16px !important;
+    flex-shrink: 0 !important;
+    order: 1 !important;
+  }
+
+  /* Center: brand */
+  .demos-brand, .brand.demos-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex: 1 !important;
+    justify-content: center !important;
+    order: 2 !important;
+    min-width: 0 !important;
+  }
+  .demos-brand img {
+    width: 30px !important;
+    height: 30px !important;
+    flex-shrink: 0 !important;
+  }
+  .demos-brand b {
+    font-size: 16px !important;
+    white-space: nowrap !important;
+  }
+  .demos-brand span { display: none !important; }
+
+  /* Right side: icons row */
+  .header-icons {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+    order: 3 !important;
+  }
+  .header-icons a,
+  .header-icons button {
+    font-size: 17px !important;
+    padding: 4px !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: unset !important;
+    min-height: unset !important;
+  }
+
+  /* Lang pill: compact */
+  .header-lang-inline {
+    font-size: 11px !important;
+    padding: 3px 7px !important;
+    gap: 2px !important;
+    border-radius: 20px !important;
+  }
+  .header-lang-inline a { font-size: 11px !important; }
+
+  /* Nav: hidden by default, shows as dropdown */
+  .demos-nav {
+    display: none !important;
+    position: absolute !important;
+    top: 52px !important;
+    right: 0 !important;
+    left: 0 !important;
+    background: #fff !important;
+    border-bottom: 1px solid #eee !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,.1) !important;
+    padding: 10px 12px !important;
+    z-index: 99 !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+  .header.menu-open .demos-nav {
+    display: grid !important;
+  }
+  .demos-nav a {
+    padding: 10px 8px !important;
+    font-size: 13px !important;
+    background: #f7f7f7 !important;
+    border-radius: 8px !important;
+    text-align: center !important;
+    border: none !important;
+  }
+}
+
+/* ============================================================
+   ZOOM FIX — prevent page from zooming out on content wider than screen
+   ============================================================ */
+html {
+  overflow-x: hidden !important;
+}
+body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  position: relative !important;
+}
+
+/* Contain everything */
+.demos-hero,
+section,
+.demos-product-shell,
+.product-detail.showroom-detail,
+.demos-categories,
+.demos-intro {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 768px) {
+  /* Strict width clamp on all block elements */
+  div, section, article, nav, aside, header, footer, form {
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Images never overflow */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Tables scroll instead of overflow */
+  table {
+    display: block !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
+  }
+}
