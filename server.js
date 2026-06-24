@@ -48,20 +48,9 @@ app.use('/public', (req, res, next) => {
   next();
 }, express.static(path.join(__dirname, 'public')));
 
-// Force charset=utf-8 on all HTML/JSON responses
+// Set charset on HTML responses via render hook
 app.use((req, res, next) => {
-  const send = res.send.bind(res);
-  res.send = function(body) {
-    const ct = res.getHeader('Content-Type') || '';
-    if (!ct) {
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    } else if (ct.includes('text/html') && !ct.includes('charset')) {
-      res.setHeader('Content-Type', ct + '; charset=utf-8');
-    } else if (ct.includes('application/json') && !ct.includes('charset')) {
-      res.setHeader('Content-Type', ct + '; charset=utf-8');
-    }
-    return send(body);
-  };
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
   next();
 });
 app.use(session({
