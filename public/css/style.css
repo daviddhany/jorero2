@@ -1293,3 +1293,168 @@ body { overflow-x: hidden; }
   .header-lang-inline { padding: 3px 8px; font-size: 12px; }
   .header-icons { gap: 8px; }
 }
+
+
+/* ============================================================
+   MOBILE OVERHAUL — comprehensive responsive redesign
+   ============================================================ */
+
+/* ── GLOBAL MOBILE BASE ── */
+@media (max-width: 768px) {
+  html { font-size: 15px; }
+
+  /* ── HEADER ── */
+  .header.demos-header {
+    grid-template-columns: auto 1fr auto !important;
+    padding: 10px 14px !important;
+    gap: 8px !important;
+    min-height: 54px !important;
+  }
+  .demos-brand { justify-self: center !important; }
+  .demos-brand img { width: 38px !important; height: 38px !important; }
+  .demos-brand b { font-size: 18px !important; }
+
+  /* icons: smaller gap, tighter */
+  .header-icons { gap: 10px !important; font-size: 18px !important; }
+  .header-icons a, .header-icons button { font-size: 18px !important; }
+  .header-lang-inline { font-size: 11px !important; padding: 3px 7px !important; }
+
+  /* ── HERO BANNER ── */
+  .demos-hero { margin: 0 !important; border-radius: 0 !important; min-height: 300px !important; }
+  .hero-overlay { right: 16px !important; bottom: 30px !important; left: 16px !important; }
+  .hero-overlay h1 { font-size: 28px !important; line-height: 1.2 !important; margin-bottom: 10px !important; }
+  .hero-overlay p { font-size: 14px !important; margin-bottom: 12px !important; }
+  .hero-overlay .btn { padding: 10px 20px !important; font-size: 14px !important; }
+
+  /* ── INTRO / SECTION TITLES ── */
+  .demos-intro h1,
+  .demos-section-title h2,
+  .demos-categories h2,
+  .testimonials h2 { font-size: 24px !important; }
+  .demos-intro, .demos-section-title { padding: 0 14px !important; margin: 28px auto 12px !important; }
+  .demos-intro p, .demos-section-title p { font-size: 14px !important; }
+
+  /* ── PRODUCT GRID — 2 columns ── */
+  .demos-grid.grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+    padding: 0 10px !important;
+  }
+  .demos-card img { height: 200px !important; }
+  .demos-card .card-body { padding: 10px 8px !important; }
+  .demos-card h3 { font-size: 13px !important; min-height: auto !important; margin: 0 0 4px !important; }
+  .demos-card .price b { font-size: 15px !important; }
+  .demos-card del { font-size: 12px !important; }
+  .delivery-line { font-size: 11px !important; padding: 5px 7px !important; }
+  .discount-badge { font-size: 10px !important; padding: 3px 7px !important; top: 7px !important; right: 7px !important; }
+  .new-badge { font-size: 10px !important; padding: 3px 8px !important; }
+
+  /* ── FAV BUTTON ON CARDS ── */
+  .fav-btn { width: 30px !important; height: 30px !important; font-size: 15px !important; top: 7px !important; left: 7px !important; }
+
+  /* ── PRODUCT SHELL ── */
+  .demos-product-shell { margin: 10px 10px 30px !important; padding: 12px !important; border-radius: 16px !important; }
+  .demos-section-title { margin-bottom: 10px !important; }
+
+  /* ── PRODUCT SCROLL (horizontal slider) ── */
+  .product-scroll .demos-card { flex-basis: 72% !important; }
+
+  /* ── CATEGORY TILES ── */
+  .category-mosaic { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  .cat-tile, .cat-tile.tall { min-height: 180px !important; border-radius: 14px !important; }
+
+  /* ── PRODUCT DETAIL PAGE ── */
+  .product-detail.showroom-detail {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    margin: 14px 10px 50px !important;
+    padding: 0 !important;
+  }
+  .detail-panel {
+    position: static !important;
+    padding: 18px !important;
+    border-radius: 16px !important;
+  }
+  .detail-panel h1 { font-size: 21px !important; }
+  .price-now { font-size: 26px !important; }
+  .main-img-wrap { aspect-ratio: 1 / 1 !important; border-radius: 14px !important; }
+  .thumbs img { width: 56px !important; height: 56px !important; border-radius: 9px !important; }
+  .buy-box { padding: 14px !important; border-radius: 14px !important; }
+  .buy-box .btn.big { font-size: 16px !important; padding: 14px !important; }
+  .product-sec-row { flex-direction: row !important; }
+  .detail-tags .tag { font-size: 11px !important; padding: 3px 10px !important; }
+  .price-block { padding: 12px 14px !important; }
+  .product-desc { font-size: 13px !important; }
+  .choice-pill { padding: 8px 14px !important; font-size: 13px !important; }
+  .trust-row { gap: 0 !important; }
+  .trust-item { font-size: 10px !important; }
+  .gallery-arrow { width: 34px !important; height: 34px !important; font-size: 20px !important; }
+  .fav-detail-btn { padding: 11px !important; font-size: 14px !important; }
+  .product-breadcrumb { padding: 0 10px !important; font-size: 11px !important; margin-top: 12px !important; }
+
+  /* ── CART PAGE ── */
+  .cart-page, .checkout-page {
+    grid-template-columns: 1fr !important;
+    margin: 10px !important;
+    gap: 14px !important;
+  }
+  .cart-item {
+    grid-template-columns: 72px 1fr !important;
+    gap: 10px !important;
+  }
+  .cart-item img { width: 72px !important; height: 72px !important; border-radius: 10px !important; }
+  .cart-summary { position: static !important; }
+
+  /* ── FAVORITES PAGE ── */
+  .favs-page { margin: 16px auto 50px !important; padding: 0 10px !important; }
+  .favs-header h1 { font-size: 26px !important; }
+  .favs-header p { font-size: 13px !important; }
+  .favs-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  .fav-card img { height: 180px !important; }
+  .fav-card-body { padding: 10px !important; }
+  .fav-card-body h3 { font-size: 13px !important; margin-bottom: 5px !important; }
+  .fav-price { font-size: 14px !important; }
+  .fav-card-actions a { font-size: 12px !important; padding: 8px !important; border-radius: 8px !important; }
+  .fav-remove-btn { width: 34px !important; height: 34px !important; font-size: 15px !important; border-radius: 8px !important; }
+
+  /* ── FOOTER ── */
+  .footer.demos-footer { padding: 28px 14px !important; font-size: 13px !important; }
+
+  /* ── WHATSAPP FLOAT ── */
+  .whatsapp { right: 12px !important; bottom: 16px !important; width: 48px !important; height: 48px !important; font-size: 22px !important; }
+  .whatsapp:before { display: none !important; }
+
+  /* ── MOBILE NAV MENU ── */
+  .demos-nav a { font-size: 13px !important; padding: 10px !important; border-radius: 10px !important; }
+
+  /* ── REDBAR ── */
+  .demos-redbar { font-size: 11px !important; padding: 6px !important; }
+
+  /* ── SEARCH POP ── */
+  .header-search-pop { left: 10px !important; right: 10px !important; top: 60px !important; border-radius: 14px !important; }
+  .header-search-pop input { font-size: 15px !important; }
+}
+
+/* ── VERY SMALL SCREENS (≤ 380px) ── */
+@media (max-width: 380px) {
+  .demos-grid.grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; padding: 0 8px !important; }
+  .demos-card img { height: 170px !important; }
+  .demos-card h3 { font-size: 12px !important; }
+  .favs-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .fav-card img { height: 150px !important; }
+  .hero-overlay h1 { font-size: 22px !important; }
+  .product-scroll .demos-card { flex-basis: 85% !important; }
+  .header-lang-inline { display: none !important; } /* too cramped — hide on tiny screens */
+  .demos-brand b { font-size: 16px !important; }
+}
+
+/* ── TOUCH TARGETS — minimum 44px for all interactive elements ── */
+@media (max-width: 768px) {
+  .btn, button, .choice-pill, .fav-btn, .gallery-arrow,
+  .fav-remove-btn, .qty-btn-manual, .fav-card-actions a,
+  .cart-link, .fav-link, .search-toggle, .mobile-menu-btn {
+    min-height: 40px;
+    min-width: 40px;
+  }
+  .fav-link, .cart-link, .search-toggle { display: flex !important; align-items: center !important; justify-content: center !important; }
+}
