@@ -1,4 +1,28 @@
 
+/* ── OVERFLOW DETECTOR: find and fix any element wider than viewport ── */
+(function(){
+  function fixOverflow(){
+    var vw = document.documentElement.clientWidth;
+    document.querySelectorAll('*').forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      if(rect.right > vw + 2){
+        // element bleeds right
+        el.style.maxWidth = '100%';
+        el.style.overflowX = 'hidden';
+      }
+      if(rect.left < -2){
+        // element bleeds left
+        el.style.maxWidth = '100%';
+        el.style.overflowX = 'hidden';
+      }
+    });
+  }
+  // Run after everything renders
+  window.addEventListener('load', fixOverflow);
+  setTimeout(fixOverflow, 500);
+})();
+
+
 // Full AR / EN switcher. It translates static text and any product/category text rendered with data-ar/data-en.
 const JORERO_I18N = {
   ar: {

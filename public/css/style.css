@@ -1992,3 +1992,68 @@ html, body,
   right: 0 !important;
   width: 100% !important;
 }
+
+
+/* ============================================================
+   HERO OVERFLOW — DEFINITIVE FIX
+   ============================================================ */
+
+/* Isolate hero completely from page flow */
+.demos-hero {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  overflow: hidden !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+/* Slides: fill hero exactly, never wider */
+.demos-hero .hero-slide {
+  position: absolute !important;
+  top: 0 !important; left: 0 !important;
+  right: 0 !important; bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+}
+
+/* Overlay gradient: same bounds */
+.demos-hero::after {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Hero arrows: keep inside bounds */
+.hero-arrow {
+  position: absolute !important;
+  z-index: 5 !important;
+  overflow: visible !important;
+}
+.hero-prev { right: 12px !important; left: auto !important; }
+.hero-next { left: 12px !important; right: auto !important; }
+
+/* On mobile: taller hero so image fills better */
+@media (max-width: 768px) {
+  .demos-hero {
+    min-height: 360px !important;
+    max-height: 70vh !important;
+  }
+  .hero-overlay {
+    right: 0 !important;
+    left: 0 !important;
+    bottom: 20px !important;
+    padding: 0 20px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+  }
+}
