@@ -46,7 +46,15 @@ app.use(helmet({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+    },
+  },
+}));
 app.use(methodOverride('_method'));
 app.use('/public', (req, res, next) => {
   res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
