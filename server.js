@@ -46,6 +46,7 @@ app.use(helmet({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(helmet());
 app.use(methodOverride('_method'));
 app.use('/public', (req, res, next) => {
   res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
