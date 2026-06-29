@@ -710,3 +710,49 @@ html, body {
     max-width: 100% !important;
   }
 }
+
+
+/* ============================================================
+   OVERFLOW ROOT CAUSE FIX
+   1. hero-overlay max-width:600px was wider than mobile screen
+   2. html element itself was overflowing
+   ============================================================ */
+
+/* Fix html overflow */
+html {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+/* Fix hero-overlay — was 600px wide hardcoded */
+.hero-overlay {
+  max-width: calc(100vw - 36px) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  word-break: break-word !important;
+}
+
+@media (max-width: 768px) {
+  .hero-overlay {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding: 0 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Also ensure h1 inside overlay doesn't overflow */
+  .hero-overlay h1 {
+    font-size: 26px !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+  }
+
+  .hero-overlay p {
+    white-space: normal !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+  }
+}
