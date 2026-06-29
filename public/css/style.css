@@ -524,280 +524,189 @@ html[dir="ltr"] .hero-overlay {
 .hero-dots  { position: absolute !important; z-index: 5 !important; }
 
 
-
-
 /* ============================================================
-   ALL FIXES — single clean block, no conflicts
+   FIXES — arrows, product page, category tiles
    ============================================================ */
 
-/* 1. Root seal */
-html, body {
-  overflow-x: hidden !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
+/* Fix 1: Hero arrows position */
+.hero-prev { right: 14px !important; left: auto !important; }
+.hero-next { left: 14px !important; right: auto !important; }
 
-/* 2. Neutral page wrapper */
-.page-center-wrap {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* 3. Breadcrumb */
-.product-breadcrumb {
-  max-width: 1120px !important;
-  width: 100% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding: 0 16px !important;
-  box-sizing: border-box !important;
-}
-
-/* 4. Product detail — TRUE centered, equal padding both sides */
+/* Fix 2: Product page — image not overflowing right */
 .product-detail.showroom-detail {
-  display: grid !important;
-  grid-template-columns: 1.1fr 0.9fr !important;
-  gap: 40px !important;
-  align-items: start !important;
-  width: calc(100% - 32px) !important;
-  max-width: 1120px !important;
-  margin: 20px auto 60px !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  overflow: visible !important;
+  overflow: hidden !important;
 }
-
-/* 5. Gallery and panel */
 .product-gallery {
   width: 100% !important;
   min-width: 0 !important;
-  box-sizing: border-box !important;
-  overflow: visible !important;
+  overflow: hidden !important;
 }
-
 .main-img-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  box-sizing: border-box !important;
   overflow: hidden !important;
-  border-radius: 18px !important;
 }
-
 #mainImg.main-img {
   width: 100% !important;
   max-width: 100% !important;
-  display: block !important;
 }
 
-.detail-panel {
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
-
-/* 6. Mobile — single column, equal margins */
-@media (max-width: 900px) {
-  .product-detail.showroom-detail {
-    grid-template-columns: 1fr !important;
-    width: calc(100% - 24px) !important;
-    margin: 12px auto 50px !important;
-    gap: 16px !important;
-  }
-  .product-breadcrumb {
-    padding: 0 12px !important;
-  }
-  .main-img-wrap {
-    aspect-ratio: 1/1 !important;
-  }
-}
-
-/* 7. Remove iOS red focus ring on cards */
-.demos-card, .demos-card *, .card, .card a, .product-img-link {
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-}
-.demos-card:focus-within, .product-img-link:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* 8. demos-card width in slider */
-.product-scroll .demos-card {
-  flex: 0 0 calc((100% - 48px) / 3) !important;
-  max-width: calc((100% - 48px) / 3) !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
-@media (max-width: 900px) {
-  .product-scroll .demos-card { flex: 0 0 72% !important; max-width: 72% !important; }
-}
-@media (max-width: 520px) {
-  .product-scroll .demos-card { flex: 0 0 80% !important; max-width: 80% !important; }
-}
-@media (max-width: 390px) {
-  .product-scroll .demos-card { flex: 0 0 88% !important; max-width: 88% !important; }
-}
-
-.demos-product-shell {
-  max-width: 100% !important;
+/* Fix 3: Category tiles — prevent image overflow, keep text readable */
+.cat-tile {
   overflow: hidden !important;
-  box-sizing: border-box !important;
+  position: relative !important;
 }
-.product-scroll.demos-grid {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
+.cat-tile img {
+  position: absolute !important;
+  bottom: 0 !important;
+  max-height: 60% !important;
+  max-width: 55% !important;
+  object-fit: contain !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
 }
-
-/* 9. Header — flexible columns, brand never overflows */
-.header.demos-header {
-  grid-template-columns: auto 1fr auto !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
+html[dir="rtl"] .cat-tile img {
+  left: 0 !important;
+  right: auto !important;
 }
-.demos-brand, .brand {
-  min-width: 0 !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
+html[dir="ltr"] .cat-tile img {
+  right: 0 !important;
+  left: auto !important;
 }
-.demos-brand b, .brand b {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  display: block;
+.cat-tile h3,
+.cat-tile span,
+.cat-tile b {
+  position: relative !important;
+  z-index: 2 !important;
 }
-
-/* 10. Testimonials */
-.testimonials { padding: 0 16px !important; box-sizing: border-box !important; max-width: 100% !important; }
-.test-grid { box-sizing: border-box !important; width: 100% !important; }
-.test-grid div { box-sizing: border-box !important; min-width: 0 !important; max-width: 100% !important; word-break: break-word !important; }
-
-/* 11. hero-overlay — never bleeds off screen */
-.hero-overlay {
-  max-width: calc(100vw - 32px) !important;
-  box-sizing: border-box !important;
-  right: 16px !important;
-  left: 16px !important;
-  width: auto !important;
+html[dir="rtl"] .cat-tile {
+  padding-left: 45% !important;
+  padding-right: 20px !important;
+  text-align: right !important;
 }
-html[dir="ltr"] .hero-overlay { right: 16px !important; left: 16px !important; }
-.hero-overlay h1 { word-break: break-word !important; overflow-wrap: break-word !important; }
-.hero-overlay p { max-width: 100% !important; word-break: break-word !important; }
-@media (max-width: 520px) {
-  .hero-overlay { right: 12px !important; left: 12px !important; bottom: 40px !important; max-width: calc(100vw - 24px) !important; }
-  .hero-overlay h1 { font-size: 26px !important; }
+html[dir="ltr"] .cat-tile {
+  padding-right: 45% !important;
+  padding-left: 20px !important;
+  text-align: left !important;
 }
 
-/* 12. Global safety */
-* { box-sizing: border-box; }
-
-/* Mobile max-width cap */
-@media (max-width: 600px) {
-  .product-detail.showroom-detail {
-    max-width: 600px !important;
-    width: calc(100% - 24px) !important;
+/* Mobile: tiles stack vertically with image at bottom */
+@media (max-width: 768px) {
+  .cat-tile {
+    min-height: 200px !important;
+    max-height: 200px !important;
+    padding: 18px 18px 90px !important;
+    text-align: center !important;
   }
-  .product-breadcrumb {
-    max-width: 600px !important;
+  html[dir="rtl"] .cat-tile,
+  html[dir="ltr"] .cat-tile {
+    padding: 18px 18px 90px !important;
+    text-align: center !important;
   }
-  .page-center-wrap {
-    max-width: 600px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+  .cat-tile img {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    max-height: 50% !important;
+    max-width: 70% !important;
   }
 }
 
-/* Remove white space above product page content */
-.page-center-wrap {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-.product-breadcrumb {
-  margin-top: 8px !important;
-}
-
-.product-detail.showroom-detail {
-  margin-top: 10px !important;
-}
-
-/* section base margin override for product page */
-section.product-detail {
-  margin-top: 0 !important;
-}
-
-/* Kill top white space on product page */
-.page-center-wrap {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-.product-breadcrumb {
-  margin-top: 8px !important;
-}
-section.product-detail.showroom-detail {
-  margin-top: 8px !important;
-}
 
 /* ============================================================
-   FIX: Products page — always centered, no RTL/LTR shift
+   OVERFLOW FIX — product page white space on right
    ============================================================ */
 
-/* Title and intro always centered regardless of language */
-.demos-intro,
-.demos-section-title,
-.category-page-title {
-  text-align: center !important;
-  direction: unset !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+/* Force the entire page to never exceed viewport */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
 }
 
-.demos-intro h1,
-.demos-section-title h2 {
-  text-align: center !important;
-  direction: unset !important;
+/* Product page: constrain every element */
+.product-detail.showroom-detail,
+.product-gallery,
+.detail-panel,
+.buy-box,
+.main-img-wrap,
+.product-sec-row,
+.trust-row,
+.delivery-bar,
+.product-breadcrumb {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
 }
 
-/* Toolbar (filter button) — centered */
-.products-toolbar {
-  text-align: center !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+/* Thumbs row: scroll instead of overflow */
+.thumbs {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  flex-wrap: nowrap !important;
 }
 
-/* Shell always centered */
-.demos-product-shell {
-  margin-left: auto !important;
-  margin-right: auto !important;
+/* Fix secondary action buttons — arrow character causes overflow */
+.product-sec-row .btn.light {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  max-width: 48% !important;
+  box-sizing: border-box !important;
 }
 
-/* Slider dots centered */
-.slider-dots {
-  justify-content: center !important;
-  direction: ltr !important;
+/* Color options grid — prevent overflow on small screens */
+.color-photo-options {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+.color-photo-options button {
+  flex-shrink: 0 !important;
+  min-width: 70px !important;
+  max-width: 100px !important;
 }
 
-/* Cards inside scroll — always center-anchored, no LTR/RTL push */
-.product-scroll.demos-grid {
-  direction: ltr !important;
-}
-.product-scroll .demos-card {
-  direction: rtl !important;
-}
-html[dir="ltr"] .product-scroll .demos-card {
-  direction: ltr !important;
+/* Choice pills — wrap always */
+.choice-row {
+  flex-wrap: wrap !important;
+  max-width: 100% !important;
 }
 
-/* Override the global ltr body text-align that was shifting content */
-html[dir="ltr"] .products-toolbar,
-html[dir="ltr"] .demos-intro,
-html[dir="ltr"] .demos-section-title,
-html[dir="ltr"] .category-page-title {
-  text-align: center !important;
+/* Showroom note wide */
+.showroom-note-wide {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* Visit grid */
+.visit-box,
+.visit-grid {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  /* Stack product sec row vertically on small screens */
+  .product-sec-row {
+    flex-direction: column !important;
+  }
+  .product-sec-row .btn.light {
+    max-width: 100% !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Color gallery */
+  .color-gallery {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  /* Option group */
+  .option-group,
+  .choice-row {
+    max-width: 100% !important;
+  }
 }
