@@ -528,19 +528,3 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 })();
 
-// OVERFLOW FIX: constrain hero-overlay to viewport width
-function fixHeroOverlay() {
-  var overlay = document.querySelector('.hero-overlay');
-  if (!overlay) return;
-  overlay.style.setProperty('max-width', '100vw', 'important');
-  overlay.style.setProperty('box-sizing', 'border-box', 'important');
-  overlay.style.setProperty('overflow', 'hidden', 'important');
-  if (window.innerWidth <= 768) {
-    overlay.style.setProperty('left', '0', 'important');
-    overlay.style.setProperty('right', '0', 'important');
-    overlay.style.setProperty('width', '100%', 'important');
-    overlay.style.setProperty('padding', '0 16px', 'important');
-  }
-}
-document.addEventListener('DOMContentLoaded', fixHeroOverlay);
-window.addEventListener('resize', fixHeroOverlay);

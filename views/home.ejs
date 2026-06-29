@@ -6,7 +6,7 @@
   <% heroImages.forEach((img, index) => { %>
     <img class="hero-slide <%= index === 0 ? 'active' : '' %>" alt="" src="<%= img %>" alt="Jorero hero" onerror="this.onerror=null;this.src='/public/images/logo.png'">
   <% }) %>
-  <div class="hero-overlay" style="left:0;right:0;width:100%;max-width:100%;padding:0 20px;box-sizing:border-box;">
+  <div class="hero-overlay">
     <h1 data-ar="<%= settings.heroTitle || 'JORERO SUMMER' %>" data-en="<%= settings.heroTitleEn || 'JORERO SUMMER' %>"><%= settings.heroTitle || 'JORERO SUMMER' %></h1>
     <p data-ar="<%= settings.heroSubtitle || 'أقوى تشكيلة ملابس عصرية في مكان واحد' %>" data-en="<%= settings.heroSubtitleEn || 'Discover trendy fashion for men, women and kids in one place.' %>"><%= settings.heroSubtitle || 'أقوى تشكيلة ملابس عصرية في مكان واحد' %></p>
     <a class="btn big" href="/products" data-i18n="shopNow">تسوق الآن</a>
