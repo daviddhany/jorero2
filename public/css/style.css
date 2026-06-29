@@ -756,3 +756,29 @@ html {
     max-width: 100% !important;
   }
 }
+
+
+/* ============================================================
+   PRODUCT PAGE MOBILE — FINAL OVERRIDE (must be last)
+   ============================================================ */
+@media (max-width: 900px) {
+  section.product-detail.showroom-detail,
+  .product-detail.showroom-detail {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 14px 0 50px !important;
+    padding: 0 12px !important;
+    gap: 0 !important;
+    grid-template-columns: none !important;
+    box-sizing: border-box !important;
+  }
+
+  section.product-detail.showroom-detail > div,
+  .product-detail.showroom-detail > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 16px !important;
+  }
+}
