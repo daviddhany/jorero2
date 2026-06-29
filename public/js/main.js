@@ -527,4 +527,3 @@ document.addEventListener('DOMContentLoaded', function(){
     setTimeout(resetZoom, 300);
   });
 })();
-
